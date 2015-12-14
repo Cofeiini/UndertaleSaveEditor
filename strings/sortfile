@@ -1,0 +1,549 @@
+<html></head><body>"Easy to change, huh?"</body></html>
+<html></head><body>"You want some LOVE, don't you?"</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Unused "ENERGY" value</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Maybe "Spell", which is unused</body></html>
+<html></head><body>"You will be judged for every EXP you've earned."</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>"When you kill someone, your EXP increases."</body></html>
+<html></head><body>Inventory, Slot 1</body></html>
+<html></head><body>Phone, Slot 1</body></html>
+<html></head><body>Inventory, Slot 2</body></html>
+<html></head><body>Phone, Slot 2</body></html>
+<html></head><body>Inventory, Slot 3</body></html>
+<html></head><body>Phone, Slot 3</body></html>
+<html></head><body>Inventory, Slot 4</body></html>
+<html></head><body>Phone, Slot 4</body></html>
+<html></head><body>Inventory, Slot 5</body></html>
+<html></head><body>Phone, Slot 5</body></html>
+<html></head><body>Inventory, Slot 6</body></html>
+<html></head><body>Phone, Slot 6</body></html>
+<html></head><body>Inventory, Slot 7</body></html>
+<html></head><body>Phone, Slot 7</body></html>
+<html></head><body>Inventory, Slot 8</body></html>
+<html></head><body>Phone, Slot 8</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>[This might actually be in a different location on this list.]<br>Determines the type of the final scene in the bedroom.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>When 1, upon encountering Undyne, she will treat you as if you killed no monsters, even if you killed one.</body></html>
+<html></head><body>Chosen randomly when you start a new run, set to 0 after specific events.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Post-Asriel fight status.</body></html>
+<html></head><body>Receive Undyne's letter or kill Mettaton Neo.<br>Needs confirmation if it works when set manually.</body></html>
+<html></head><body>unaccessed</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Let the battle take too long.<br>Occurs only in the ruins.</body></html>
+<html></head><body>Flee (0),<br>Kill (1),<br>Talk (2),<br>Bored (3).<br>Changes what Mad Dummy says.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Occurs when triggering "quick" battles (i.e. Undyne's spears, lasers).</body></html>
+<html></head><body>unaccessed</body></html>
+<html></head><body>unaccessed</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Non-Genoside only.</body></html>
+<html></head><body>Set when you talk to the frog in the ruins.<br>When sparing monsters:<br>0 for yellow names,<br>1 for white,<br>2 for pink.<br>Also a small easter egg in the trash area if not equal to 0.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>If set to anything other than 0, overrides the calculated murder level.</body></html>
+<html></head><body>If you spare specific opponents, certain events that occur with a high murder level won't happen.<br>Similar to a "redemption" flag.<br>If you spare any of those monsters, the game is less desolated.</body></html>
+<html></head><body>Keeping C pressed during dialogue will quickly skip sentences.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>"This monster doesn't seem to have a sense of humor..."</body></html>
+<html></head><body>Wait for Toriel to call you when she asks to stay in a room.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>After 4, Toriel's raction stays the same</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>In combination with flirted_toriel, affects a few dialogues.</body></html>
+<html></head><body>When greater than 25, changes the displayed text upon pressing a switch.</body></html>
+<html></head><body>After 10, Toriel's raction stays the same.</body></html>
+<html></head><body>1st time at "Home" (0),<br>Disobeyed (1),<br>Fight (3),<br>Kill (4),<br>Spare (5)</body></html>
+<html></head><body>??? (0),<br>Butterscotch (1),<br>??? (2)</body></html>
+<html></head><body>"Don't you know how to greet a new pal?"</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Read about water sausages in Toriel's room.<br>Makes you recognize the plant in Toriel's living room.</body></html>
+<html></head><body>After a while, gives you a hint about which switch to press.</body></html>
+<html></head><body>1 if you kill Doggo,<br>2 if you throw him a stick and spare him.</body></html>
+<html></head><body>1 if you kill Dogamy and/or Dogaressa,<br>2 if you damage them first and then throw a stick.</body></html>
+<html></head><body>1 if you kill Greater Dog,<br>2 if you throw him a stick and spare him,<br>3 if you ignore him repeatedly.</body></html>
+<html></head><body>1 if you kill Lesser Dog,<br>2 if you pet him until his neck extends at max.<br>If 2, room_ruins6 will be filled with broken dog structures.</body></html>
+<html></head><body>1 if you get a Snowman Piece from the snowman in room_tundra6A,<br>2 if you get another piece after disposing of the first one,<br>4 if you use the Snowman Piece in front of the him,<br>5 if you talk to the him when the flag is 4.</body></html>
+<html></head><body>1 if you laugh at Snowdrake's joke;<br>2 if you kill him, all future instances of Snowdrake with Chilldrakes.</body></html>
+<html></head><body>? after Sans' puzzle ? Junior Jumble or Crosswords ?</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Seems to change when business relocates</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>??? (1),<br>Left it (2)</body></html>
+<html></head><body>Affects the dialogue with Sans after the puzzle.<br>Slightly different result if equals to 0 and M1 under the Sans category in undertale.ini is greater than 1.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Skip fight (-3),<br>Improved "prison" (-2),<br>Captured (-1),<br>Spare (0),<br>Kill (1)</body></html>
+<html></head><body>"He likes to say: Nyeh heh heh!"</body></html>
+<html></head><body>Very slightly changes the dialogue with Burgerpants.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>After "Not enough GOLD" (0),<br>Saty a night (1),<br>Not enough GOLD (2)</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Set if you "betray" Gyftrot by putting a present after removing some gifts off him.<br>Unaccessed</body></html>
+<html></head><body>Equals to the id of the armor you're wearing upon the first call.<br>The combination of these affects the dialogue you get in Papyrus' second phone call.</body></html>
+<html></head><body>Told the truth (0),<br>Lied about your clothes (1)</body></html>
+<html></head><body>Equals to the id of the armor Undyne saw you wear.</body></html>
+<html></head><body>Used Punch Card while wearing Tough Glove during battle.</body></html>
+<html></head><body>Made a sale in Snowdin (8).<br>Changes mood and use of Punch Cards.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Kill (1),<br>Had a musical career (2).<br>Affects one of the Amalgamate battle, you'll know the song.<br>Affects the Amalgamate's dialogue in the room after the True Pacifist ending.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Would affect the dialogue in room_water_mushroom, but it can't be accessed normally.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Music box starts playing</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Outside house (1),<br>Inside house (2),<br>Unlock Papyrus's Room (3),<br>Date complete (4)</body></html>
+<html></head><body>Seen any talking flowers? (1),<br>Is Papyrus cool? (2).</body></html>
+<html></head><body>1 if you meet Monster Kid without an umbrella;<br>2 if, with flag set to 1, you get an umbrella and talk to him;<br>3 if, with flag set to 2, you dispose of the umbrella and talk to him again.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>"It's a horse stable."<br>"Do you want to go inside?"<br>"You jostle the door."<br>"It's locked."</body></html>
+<html></head><body>Chat in the house (1),<br>Feel like "cosmic" garbage (3),<br>Don't lie on the ground (9)</body></html>
+<html></head><body>Spooktunes (1),<br>Spookwave (2),<br>Ghouliday Music (3)</body></html>
+<html></head><body>"..."<br>"if you're so scared, why do you keep winking?"<br>"THESE ARE WINKS OF FEAR ; )"</body></html>
+<html></head><body>"That Emblem" (1),<br>"Emblem's meaning" (2),<br>"The Prophecy" (3)</body></html>
+<html></head><body>Would prevent the NPC in room_water_prebird from repeating himself.<br>Cut content.</body></html>
+<html></head><body>Exited (0),<br>Let Undyne do it (1),<br>Did it yourself (2)</body></html>
+<html></head><body>Makes the fight more or less difficult, depending on a few factors (saved Monster Kid, how many times you died, etc.).</body></html>
+<html></head><body>"If you're cuter, monsters won't hit you as hard."</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>"Made of plastic."<br>"A rarity nowadays."</body></html>
+<html></head><body>??? (1),<br>Butterscotch Pie (2),<br>??? (3)</body></html>
+<html></head><body>"A psychologically damaged spinach egg pie."</body></html>
+<html></head><body>"Finally, a protective piece of armor."</body></html>
+<html></head><body>"These used shoes make you feel incredibly dangerous."</body></html>
+<html></head><body>"The dog absorbs the artifact."</body></html>
+<html></head><body>"For feeding a pet astronaut."</body></html>
+<html></head><body>"Comes with everything you need for a quick meal!"</body></html>
+<html></head><body>"Damage is rather consistent."<br>"Consumable items heal 4 more HP."</body></html>
+<html></head><body>"Heals 1 HP every other turn."</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>"Perfect for cutting plants and vines."</body></html>
+<html></head><body>"It says Best Friends Forever."</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>"Life is difficult for this enemy."</body></html>
+<html></head><body>"This monster is too sensitive to fight..."</body></html>
+<html></head><body>"Stereotypical: Curvaceously attractive, but no brains..."</body></html>
+<html></head><body>"Don't pick on him."<br>"Family name: Eyewalker"</body></html>
+<html></head><body>"Serving Size: 1 Monster"<br>"Not monitored by the USDA"</body></html>
+<html></head><body>"It seems evil, but it's just with the wrong crowd..."</body></html>
+<html></head><body>"This teen comedian fights to keep a captive audience."</body></html>
+<html></head><body>"This teen wonders why it isn't named 'Ice Hat.'"</body></html>
+<html></head><body>"Some teens "decorated" it as a prank."</body></html>
+<html></head><body>"Easily excited by movement."<br>"Hobbies include: squirrels."</body></html>
+<html></head><body>"DOGAMY: Husband of Dogaressa. Knows only what he smells."<br>"DOGARESSA: This puppy finds her hubby lovely. SMELLS ONLY?"</body></html>
+<html></head><body>"Wields a stone dogger made of pomer-granite."</body></html>
+<html></head><body>"It's so excited that it thinks fighting is just play."</body></html>
+<html></head><body>"This seahorse has a lot of HP (Horsepower)."</body></html>
+<html></head><body>"One size greater than Moldaverage."</body></html>
+<html></head><body>"This humble germophobe seeks to cleanse the whole world."</body></html>
+<html></head><body>"Loves to pet cute humans."<br>"But you're allergic!"</body></html>
+<html></head><body>"Because they're a ghost, physical attacks will fail."</body></html>
+<html></head><body>"Mistakenly believes its lava can heal people."</body></html>
+<html></head><body>"Seems mean, but does it secretly like you?"</body></html>
+<html></head><body>"This mischievous monster is never warm enough."</body></html>
+<html></head><body>"Its future looks brighter and brighter."</body></html>
+<html></head><body>"It finally stopped worrying."</body></html>
+<html></head><body>"This relentless bully ALWAYS gets its way."</body></html>
+<html></head><body>"This magical mercenary only says magic words."</body></html>
+<html></head><body>"This megaton mercenary wields the Good Morningstar."</body></html>
+<html></head><body>"It's unclear how many dogs this counts as."</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Keep talking to Undyne.<br>Meet at courtyard.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Ruins (202),<br>Snowdin (203),<br>Waterfall (204),<br>Hotland (205)</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>monsterpopulation1: 20</body></html>
+<html></head><body>monsterpopulation2: 16</body></html>
+<html></head><body>monsterpopulation3: 18</body></html>
+<html></head><body>monsterpopulation4: 40</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Nicecream Guy's outlook of his business will depend on your interactions with him.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Take pieces of the snowman to kill him.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Sans comments on it (0),<br>Nothing (1) ? affects Neutral Ending ?</body></html>
+<html></head><body>Interact with the fake dog in the dev room.</body></html>
+<html></head><body>Hotel Room (???)</body></html>
+<html></head><body>Hotel Room (???)</body></html>
+<html></head><body>Hotel Room (???)</body></html>
+<html></head><body>MUST HAVE IT! (1),<br>meh (2),<br>meh (3),<br>meh (4),<br>meh (5),<br>meh (6),<br>meh (7),<br>meh (8)</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>1 the first time you stay at the hotel,<br>2 if you stay at the hotel again.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Set when you slove the glowshroom puzzle in the mushrooms path near Temmie Village.</body></html>
+<html></head><body>"it's a beautiful day outside."<br>"birds are singing, flowers are blooming..."<br>"on days like these, kids like you..."<br>"Should be burning in hell."</body></html>
+<html></head><body>"if we're really friends..."<br>"you won't come back."</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Walked past it (1),<br>stick gets snapped (2)</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Affects a dialogue with Papyrus on the phone.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Kill (1),<br>Spare (2)</body></html>
+<html></head><body>Spare (1),<br>Kill (2)</body></html>
+<html></head><body>After the date, go in Papyrus' kitchen.<br>Prevents Glyde from appearing and affects the dialogue with Papyrus on the phone.</body></html>
+<html></head><body>When Undyne throws her 100th spear, be in room_water8.</body></html>
+<html></head><body>Something to do with the spear tile generation, but is unaccessed.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Unclear specifics, but has to do with the amount of SMS you'll receive.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Kill (1),<br>Spare, but don't give water (2)</body></html>
+<html></head><body>Equals to the HP Undyne died with.<br>Unaccessed.</body></html>
+<html></head><body>"The heroine that NEVER gives up."</body></html>
+<html></head><body>Affects the dialogue with Clamguy, creates a puddle after a while.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>No interaction (0),<br>Interract -> Punch (1),<br>Interract -> No punch (2).<br>Mad Dummy will comments on this before fighting.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Seems to affect the rain's rendering.<br>??? (0),<br>??? (1)</body></html>
+<html></head><body>Seems to affect the rain's rendering.<br>??? (0.08)</body></html>
+<html></head><body>Seems to affect the rain's rendering.<br>??? (0.08),<br>??? (0.5)</body></html>
+<html></head><body>Seems to affect the rain's rendering.<br>??? (-1),<br>??? (272)</body></html>
+<html></head><body>Seems to affect the rain's rendering.<br>??? (-1),<br>??? (273)</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Reach the lab in a genocide run.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Enter a quick battle (i.e. lasers, spears).</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Unclear, seems to be used as a position variable.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Buy a hot dog with no space in your inventory.</body></html>
+<html></head><body>Buy a hot dog with 30 hot dogs on your head.</body></html>
+<html></head><body>Increases after each use. Get's halved if Struggle 3 times, but only once.</body></html>
+<html></head><body>Would you buy Muffet? I'd buy Muffet.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>1 if yellow button available,<br>2 if yellow button pressed.</body></html>
+<html></head><body>Unclear specifics.</body></html>
+<html></head><body>Win the ball game in an extremely short time.</body></html>
+<html></head><body>Something to do with the fall animation.</body></html>
+<html></head><body>??? (1),<br>??? (2),<br>??? (3),<br>House is on fire (4)</body></html>
+<html></head><body>Unclear, but it seems to determine the sprite for Undyne's expression.</body></html>
+<html></head><body>Fries (1),<br>Burger (2) ? Ketchup ?</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Internal to Madjick's battle. Something to do with Stick</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>"If she invites you to her parlor, excuse yourself."</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Call Papyrus when the Royal Guards are in the room. Slightly affects the dialogue with the guards when you spare them.</body></html>
+<html></head><body>Affects the dialogue during Papyrus' and Undyne's phone call.</body></html>
+<html></head><body>Buy a 9999 gold spider bakery sale item.</body></html>
+<html></head><body>Disable the third laser despite of Alphys' phone call.</body></html>
+<html></head><body>Bratty and Catty's conversations.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>2 after you eat at the restaurant with Sans.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Pre-castle specific flags, seem to affect whether you can proceed or not and are naturally set as you progress.</body></html>
+<html></head><body>Pre-castle specific flags, seem to affect whether you can proceed or not and are naturally set as you progress.</body></html>
+<html></head><body>Pre-castle specific flags, seem to affect whether you can proceed or not and are naturally set as you progress.</body></html>
+<html></head><body>Pre-castle specific flags, seem to affect whether you can proceed or not and are naturally set as you progress.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Turn available (1),<br>Already turned (2).<br>Propably used if Game Over during Mettaton battle.</body></html>
+<html></head><body>1: kill Mettaton.</body></html>
+<html></head><body>Incremental values: as you battle unique monsters in the core.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Unclear, but it seems to determine the sprite for Alphy's expression.</body></html>
+<html></head><body>Determines which direction the elevator will go.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Remebered the name (1),<br>Forgot the name (2).</body></html>
+<html></head><body>Bought something (1),<br>Had a chat (2).<br>Propably about the origin of the name.</body></html>
+<html></head><body>Burgerpants' MTT conversation.</body></html>
+<html></head><body>Burgerpants' conversation about Bratty and Catty.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>"An antique revolver."<br>"It has no ammo."</body></html>
+<html></head><body>"This battle-worn hat makes you want to grow a beard."</body></html>
+<html></head><body>"Unique"<br>"It is too bent to fit on your keychain."</body></html>
+<html></head><body>"Huge steak in the shape of Mettaton's face."<br>Character names Drak, Gigi and Gugu changes Face Steak to FSteak.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Seem to determine which step of the story to tell next.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>"A strange light fills the room."<br>"Twilight is shining through the barrier."<br>"It seems your journey is finally over."<br>"You're filled with DETERMINATION."</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Snowdin (1),<br>Waterfall (2),<br>Hotland (3)</body></html>
+<html></head><body>About where to find Temmie Village</body></html>
+<html></head><body>??? (0),<br>Temmie (1)</body></html>
+<html></head><body>Allows the second part of the call to occur when calling twice.<br>Every room has two or more conversation parts.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>After Undyne's date, calling Papyrus includes Undyne in the conversation.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Call Papyrus and Undyne in room_fire_lasers1.<br>Just a counter used for this specific call, allowing the third part to occur.</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>Not sure about this one.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>Various values.<br>Only affects what happens in the lab, used to progress through.</body></html>
+<html></head><body>12 after you exit the true lab.</body></html>
+<html></head><body>??? (1),<br>??? (2),<br>Letter EX (3)</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>??? (1),<br>??? (2),<br>??? (3),<br>??? (4),<br>??? (5),<br>"I got nothing." (6),<br>??? (7?)</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>fighting_asriel must be 1.<br>Can't die.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>unused</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>Sets the HP to decimal values.</body></html>
+<html></head><body>2 if you complete the True Pacifist boss fight,<br>1 if you talk to Asriel in the ruins after the True Pacifist boss fight.</body></html>
+<html></head><body>Progress through the conversation with Asriel in the ruins.</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment</body></html>
+<html></head><body>comment
