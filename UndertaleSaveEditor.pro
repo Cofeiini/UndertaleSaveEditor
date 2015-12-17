@@ -6,9 +6,11 @@ TARGET	= UndertaleSaveEditor
 TEMPLATE	= app
 
 SOURCES	+= main.cpp\
-	    mainwindow.cpp
+	    mainwindow.cpp \
+    configdialog.cpp
 
-HEADERS	+= mainwindow.h
+HEADERS	+= mainwindow.h \
+    configdialog.h
 
 FORMS	+= mainwindow.ui
 
