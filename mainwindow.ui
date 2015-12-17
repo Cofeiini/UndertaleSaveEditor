@@ -163,30 +163,7 @@
     <property name="title">
      <string>Settings</string>
     </property>
-    <widget class="QMenu" name="menuFilters">
-     <property name="locale">
-      <locale language="English" country="UnitedStates"/>
-     </property>
-     <property name="title">
-      <string>Filters</string>
-     </property>
-     <addaction name="actionConfigFilterSkipBoolean"/>
-     <addaction name="actionConfigFilterSkipCounter"/>
-     <addaction name="actionConfigFilterSkipRange"/>
-     <addaction name="actionConfigFilterSkipNull"/>
-     <addaction name="separator"/>
-     <addaction name="actionConfigFilterSkipComments"/>
-     <addaction name="actionConfigFilterSkipNumber"/>
-    </widget>
-    <addaction name="actionConfigUseEdictFile"/>
-    <addaction name="actionConfigUseEdictDir"/>
-    <addaction name="actionConfigSetEdictFile"/>
-    <addaction name="actionConfigSetEdictDir"/>
-    <addaction name="separator"/>
-    <addaction name="actionConfigSaveNag"/>
-    <addaction name="actionConfigTotalRecall"/>
-    <addaction name="separator"/>
-    <addaction name="menuFilters"/>
+    <addaction name="actionConfigDialog"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuConfig"/>
@@ -294,142 +271,16 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Cancel your transaction with a certain Fallen Child,&lt;br&gt;erasing your &amp;quot;genocidal&amp;quot; actions.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
-  <action name="actionConfigUseEdictDir">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
+  <action name="actionConfigDialog">
+   <property name="icon">
+    <iconset resource="assets.qrc">
+     <normaloff>:/images/tobdog_wrench.png</normaloff>:/images/tobdog_wrench.png</iconset>
    </property>
    <property name="text">
-    <string>Load Working Directory</string>
+    <string>Open Settings</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load working directory at startup for quick access to your files.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigSetEdictDir">
-   <property name="text">
-    <string>Appoint Working Directory</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify a directory to be loaded at stratup.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigSaveNag">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Confirm Overwrite</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If this is disabled, saving your work will overwrite any existing files without displaying a warning.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigUseEdictFile">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Load Working File</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Load appointed working file at startup. Remeber to set working directory to use same location as the appointed file or place that file in the same directory as this program.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigSetEdictFile">
-   <property name="text">
-    <string>Appoint Working File</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Specify a file to be loaded at startup. File needs to be in appointed working directory or in same folder as this program, otherwise it causes an loading error.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigFilterSkipNull">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Hide Unused</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set visibilty of unused or unaccesed entries.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigTotalRecall">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Remember Last Directory</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Prevents loading this programs root directory and instead loads what was previously used.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigFilterSkipBoolean">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Hide Boolean</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set visibility of boolean (1 or 0) entries. Some boolean entries seem to have more states than 1 or 0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigFilterSkipRange">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Hide Range</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set visibility of range entries. Range seems to be same as counter, except range can be negative. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigFilterSkipCounter">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Hide Counter</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set visibility of counter entries. Counter's value is equal or greater than 0, it seems to only increase.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigFilterSkipComments">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Hide Comments</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set visibility of comments.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </action>
-  <action name="actionConfigFilterSkipNumber">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Hide ID Number</string>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set visiblity of entry numbers.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Opens the settings dialog window.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
  </widget>

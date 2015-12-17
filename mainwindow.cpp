@@ -43,9 +43,12 @@ Feel free to correct me on practically anything.
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+	setWindowTitle(TITLELABEL);
 
-	mResWidth = QApplication::desktop()->screen(-1)->width();
-	mResHeight = QApplication::desktop()->screen(-1)->height();
+	int screen = QApplication::desktop()->screenNumber(QCursor::pos());
+	mResWidth = QApplication::desktop()->screen(screen)->width();
+	mResHeight = QApplication::desktop()->screen(screen)->height();
+
 	unitReady = false;
 	stats.fill(0,4);
 	fileWasModified(0);
@@ -55,15 +58,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	setupEntries();
 
-	// After loading defaults from settings, we need to update the "StatusTips" of these entries in the options.
-	ui->actionConfigUseEdictDir->setStatusTip(QString("Appointed directory: %1").arg(edictDir.path()));
-	ui->actionConfigUseEdictFile->setStatusTip(QString("Appointed file: %1").arg(edictFile));
-	ui->actionConfigSetEdictDir->setStatusTip(QString("Current Working directory: %1").arg(edictDir.path()));
-	ui->actionConfigSetEdictFile->setStatusTip(QString("Current Working file: %1").arg(edictFile));
-
-	qDebug() << "FINAL workDir: " << workDir.path();
-	qDebug() << "FINAL workFile: " << workFile;
-	setWindowTitle(TITLELABEL);
+	settingsDialog = new ConfigDialog(this);
+	settingsDialog->setModal(true);
 }
 
 void MainWindow::showEvent(QShowEvent *event)
@@ -71,14 +67,29 @@ void MainWindow::showEvent(QShowEvent *event)
 	// Due to spacers in the ui, interface elements will overlap each other after the ui is displayed. The "update()" at the end remedies this problem.
 	QMainWindow::showEvent(event);
 	unitReady = true;
-	if(MainWindow::width() < MainWindow::minimumWidth() || MainWindow::height() < MainWindow::minimumHeight())
+	if(edict.value("maximized").toBool() == true)
 	{
-		resize(MainWindow::minimumWidth(), MainWindow::minimumHeight());
+		showMaximized();
 	}
-
-	if(MainWindow::x() > QApplication::desktop()->width() || MainWindow::y() > QApplication::desktop()->height())
+	else
 	{
-		move((mResWidth/2) - (MainWindow::minimumWidth()/2), (mResHeight/2) - (MainWindow::minimumHeight()/2));
+		if(MainWindow::width() < MainWindow::minimumWidth() || MainWindow::height() < MainWindow::minimumHeight())
+		{
+			adjustSize();
+		}
+		else
+		{
+			resize(edict.value("size").toSize());
+		}
+
+		if(MainWindow::x() > QApplication::desktop()->width() || MainWindow::y() > QApplication::desktop()->height())
+		{
+			move((mResWidth/2) - (MainWindow::minimumWidth()/2), (mResHeight/2) - (MainWindow::minimumHeight()/2));
+		}
+		else
+		{
+			move(edict.value("position").toPoint());
+		}
 	}
 	displayInfo();
 	ui->contentLayout->update();
@@ -298,7 +309,7 @@ void MainWindow::displayInfo()
 				dummy->setProperty("styleSheet", "");
 			}
 
-			if(edict.value("skipbool"))
+			if(edict.value("hideboolean").toBool())
 			{
 				comment[i]->setVisible(false);
 				numfo[i]->setVisible(false);
@@ -322,7 +333,7 @@ void MainWindow::displayInfo()
 				dummy->setProperty("styleSheet", "");
 			}
 
-			if(edict.value("skipcount"))
+			if(edict.value("hidecounter").toBool())
 			{
 				comment[i]->setVisible(false);
 				numfo[i]->setVisible(false);
@@ -346,7 +357,7 @@ void MainWindow::displayInfo()
 				dummy->setProperty("styleSheet", "");
 			}
 
-			if(edict.value("skiprange"))
+			if(edict.value("hiderange").toBool())
 			{
 				comment[i]->setVisible(false);
 				numfo[i]->setVisible(false);
@@ -369,6 +380,10 @@ void MainWindow::displayInfo()
 			{
 				dummy->setProperty("styleSheet", "");
 			}
+			comment[i]->setVisible(true);
+			numfo[i]->setVisible(true);
+			info[i]->setVisible(true);
+			items[i]->setVisible(true);
 		}
 		else
 		{
@@ -378,7 +393,7 @@ void MainWindow::displayInfo()
 			{
 				dummy->setProperty("styleSheet", "");
 			}
-			if(edict.value("skipnull") && curType == "unused")
+			if(edict.value("hideunused").toBool() && curType == "unused")
 			{
 				comment[i]->setVisible(false);
 				numfo[i]->setVisible(false);
@@ -393,11 +408,11 @@ void MainWindow::displayInfo()
 				items[i]->setVisible(true);
 			}
 		}
-		if(edict.value("skipdull"))
+		if(edict.value("hidecomment").toBool())
 		{
 			comment[i]->setVisible(false);
 		}
-		if(edict.value("skipnum"))
+		if(edict.value("hidenumber").toBool())
 		{
 			numfo[i]->setVisible(false);
 		}
@@ -411,50 +426,47 @@ void MainWindow::displayInfo()
 
 void MainWindow::readSettings()
 {
-	// I use the word "edict" for user settings, because basically user is the law.
+	// I use the word "edict" for user settings, because the user is basically the law.
 	qDebug() << "BEGIN readSettings()";
 	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
 	qDebug() << "beginGroup(\"MainWindow\")";
 	config.beginGroup("MainWindow");
-		resize(config.value("size", QSize(MainWindow::minimumWidth(), MainWindow::minimumHeight())).toSize());
+		edict["maximized"] = config.value("maximized", false);
+		edict["size"] = config.value("size", QSize(MainWindow::minimumWidth(), MainWindow::minimumHeight()));
+		edict["position"] = config.value("position", QPoint((mResWidth/2) - (MainWindow::minimumWidth()/2), (mResHeight/2) - (MainWindow::minimumHeight()/2)));
+		qDebug() << QString("maximized: ").leftJustified(20, '.') << config.value("maximized").toBool();
 		qDebug() << QString("size:").leftJustified(20, '.') << config.value("size").toSize();
-		move(config.value("position", QPoint((mResWidth/2) - (MainWindow::minimumWidth()/2), (mResHeight/2) - (MainWindow::minimumHeight()/2))).toPoint());
 		qDebug() << QString("position:").leftJustified(20, '.') << config.value("position").toPoint();
-		if(config.value("maximized", false).toString() == "true")
-		{
-			showMaximized();
-		}
-		qDebug() << QString("maximized: ").leftJustified(20, '.') << config.value("maximized").toString();
 	config.endGroup();
 	qDebug() << "beginGroup(\"Settings\")";
 	config.beginGroup("Settings");
-		edictFile = config.value("file", "file0").toString();
+		edict["file"] = config.value("file", "file0");
+		edict["directory"] = config.value("directory", QDir::homePath() + "/AppData/Local/UNDERTALE/");
+		edict["loadfile"] = config.value("loadfile", false);
+		edict["loaddir"] = config.value("loaddir", false);
+		edict["confirmsave"] = config.value("confirmsave", true);
+		edict["rememberlastdir"] = config.value("rememberlastdir", true);
 		qDebug() << QString("file:").leftJustified(20, '.') << edict.value("file");
-		edictDir.setPath(config.value("directory", QDir::homePath() + "/AppData/Local/UNDERTALE/").toString());
-		qDebug() << QString("dir:").leftJustified(20, '.') << edict.value("directory");
-		edict["autofile"] = config.value("loadfile", 0).toInt();
-		qDebug() << QString("autofile:").leftJustified(20, '.') << edict.value("loadfile");
-		edict["autodir"] = config.value("loaddir", 0).toInt();
-		qDebug() << QString("autodir:").leftJustified(20, '.') << edict.value("loaddir");
-		edict["savenag"] = config.value("confirmsave", 1).toInt();
-		qDebug() << QString("savenag:").leftJustified(20, '.') << edict.value("confirmsave");
-		edict["totalrecall"] = config.value("rememberlastdir", 1).toInt();
-		qDebug() << QString("totalrecall:").leftJustified(20, '.') << edict.value("rememberlastdir");
+		qDebug() << QString("directory:").leftJustified(20, '.') << edict.value("directory");
+		qDebug() << QString("loadfile:").leftJustified(20, '.') << edict.value("loadfile").toBool();
+		qDebug() << QString("loaddir:").leftJustified(20, '.') << edict.value("loaddir").toBool();
+		qDebug() << QString("confirmsave:").leftJustified(20, '.') << edict.value("confirmsave").toBool();
+		qDebug() << QString("rememberlastdir:").leftJustified(20, '.') << edict.value("rememberlastdir").toBool();
 	config.endGroup();
 	qDebug() << "beginGroup(\"Filters\")";
 	config.beginGroup("Filters");
-		edict["skipbool"] = config.value("skipboolean", 0).toInt();
-		qDebug() << QString("skipbool:").leftJustified(20, '.') << edict.value("skipbool");
-		edict["skipdull"] = config.value("skipcomment", 1).toInt();
-		qDebug() << QString("skipdull:").leftJustified(20, '.') << edict.value("skipdull");
-		edict["skipcount"] = config.value("skipcounter", 0).toInt();
-		qDebug() << QString("skipcount:").leftJustified(20, '.') << edict.value("skipcount");
-		edict["skipnum"] = config.value("skipnumber", 0).toInt();
-		qDebug() << QString("skipnum:").leftJustified(20, '.') << edict.value("skipnum");
-		edict["skiprange"] = config.value("skiprange", 0).toInt();
-		qDebug() << QString("skiprange:").leftJustified(20, '.') << edict.value("skiprange");
-		edict["skipnull"] = config.value("skipunused", 1).toInt();
-		qDebug() << QString("skipnull:").leftJustified(20, '.') << edict.value("skipnull");
+		edict["hideboolean"] = config.value("hideboolean", false);
+		edict["hidecomment"] = config.value("hidecomment", true);
+		edict["hidecounter"] = config.value("hidecounter", false);
+		edict["hidenumber"] = config.value("hidenumber", false);
+		edict["hiderange"] = config.value("hiderange", false);
+		edict["hideunused"] = config.value("hideunused", true);
+		qDebug() << QString("hideboolean:").leftJustified(20, '.') << edict.value("hideboolean").toBool();
+		qDebug() << QString("hidecomment:").leftJustified(20, '.') << edict.value("hidecomment").toBool();
+		qDebug() << QString("hidecounter:").leftJustified(20, '.') << edict.value("hidecounter").toBool();
+		qDebug() << QString("hidenumber:").leftJustified(20, '.') << edict.value("hidenumber").toBool();
+		qDebug() << QString("hiderange:").leftJustified(20, '.') << edict.value("hiderange").toBool();
+		qDebug() << QString("hideunused:").leftJustified(20, '.') << edict.value("hideunused").toBool();
 	config.endGroup();
 
 	// A sprouting new feature...
@@ -533,43 +545,43 @@ void MainWindow::writeSettings()
 	config.beginGroup("MainWindow");
 		if(!isMaximized())
 		{
-			qDebug() << QString("size:").leftJustified(20, '.') << size();
 			config.setValue("size", size());
-			qDebug() << QString("position:").leftJustified(20, '.') << pos();
 			config.setValue("position", pos());
 		}
-		qDebug() << QString("maximized: ").leftJustified(20, '.') << isMaximized();
 		config.setValue("maximized", isMaximized());
+		qDebug() << QString("size:").leftJustified(20, '.') << size();
+		qDebug() << QString("position:").leftJustified(20, '.') << pos();
+		qDebug() << QString("maximized: ").leftJustified(20, '.') << isMaximized();
 	config.endGroup();
 	qDebug() << "beginGroup(\"Settings\")";
 	config.beginGroup("Settings");
-		qDebug() << QString("file:").leftJustified(20, '.') << edictFile;
-		config.setValue("file", edictFile);
-		qDebug() << QString("dir:").leftJustified(20, '.') << edictDir.path();
-		config.setValue("directory", edictDir.path());
-		qDebug() << QString("autofile:").leftJustified(20, '.') << edict.value("autofile");
-		config.setValue("loadfile", edict.value("autofile"));
-		qDebug() << QString("autodir:").leftJustified(20, '.') << edict.value("autodir");
-		config.setValue("loaddir", edict.value("autodir"));
-		qDebug() << QString("savenag:").leftJustified(20, '.') << edict.value("savenag");
-		config.setValue("confirmsave", edict.value("savenag"));
-		qDebug() << QString("totalrecall:").leftJustified(20, '.') << edict.value("totalrecall");
-		config.setValue("rememberlastdir", edict.value("totalrecall"));
+		config.setValue("file", edict.value("file"));
+		config.setValue("directory", edict.value("directory"));
+		config.setValue("loadfile", edict.value("loadfile"));
+		config.setValue("loaddir", edict.value("loaddir"));
+		config.setValue("confirmsave", edict.value("confirmsave"));
+		config.setValue("rememberlastdir", edict.value("rememberlastdir"));
+		qDebug() << QString("file:").leftJustified(20, '.') << edict.value("file").toString();
+		qDebug() << QString("dir:").leftJustified(20, '.') << edict.value("directory").toString();
+		qDebug() << QString("autofile:").leftJustified(20, '.') << edict.value("loadfile").toBool();
+		qDebug() << QString("autodir:").leftJustified(20, '.') << edict.value("loaddir").toBool();
+		qDebug() << QString("savenag:").leftJustified(20, '.') << edict.value("confirmsave").toBool();
+		qDebug() << QString("totalrecall:").leftJustified(20, '.') << edict.value("rememberlastdir").toBool();
 	config.endGroup();
 	qDebug() << "beginGroup(\"Filters\")";
 	config.beginGroup("Filters");
-		qDebug() << QString("skipbool:").leftJustified(20, '.') << edict.value("skipbool");
-		config.setValue("skipboolean", edict.value("skipbool"));
-		qDebug() << QString("skipdull:").leftJustified(20, '.') << edict.value("skipdull");
-		config.setValue("skipcomment", edict.value("skipdull"));
-		qDebug() << QString("skipcount:").leftJustified(20, '.') << edict.value("skipcount");
-		config.setValue("skipcounter", edict.value("skipcount"));
-		qDebug() << QString("skipnum:").leftJustified(20, '.') << edict.value("skipnum");
-		config.setValue("skipnumber", edict.value("skipnum"));
-		qDebug() << QString("skiprange:").leftJustified(20, '.') << edict.value("skiprange");
-		config.setValue("skiprange", edict.value("skiprange"));
-		qDebug() << QString("skipnull:").leftJustified(20, '.') << edict.value("skipnull");
-		config.setValue("skipunused", edict.value("skipnull"));
+		config.setValue("hideboolean", edict.value("hideboolean"));
+		config.setValue("hidecomment", edict.value("hidecomment"));
+		config.setValue("hidecounter", edict.value("hidecounter"));
+		config.setValue("hidenumber", edict.value("hidenumber"));
+		config.setValue("hiderange", edict.value("hiderange"));
+		config.setValue("hideunused", edict.value("hideunused"));
+		qDebug() << QString("hideboolean:").leftJustified(20, '.') << edict.value("hideboolean").toBool();
+		qDebug() << QString("hidecomment:").leftJustified(20, '.') << edict.value("hidecomment").toBool();
+		qDebug() << QString("hidecounter:").leftJustified(20, '.') << edict.value("hidecounter").toBool();
+		qDebug() << QString("hidenumber:").leftJustified(20, '.') << edict.value("hidenumber").toBool();
+		qDebug() << QString("hiderange:").leftJustified(20, '.') << edict.value("hiderange").toBool();
+		qDebug() << QString("hideunused:").leftJustified(20, '.') << edict.value("hideunused").toBool();
 	config.endGroup();
 }
 
@@ -607,62 +619,18 @@ void MainWindow::setupMenuBar()
 	ui->actionFileExit->setStatusTip("I will not stop you. However, when you leave... Please do not come back.");
 	ui->actionFileExit->setWhatsThis("Closes this program. Same as pressing the \"X\" at the top corner.");
 
-	ui->actionConfigUseEdictDir->setStatusTip(QString("Current Working directory: %1").arg(workDir.path()));
-	ui->actionConfigUseEdictDir->setWhatsThis("Use \"Set Working Directory\" to specify your own directory, otherwise this program attempts to use the default UNDERTALE save location.");
-
-	ui->actionConfigSetEdictDir->setStatusTip(QString("Appointed directory: %1").arg(edictDir.path()));
-	ui->actionConfigSetEdictDir->setWhatsThis("Specify your own file for this program to load at startup, assuming you have enabled automatic file loading. By default this program attempts to use same file as the game is using.");
-
-	ui->actionConfigUseEdictFile->setStatusTip(QString("Current Working file: %1").arg(workFile));
-	ui->actionConfigUseEdictFile->setWhatsThis("Use \"Set Working File\" to specify your own directory, otherwise this program attempts to use the default UNDERTALE save location.");
-
-	ui->actionConfigSetEdictFile->setStatusTip(QString("Appointed file: %1").arg(edictFile));
-	ui->actionConfigSetEdictFile->setWhatsThis("Specify your own locations for this program to load at startup, assuming you have enabled automatic directory loading. By default this program attempts to use same location as the game is using.");
-
-	ui->actionConfigSaveNag->setStatusTip("Give a warning if you are about to overwrite an existing file");
-	ui->actionConfigSaveNag->setWhatsThis("Standard warning message will be displayed when an existing file is about to be overwritten via \"Save\" or \"Save As...\" functions.");
-
-	ui->actionConfigTotalRecall->setStatusTip("Set working directory to last used directory");
-	ui->actionConfigTotalRecall->setWhatsThis("Causes this program to use same directory that was used when either opening or saving a file. If this option is disabled, the starting directory is set to where this program is located.");
-
-	ui->actionConfigFilterSkipBoolean->setStatusTip(QString("Skip %1 boolean entries").arg(stats[0]));
-	ui->actionConfigFilterSkipBoolean->setWhatsThis("Boolean can be either true (1) or false (0). For some reason this time dome boolean entries has multiple values.");
-
-	ui->actionConfigFilterSkipComments->setStatusTip("Skip 549 comment entries");
-	ui->actionConfigFilterSkipComments->setWhatsThis("Comments are there to explain in more detail what each entry means. And to clutter the user interface.");
-
-	ui->actionConfigFilterSkipCounter->setStatusTip(QString("Skip %1 counter entries").arg(stats[1]));
-	ui->actionConfigFilterSkipCounter->setWhatsThis("Counters usually start from 0 and only go up. Like Kill count or number of dogs encountered.");
-
-	ui->actionConfigFilterSkipRange->setStatusTip(QString("Skip %1 range entries").arg(stats[2]));
-	ui->actionConfigFilterSkipRange->setWhatsThis("Range should be a freely moving value within a certain range of values. Like range between -10 and 10.");
-
-	ui->actionConfigFilterSkipNull->setStatusTip(QString("Skip %1 basically useless entries").arg(stats[3]));
-	ui->actionConfigFilterSkipNull->setWhatsThis("Savefile contains lots of unused and unaccesed entries, due to cut content or nature of how the software handles savefiles. Skipping entries that are know to be essentially useless can make viewing and editing the file easier.");
-
-	ui->actionConfigUseEdictDir->setChecked(edict.value("autodir"));
-	ui->actionConfigUseEdictFile->setChecked(edict.value("autofile"));
-	ui->actionConfigTotalRecall->setChecked(edict.value("totalrecall"));
-	ui->actionConfigSaveNag->setChecked(edict.value("savenag"));
-	ui->actionConfigFilterSkipBoolean->setChecked(edict.value("skipbool"));
-	ui->actionConfigFilterSkipComments->setChecked(edict.value("skipdull"));
-	ui->actionConfigFilterSkipCounter->setChecked(edict.value("skipcount"));
-	ui->actionConfigFilterSkipNull->setChecked(edict.value("skipnull"));
-	ui->actionConfigFilterSkipRange->setChecked(edict.value("skiprange"));
-	ui->actionConfigFilterSkipNumber->setChecked(edict.value("skipnum"));
-
-	if(edict.value("autodir"))
+	if(edict.value("loaddir").toBool())
 	{
-		workDir = edictDir;
+		workDir.setPath(edict.value("directory").toString());
 		if(!workDir.exists())
 		{
 			QMessageBox::warning(this, "Application", QString("Cannot access directory %1:\n%2.").arg(workDir.path(), "Directory does not exist"));
 			workDir.setPath(QDir::currentPath());
 		}
 	}
-	if(edict.value("autofile"))
+	if(edict.value("loadfile").toBool())
 	{
-		workFile = edictFile;
+		workFile = edict.value("file").toString();
 		if(QFile::exists(workDir.filePath(workFile)))
 		{
 			loadFile(workDir, workFile);
@@ -736,7 +704,7 @@ void MainWindow::loadFile(const QDir &fileDir, const QString &fileName)
 		setWindowTitle(TITLELABEL);
 		ui->statusBar->showMessage(QString("Loading %1 in %2 complete").arg(fileName, fileDir.path()));
 
-		if(edict.value("totalrecall"))
+		if(edict.value("rememberlastdir").toBool())
 		{
 			workDir = fileDir;
 		}
@@ -750,7 +718,7 @@ void MainWindow::loadFile(const QDir &fileDir, const QString &fileName)
 bool MainWindow::saveFile(const QDir &fileDir, const QString &fileName)
 {
 	qDebug() << "BEGIN saveFile(" << fileDir.path() << ", " << fileName << ")";
-	if(QFile::exists(fileDir.filePath(fileName)) && edict.value("savenag"))
+	if(QFile::exists(fileDir.filePath(fileName)) && edict.value("confirmsave").toBool())
 	{
 		int result = QMessageBox::question(this, "Confirm Overwrite", QString("Do you want to overwrite %1?").arg(fileName), QMessageBox::Yes | QMessageBox::No);
 		if(result == QMessageBox::No)
@@ -787,7 +755,7 @@ bool MainWindow::saveFile(const QDir &fileDir, const QString &fileName)
 	#ifndef QT_NO_CURSOR
 		QApplication::restoreOverrideCursor();
 	#endif
-		if(edict.value("totalrecall"))
+		if(edict.value("rememberlastdir").toBool())
 		{
 			workDir = fileDir;
 		}
@@ -873,7 +841,7 @@ void MainWindow::dataBoolWasModified(int number)
 
 void MainWindow::fileWasModified(bool mode)
 {
-	qDebug() << "BEGIN documentWasModified(bool " << mode << ")";
+	qDebug() << "BEGIN documentWasModified(" << mode << ")";
 	QObject *dummy = sender();
 	if(mode)
 	{
@@ -895,7 +863,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 	qDebug() << "BEGIN closeEvent(QCloseEvent " << &event << ")";
 	if (castWork())
 	{
-		writeSettings();
 		event->accept();
 	}
 	else
@@ -1020,30 +987,9 @@ void MainWindow::on_actionFileExit_triggered()
 
 }
 
-void MainWindow::on_actionConfigUseEdictDir_toggled(bool arg1)
-{
-	edict["autodir"] = arg1;
-}
-
-void MainWindow::on_actionConfigSetEdictDir_triggered()
-{
-	QDir targetDir = QFileDialog::getExistingDirectory(this, "Select Directory", workDir.path(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks | QFileDialog::DontUseCustomDirectoryIcons);
-	if(targetDir.path() != ".")
-	{
-		edictDir = targetDir;
-	}
-	ui->actionConfigUseEdictDir->setStatusTip(QString("Appointed directory: %1").arg(edictDir.path()));
-	ui->actionConfigSetEdictDir->setStatusTip(QString("Current Working directory: %1").arg(edictDir.path()));
-}
-
 void MainWindow::on_actionFileResetUndo_triggered()
 {
 	// Is supposed to reset changes made to a file. Same as trying to open a new file and discarding changes.
-}
-
-void MainWindow::on_actionConfigSaveNag_toggled(bool arg1)
-{
-	edict["savenag"] = arg1;
 }
 
 void MainWindow::on_actionFileResetTrueReset_triggered()
@@ -1057,77 +1003,29 @@ void MainWindow::on_actionFileResetTransactionCancellation_triggered()
 	// For undoing certain SOUL transaction with a certain FALLEN CHILD
 }
 
-void MainWindow::on_actionConfigUseEdictFile_toggled(bool arg1)
+void MainWindow::configReciever(QString key, QVariant value)
 {
-	edict["autofile"] = arg1;
-}
-
-void MainWindow::on_actionConfigSetEdictFile_triggered()
-{
-	QString targetFile = QFileDialog::getOpenFileName(this,"Select a file", workDir.path());
-	if(!targetFile.isEmpty())
-	{
-		edictFile = targetFile.section("/", -1);
-	}
-	ui->actionConfigUseEdictFile->setStatusTip(QString("Appointed file: %1").arg(edictFile));
-	ui->actionConfigSetEdictFile->setStatusTip(QString("Current Working file: %1").arg(edictFile));
-}
-
-void MainWindow::on_actionConfigTotalRecall_toggled(bool arg1)
-{
-	edict["totalrecall"] = arg1;
-}
-
-void MainWindow::on_actionConfigFilterSkipBoolean_toggled(bool arg1)
-{
-	edict["skipbool"] = arg1;
-	if(unitReady)
+	if(key == "refreshInfo")
 	{
 		displayInfo();
 	}
-}
-
-void MainWindow::on_actionConfigFilterSkipComments_toggled(bool arg1)
-{
-	edict["skipdull"] = arg1;
-	if(unitReady)
+	else
 	{
-		displayInfo();
+		edict[key] = value;
 	}
 }
 
-void MainWindow::on_actionConfigFilterSkipCounter_toggled(bool arg1)
+void MainWindow::on_actionConfigDialog_triggered()
 {
-	edict["skipcount"] = arg1;
-	if(unitReady)
-	{
-		displayInfo();
-	}
-}
-
-void MainWindow::on_actionConfigFilterSkipNull_toggled(bool arg1)
-{
-	edict["skipnull"] = arg1;
-	if(unitReady)
-	{
-		displayInfo();
-	}
-}
-
-void MainWindow::on_actionConfigFilterSkipRange_toggled(bool arg1)
-{
-	edict["skiprange"] = arg1;
-	if(unitReady)
-	{
-		displayInfo();
-	}
-}
-
-void MainWindow::on_actionConfigFilterSkipNumber_toggled(bool arg1)
-{
-	edict["skipnum"] = arg1;
-	if(unitReady)
-	{
-		displayInfo();
-	}
+	qDebug() << "before show:" << isMaximized();
+	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
+	config.beginGroup("MainWindow");
+		config.setValue("maximized", isMaximized());
+		if(!isMaximized())
+		{
+			config.setValue("size", size());
+			config.setValue("position", pos());
+		}
+	config.endGroup();
+	settingsDialog->show();
 }

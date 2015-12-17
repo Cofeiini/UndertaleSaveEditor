@@ -1,10 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 //For future releases. Right now I'm calling this a "preview".
-//#define TITLELABEL windowFilePath() + "[*]" + " - " + QApplication::applicationName() + " (v" + QApplication::applicationVersion() + ")"
-#define TITLELABEL windowFilePath() + "[*]" + " - " + QApplication::applicationName() + " (preview)"
+#define TITLELABEL windowFilePath() + "[*]" + " - " + QApplication::applicationName() + " (v" + QApplication::applicationVersion() + ")"
 
 // I like having my includes in a single place
+#include "configdialog.h"
+
 #include <QCheckBox>
 #include <QCloseEvent>
 //#include <QComboBox>
@@ -50,6 +51,7 @@ class MainWindow : public QMainWindow
 		void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 	private slots:
+		void configReciever(QString key, QVariant value);
 		void dataBoolWasModified(int number);
 		void dataSliderWasModified(int number);
 		void dataStringWasModified(QString string);
@@ -58,24 +60,14 @@ class MainWindow : public QMainWindow
 
 		bool on_actionFileSave_triggered();
 		bool on_actionFileSaveAs_triggered();
-		void on_actionConfigFilterSkipBoolean_toggled(bool arg1);
-		void on_actionConfigFilterSkipComments_toggled(bool arg1);
-		void on_actionConfigFilterSkipCounter_toggled(bool arg1);
-		void on_actionConfigFilterSkipNull_toggled(bool arg1);
-		void on_actionConfigFilterSkipNumber_toggled(bool arg1);
-		void on_actionConfigFilterSkipRange_toggled(bool arg1);
-		void on_actionConfigSaveNag_toggled(bool arg1);
-		void on_actionConfigSetEdictDir_triggered();
-		void on_actionConfigSetEdictFile_triggered();
-		void on_actionConfigTotalRecall_toggled(bool arg1);
-		void on_actionConfigUseEdictDir_toggled(bool arg1);
-		void on_actionConfigUseEdictFile_toggled(bool arg1);
 		void on_actionFileExit_triggered();
 		void on_actionFileNew_triggered();
 		void on_actionFileOpen_triggered();
 		void on_actionFileResetTransactionCancellation_triggered();
 		void on_actionFileResetTrueReset_triggered();
 		void on_actionFileResetUndo_triggered();
+
+		void on_actionConfigDialog_triggered();
 
 private:
 		bool buildingInProgress;
@@ -102,7 +94,7 @@ private:
 		QHash<int, QString> mem4;
 		QLabel *info[549];
 		QLabel *numfo[549];
-		QMap<QString, int> edict;
+		QMap<QString, QVariant> edict;
 		QMap<QString, QString> law;
 		QString edictFile;
 		QString workFile;
@@ -114,6 +106,7 @@ private:
 		QVector<QWidget*> items;
 
 		Ui::MainWindow *ui;
+		ConfigDialog *settingsDialog;
 };
 
 #endif // MAINWINDOW_H
