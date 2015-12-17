@@ -15,28 +15,43 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent)
 	QVBoxLayout *verticalContainer = new QVBoxLayout;
 	verticalContainer->addWidget(configTab);
 	verticalContainer->addWidget(configBox);
+	verticalContainer->setSizeConstraint(QLayout::SetFixedSize);
 	setLayout(verticalContainer);
 
 	QObject *dTab = findChild<DefaultsTab *>("", Qt::FindChildrenRecursively);
 	QObject *fTab = findChild<FiltersTab *>("", Qt::FindChildrenRecursively);
 
-	connect(this, SIGNAL(setter(QString,QVariant)), dTab, SLOT(setter(QString,QVariant)));
-	connect(this, SIGNAL(setter(QString,QVariant)), fTab, SLOT(setter(QString,QVariant)));
+	connect(this, SIGNAL(initiator()), dTab, SLOT(initializer()));
+	connect(this, SIGNAL(transmitter(QString,QVariant)), dTab, SLOT(reciever(QString,QVariant)));
+	connect(this, SIGNAL(transmitter(QString,QVariant)), fTab, SLOT(reciever(QString,QVariant)));
+	connect(this, SIGNAL(configTransmitter(QString,QVariant)), parent, SLOT(configReciever(QString,QVariant)));
 }
 
 void ConfigDialog::showEvent(QShowEvent *event)
 {
 	QDialog::showEvent(event);
+	setWindowIcon(QIcon(":/images/tobdog_wrench.png"));
 
+	emit initiator();
 	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
 	foreach(QString var, config.allKeys())
 	{
 		edict.insert(var, config.value(var));
-		setter(var.section("/", -1), config.value(var));
+		if(var.section("/", -1) == "size")
+		{
+			transmitter("mainw", config.value(var).toSize().width());
+			transmitter("mainh", config.value(var).toSize().height());
+		}
+		if(var.section("/", -1) == "position")
+		{
+			transmitter("mainx", config.value(var).toPoint().x());
+			transmitter("mainy", config.value(var).toPoint().y());
+		}
+		transmitter(var.section("/", -1), config.value(var));
 	}
 }
 
-void ConfigDialog::boolSetter(bool value)
+void ConfigDialog::boolReciever(const bool &value)
 {
 	QString dummy = sender()->objectName();
 	foreach(QString var, edict.keys())
@@ -46,9 +61,54 @@ void ConfigDialog::boolSetter(bool value)
 			edict[var] = value;
 		}
 	}
+	if(dummy == "maximized")
+	{
+		parent()->setProperty("isMaximized", value);
+	}
 }
 
-void ConfigDialog::stringSetter(QString target, QString value)
+void ConfigDialog::intReciever(const int &value)
+{
+	QString dummy = sender()->objectName();
+
+	if(dummy == "mainw" || dummy == "mainh")
+	{
+		QSize mainSize = edict.value("MainWindow/size").toSize();
+		if(dummy == "mainw")
+		{
+			mainSize.setWidth(value);
+		}
+		if(dummy == "mainh")
+		{
+			mainSize.setHeight(value);
+		}
+		edict["MainWindow/size"] = mainSize;
+		if(!edict.value("MainWindow/maximized").toBool())
+		{
+			parent()->setProperty("size", mainSize);
+		}
+	}
+
+	if(dummy == "mainx" || dummy == "mainy")
+	{
+		QPoint mainPos = edict.value("MainWindow/position").toPoint();
+		if(dummy == "mainx")
+		{
+			mainPos.setX(value);
+		}
+		if(dummy == "mainy")
+		{
+			mainPos.setY(value);
+		}
+		edict["MainWindow/position"] = mainPos;
+		if(!edict.value("MainWindow/maximized").toBool())
+		{
+			parent()->setProperty("pos", mainPos);
+		}
+	}
+}
+
+void ConfigDialog::stringReciever(const QString &target, const QString &value)
 {
 	if(target == "dir")
 	{
@@ -66,7 +126,9 @@ void ConfigDialog::accept()
 	foreach(QString var, edict.keys())
 	{
 		config.setValue(var, edict.value(var));
+		emit configTransmitter(var.section("/", -1), edict.value(var));
 	}
+	emit configTransmitter("refreshInfo", "");
 	done(Accepted);
 }
 
@@ -77,54 +139,102 @@ void ConfigDialog::reject()
 
 DefaultsTab::DefaultsTab(QWidget *parent) : QWidget(parent)
 {
+	QGridLayout *dialLayout = new QGridLayout;
 	QGridLayout *mainLayout = new QGridLayout;
 
-	QCheckBox *autoFile = new QCheckBox("Load Working File");
-	autoFile->setObjectName("loadfile");
-	autoFile->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
-	mainLayout->addWidget(autoFile, 0, 0);
-	items.append(autoFile);
-
-	autoFileLabel = new QLabel();
-	autoFileLabel->setText(workFile.fileName());
-	autoFileLabel->setObjectName("file");
-	autoFileLabel->setFrameStyle(QFrame::Panel);
-	mainLayout->addWidget(autoFileLabel, 0, 1);
-	items.append(autoFileLabel);
-
-	QPushButton *autoFileBrowse = new QPushButton("...");
-	autoFileBrowse->setObjectName("filebrowse");
-	autoFileBrowse->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
-	mainLayout->addWidget(autoFileBrowse, 0, 2);
-
+	autoDirLabel = new QLabel;
+	autoFileLabel = new QLabel;
 	QCheckBox *autoDir = new QCheckBox("Load Working Directory");
-	autoDir->setObjectName("loaddir");
-	autoDir->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
-	mainLayout->addWidget(autoDir, 1, 0);
-	items.append(autoDir);
-
-	autoDirLabel = new QLabel(workDir.absolutePath());
-	autoDirLabel->setObjectName("directory");
-	autoDirLabel->setFrameStyle(QFrame::Panel);
-	mainLayout->addWidget(autoDirLabel, 1, 1);
-	items.append(autoDirLabel);
-
-	QPushButton *autoDirBrowse = new QPushButton("...");
-	autoDirBrowse->setObjectName("dirbrowse");
-	autoDirBrowse->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
-	mainLayout->addWidget(autoDirBrowse, 1, 2);
-
+	QCheckBox *autoFile = new QCheckBox("Load Working File");
+	QCheckBox *mainMaximized = new QCheckBox("Start Maximized");
 	QCheckBox *saveNag = new QCheckBox("Confirm Overwriting");
-	saveNag->setObjectName("confirmsave");
-	mainLayout->addWidget(saveNag, 2, 0);
-	items.append(saveNag);
-
 	QCheckBox *totalRecall = new QCheckBox("Remember Last Directory");
-	totalRecall->setObjectName("rememberlastdir");
-	mainLayout->addWidget(totalRecall, 3, 0);
-	items.append(totalRecall);
+	QDial *mainH = new QDial;
+	QDial *mainW = new QDial;
+	QDial *mainX = new QDial;
+	QDial *mainY = new QDial;
+	QLabel *mainHLabel = new QLabel;
+	QLabel *mainWLabel = new QLabel;
+	QLabel *mainXLabel = new QLabel;
+	QLabel *mainYLabel = new QLabel;
+	QPushButton *autoDirBrowse = new QPushButton("...");
+	QPushButton *autoFileBrowse = new QPushButton("...");
 
+	autoDir->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+	autoDirBrowse->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+	autoDirLabel->setFrameStyle(QFrame::Panel);
+	autoFile->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+	autoFileBrowse->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+	autoFileLabel->setFrameStyle(QFrame::Panel);
+	mainHLabel->setAlignment(Qt::AlignCenter);
+	mainHLabel->setFrameStyle(QFrame::Panel);
+	mainHLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+	mainMaximized->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Fixed);
+	mainWLabel->setAlignment(Qt::AlignCenter);
+	mainWLabel->setFrameStyle(QFrame::Panel);
+	mainWLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+	mainXLabel->setAlignment(Qt::AlignCenter);
+	mainXLabel->setFrameStyle(QFrame::Panel);
+	mainXLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+	mainYLabel->setAlignment(Qt::AlignCenter);
+	mainYLabel->setFrameStyle(QFrame::Panel);
+	mainYLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+	autoDir->setObjectName("loaddir");
+	autoDirBrowse->setObjectName("dirbrowse");
+	autoDirLabel->setObjectName("directory");
+	autoFile->setObjectName("loadfile");
+	autoFileBrowse->setObjectName("filebrowse");
+	autoFileLabel->setObjectName("file");
+	mainH->setObjectName("mainh");
+	mainHLabel->setObjectName("hlabel");
+	mainMaximized->setObjectName("maximized");
+	mainW->setObjectName("mainw");
+	mainWLabel->setObjectName("wlabel");
+	mainX->setObjectName("mainx");
+	mainXLabel->setObjectName("xlabel");
+	mainY->setObjectName("mainy");
+	mainYLabel->setObjectName("ylabel");
+	saveNag->setObjectName("confirmsave");
+	totalRecall->setObjectName("rememberlastdir");
+
+	dialLayout->addWidget(mainW, 0, 0, 1, 1, Qt::AlignJustify);
+	dialLayout->addWidget(mainWLabel, 1, 0, 1, 1, Qt::AlignJustify);
+	dialLayout->addWidget(mainH, 0, 1, 1, 1, Qt::AlignJustify);
+	dialLayout->addWidget(mainHLabel, 1, 1, 1, 1, Qt::AlignJustify);
+	dialLayout->addWidget(mainX, 0, 2, 1, 1, Qt::AlignJustify);
+	dialLayout->addWidget(mainXLabel, 1, 2, 1, 1, Qt::AlignJustify);
+	dialLayout->addWidget(mainY, 0, 3, 1, 1, Qt::AlignJustify);
+	dialLayout->addWidget(mainYLabel, 1, 3, 1, 1, Qt::AlignJustify);
+
+	mainLayout->setSizeConstraint(QLayout::SetFixedSize);
+	mainLayout->addWidget(mainMaximized, 0, 0);
+	mainLayout->addItem(dialLayout, 0, 1, 1, 4, Qt::AlignCenter);
+	mainLayout->addWidget(autoFile, 1, 0);
+	mainLayout->addWidget(autoFileLabel, 1, 1, 1, 4);
+	mainLayout->addWidget(autoFileBrowse, 1, 5);
+	mainLayout->addWidget(autoDir, 2, 0);
+	mainLayout->addWidget(autoDirLabel, 2, 1, 1, 4);
+	mainLayout->addWidget(autoDirBrowse, 2, 5);
+	mainLayout->addWidget(saveNag, 3, 0);
+	mainLayout->addWidget(totalRecall, 4, 0);
 	setLayout(mainLayout);
+
+	items.append(mainMaximized);
+	items.append(mainW);
+	items.append(mainWLabel);
+	items.append(mainH);
+	items.append(mainHLabel);
+	items.append(mainX);
+	items.append(mainXLabel);
+	items.append(mainY);
+	items.append(mainYLabel);
+	items.append(autoFile);
+	items.append(autoFileLabel);
+	items.append(autoDir);
+	items.append(autoDirLabel);
+	items.append(saveNag);
+	items.append(totalRecall);
 
 	QString cName;
 	foreach (QWidget *var, items)
@@ -132,12 +242,93 @@ DefaultsTab::DefaultsTab(QWidget *parent) : QWidget(parent)
 		cName = var->metaObject()->className();
 		if(cName == "QCheckBox")
 		{
-			connect(var, SIGNAL(clicked(bool)), parent, SLOT(boolSetter(bool)));
+			connect(var, SIGNAL(clicked(bool)), parent, SLOT(boolReciever(bool)));
+		}
+		if(cName == "QDial")
+		{
+			connect(var, SIGNAL(valueChanged(int)), parent, SLOT(intReciever(int)));
 		}
 	}
+	connect(mainW, SIGNAL(valueChanged(int)), mainWLabel, SLOT(setNum(int)));
+	connect(mainH, SIGNAL(valueChanged(int)), mainHLabel, SLOT(setNum(int)));
+	connect(mainX, SIGNAL(valueChanged(int)), mainXLabel, SLOT(setNum(int)));
+	connect(mainY, SIGNAL(valueChanged(int)), mainYLabel, SLOT(setNum(int)));
 	connect(autoFileBrowse, SIGNAL(released()), this, SLOT(fileBrowse()));
 	connect(autoDirBrowse, SIGNAL(released()), this, SLOT(fileBrowse()));
-	connect(this, SIGNAL(stringSender(QString, QString)), parent, SLOT(stringSetter(QString, QString)));
+	connect(this, SIGNAL(stringTransmitter(QString, QString)), parent, SLOT(stringReciever(QString, QString)));
+}
+
+void DefaultsTab::initializer()
+{
+	QWidget *w;
+	QString cName, oName;
+	QRect desk = QApplication::desktop()->frameGeometry();
+
+	foreach (QWidget *var, QApplication::topLevelWidgets())
+	{
+		cName = var->metaObject()->className();
+		if(cName == "MainWindow")
+		{
+			w = var;
+		}
+	}
+	foreach (QWidget *var, items)
+	{
+		cName = var->metaObject()->className();
+		oName = var->objectName();
+		if(cName == "QDial")
+		{
+			var->blockSignals(true);
+			if(oName == "mainw")
+			{
+				var->setProperty("minimum", w->minimumWidth());
+				var->setProperty("maximum", desk.width());
+				var->setProperty("value", w->width());
+			}
+			if(oName == "mainh")
+			{
+				var->setProperty("minimum", w->minimumHeight());
+				var->setProperty("maximum", desk.height());
+				var->setProperty("value", w->height());
+			}
+			if(oName == "mainx")
+			{
+				var->setProperty("minimum", 0 - w->minimumWidth());
+				var->setProperty("maximum", desk.x() + desk.width());
+				var->setProperty("value", w->x());
+			}
+			if(oName == "mainy")
+			{
+				var->setProperty("minimum", 0 - w->minimumHeight());
+				var->setProperty("maximum", desk.y() + desk.height());
+				var->setProperty("value", w->y());
+			}
+			var->setProperty("minimumSize", QSize(75,75));
+			var->setProperty("maximumSize", QSize(75,75));
+			var->setProperty("notchesVisible", true);
+			var->setProperty("notchTarget", 14.8);
+			var->blockSignals(false);
+		}
+		if(cName == "QLabel")
+		{
+			if(oName == "wlabel")
+			{
+				var->setProperty("text", w->width());
+			}
+			if(oName == "hlabel")
+			{
+				var->setProperty("text", w->height());
+			}
+			if(oName == "xlabel")
+			{
+				var->setProperty("text", w->x());
+			}
+			if(oName == "ylabel")
+			{
+				var->setProperty("text", w->y());
+			}
+		}
+	}
 }
 
 void DefaultsTab::fileBrowse()
@@ -153,7 +344,7 @@ void DefaultsTab::fileBrowse()
 		}
 		workFile.setFileName(target.section("/", -1));
 		autoFileLabel->setText(workFile.fileName());
-		emit stringSender("file", workFile.fileName());
+		emit stringTransmitter("file", workFile.fileName());
 	}
 	else if(dummy == "dirbrowse")
 	{
@@ -164,11 +355,11 @@ void DefaultsTab::fileBrowse()
 		}
 		workDir.setPath(target);
 		autoDirLabel->setText(workDir.absolutePath());
-		emit stringSender("dir", workDir.absolutePath());
+		emit stringTransmitter("dir", workDir.absolutePath());
 	}
 }
 
-void DefaultsTab::setter(const QString &target, const QVariant &value)
+void DefaultsTab::reciever(const QString &target, const QVariant &value)
 {
 	QString cName;
 	if(target == "file")
@@ -188,6 +379,10 @@ void DefaultsTab::setter(const QString &target, const QVariant &value)
 			{
 				var->setProperty("checked", value.toBool());
 			}
+			if(cName == "QDial")
+			{
+				var->setProperty("value", value.toInt());
+			}
 			if(cName == "QLabel")
 			{
 				var->setProperty("text", value.toString());
@@ -204,35 +399,34 @@ FiltersTab::FiltersTab(QWidget *parent) : QWidget(parent)
 	QCheckBox *skipBool = new QCheckBox("Hide Boolean");
 	skipBool->setObjectName("hideboolean");
 	mainLayout->addWidget(skipBool);
+	items.append(skipBool);
 
 	QCheckBox *skipCount = new QCheckBox("Hide Counter");
 	skipCount->setObjectName("hidecounter");
 	mainLayout->addWidget(skipCount);
+	items.append(skipCount);
 
 	QCheckBox *skipRange = new QCheckBox("Hide Range");
 	skipRange->setObjectName("hiderange");
 	mainLayout->addWidget(skipRange);
+	items.append(skipRange);
 
 	QCheckBox *skipNull = new QCheckBox("Hide Unused");
 	skipNull->setObjectName("hideunused");
 	mainLayout->addWidget(skipNull);
+	items.append(skipNull);
 
 	QCheckBox *skipDull = new QCheckBox("Hide Comments");
 	skipDull->setObjectName("hidecomment");
 	mainLayout->addWidget(skipDull);
+	items.append(skipDull);
 
 	QCheckBox *skipNum = new QCheckBox("Hide ID Number");
 	skipNum->setObjectName("hidenumber");
 	mainLayout->addWidget(skipNum);
+	items.append(skipNum);
 
 	setLayout(mainLayout);
-
-	items.append(skipBool);
-	items.append(skipCount);
-	items.append(skipRange);
-	items.append(skipNull);
-	items.append(skipDull);
-	items.append(skipNum);
 
 	QString cName;
 	foreach (QWidget *var, items)
@@ -240,12 +434,12 @@ FiltersTab::FiltersTab(QWidget *parent) : QWidget(parent)
 		cName = var->metaObject()->className();
 		if(cName == "QCheckBox")
 		{
-			connect(var, SIGNAL(clicked(bool)), parent, SLOT(boolSetter(bool)));
+			connect(var, SIGNAL(clicked(bool)), parent, SLOT(boolReciever(bool)));
 		}
 	}
 }
 
-void FiltersTab::setter(const QString &target, const QVariant &value)
+void FiltersTab::reciever(const QString &target, const QVariant &value)
 {
 	QString cName;
 	foreach (QWidget *var, items)
