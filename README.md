@@ -2,6 +2,7 @@
 Simple program by a simple person for simple people to simplify editing Undertale save files. Simple.
 
 >If you're just looking for the executable (.exe file): You'll find it in the **[release](/release/)** folder.  
+For any problems there might be a solution listed in the release [README](/release/README.md)
 
 ***
 ##### The executable has been tested on following operating systems:
