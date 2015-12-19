@@ -18,7 +18,7 @@ protected:
 signals:
 	void initiator();
 	void transmitter(const QString &target, const QVariant &value);
-	void configTransmitter(const QString &key, const QVariant &value);
+	void configTransmitter();
 
 private slots:
 	void boolReciever(const bool &value);
@@ -31,6 +31,7 @@ public:
 	explicit ConfigDialog(QWidget *parent = 0);
 
 private:
+	void initSettings();
 	QString workPath;
 	QMap<QString, QVariant> edict;
 	QTabWidget *configTab;

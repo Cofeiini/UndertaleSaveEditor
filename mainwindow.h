@@ -51,7 +51,7 @@ class MainWindow : public QMainWindow
 		void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 	private slots:
-		void configReciever(QString key, QVariant value);
+		void configReciever();
 		void dataBoolWasModified(int number);
 		void dataSliderWasModified(int number);
 		void dataStringWasModified(QString string);

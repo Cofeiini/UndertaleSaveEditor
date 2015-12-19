@@ -104,7 +104,6 @@ void MainWindow::setupEntries()
 #endif
 	if(mem0.size() < 549)
 	{
-		qDebug() << "filling empty mem0";
 		for(int i = 1; i < 550; i++)
 		{
 			mem0[i] = "";
@@ -426,48 +425,16 @@ void MainWindow::displayInfo()
 
 void MainWindow::readSettings()
 {
-	// I use the word "edict" for user settings, because the user is basically the law.
-	qDebug() << "BEGIN readSettings()";
+	QString group;
 	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
-	qDebug() << "beginGroup(\"MainWindow\")";
-	config.beginGroup("MainWindow");
-		edict["maximized"] = config.value("maximized", false);
-		edict["size"] = config.value("size", QSize(MainWindow::minimumWidth(), MainWindow::minimumHeight()));
-		edict["position"] = config.value("position", QPoint((mResWidth/2) - (MainWindow::minimumWidth()/2), (mResHeight/2) - (MainWindow::minimumHeight()/2)));
-		qDebug() << QString("maximized: ").leftJustified(20, '.') << config.value("maximized").toBool();
-		qDebug() << QString("size:").leftJustified(20, '.') << config.value("size").toSize();
-		qDebug() << QString("position:").leftJustified(20, '.') << config.value("position").toPoint();
-	config.endGroup();
-	qDebug() << "beginGroup(\"Settings\")";
-	config.beginGroup("Settings");
-		edict["file"] = config.value("file", "file0");
-		edict["directory"] = config.value("directory", QDir::homePath() + "/AppData/Local/UNDERTALE/");
-		edict["loadfile"] = config.value("loadfile", false);
-		edict["loaddir"] = config.value("loaddir", false);
-		edict["confirmsave"] = config.value("confirmsave", true);
-		edict["rememberlastdir"] = config.value("rememberlastdir", true);
-		qDebug() << QString("file:").leftJustified(20, '.') << edict.value("file");
-		qDebug() << QString("directory:").leftJustified(20, '.') << edict.value("directory");
-		qDebug() << QString("loadfile:").leftJustified(20, '.') << edict.value("loadfile").toBool();
-		qDebug() << QString("loaddir:").leftJustified(20, '.') << edict.value("loaddir").toBool();
-		qDebug() << QString("confirmsave:").leftJustified(20, '.') << edict.value("confirmsave").toBool();
-		qDebug() << QString("rememberlastdir:").leftJustified(20, '.') << edict.value("rememberlastdir").toBool();
-	config.endGroup();
-	qDebug() << "beginGroup(\"Filters\")";
-	config.beginGroup("Filters");
-		edict["hideboolean"] = config.value("hideboolean", false);
-		edict["hidecomment"] = config.value("hidecomment", true);
-		edict["hidecounter"] = config.value("hidecounter", false);
-		edict["hidenumber"] = config.value("hidenumber", false);
-		edict["hiderange"] = config.value("hiderange", false);
-		edict["hideunused"] = config.value("hideunused", true);
-		qDebug() << QString("hideboolean:").leftJustified(20, '.') << edict.value("hideboolean").toBool();
-		qDebug() << QString("hidecomment:").leftJustified(20, '.') << edict.value("hidecomment").toBool();
-		qDebug() << QString("hidecounter:").leftJustified(20, '.') << edict.value("hidecounter").toBool();
-		qDebug() << QString("hidenumber:").leftJustified(20, '.') << edict.value("hidenumber").toBool();
-		qDebug() << QString("hiderange:").leftJustified(20, '.') << edict.value("hiderange").toBool();
-		qDebug() << QString("hideunused:").leftJustified(20, '.') << edict.value("hideunused").toBool();
-	config.endGroup();
+	foreach(QString key, config.allKeys())
+	{
+		group = key.section("/", 0, 0);
+		key = key.section("/", -1);
+		config.beginGroup(group);
+		edict[key] = config.value(key);
+		config.endGroup();
+	}
 
 	// A sprouting new feature...
 	QSettings undertale(":/strings/undertale.ini", QSettings::IniFormat);
@@ -535,54 +502,6 @@ void MainWindow::readSettings()
 
 	workDir.setPath(QDir::currentPath());
 	workFile = "file";
-}
-
-void MainWindow::writeSettings()
-{
-	qDebug() << "BEGIN writeSettings()";
-	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
-	qDebug() << "beginGroup(\"MainWindow\")";
-	config.beginGroup("MainWindow");
-		if(!isMaximized())
-		{
-			config.setValue("size", size());
-			config.setValue("position", pos());
-		}
-		config.setValue("maximized", isMaximized());
-		qDebug() << QString("size:").leftJustified(20, '.') << size();
-		qDebug() << QString("position:").leftJustified(20, '.') << pos();
-		qDebug() << QString("maximized: ").leftJustified(20, '.') << isMaximized();
-	config.endGroup();
-	qDebug() << "beginGroup(\"Settings\")";
-	config.beginGroup("Settings");
-		config.setValue("file", edict.value("file"));
-		config.setValue("directory", edict.value("directory"));
-		config.setValue("loadfile", edict.value("loadfile"));
-		config.setValue("loaddir", edict.value("loaddir"));
-		config.setValue("confirmsave", edict.value("confirmsave"));
-		config.setValue("rememberlastdir", edict.value("rememberlastdir"));
-		qDebug() << QString("file:").leftJustified(20, '.') << edict.value("file").toString();
-		qDebug() << QString("dir:").leftJustified(20, '.') << edict.value("directory").toString();
-		qDebug() << QString("autofile:").leftJustified(20, '.') << edict.value("loadfile").toBool();
-		qDebug() << QString("autodir:").leftJustified(20, '.') << edict.value("loaddir").toBool();
-		qDebug() << QString("savenag:").leftJustified(20, '.') << edict.value("confirmsave").toBool();
-		qDebug() << QString("totalrecall:").leftJustified(20, '.') << edict.value("rememberlastdir").toBool();
-	config.endGroup();
-	qDebug() << "beginGroup(\"Filters\")";
-	config.beginGroup("Filters");
-		config.setValue("hideboolean", edict.value("hideboolean"));
-		config.setValue("hidecomment", edict.value("hidecomment"));
-		config.setValue("hidecounter", edict.value("hidecounter"));
-		config.setValue("hidenumber", edict.value("hidenumber"));
-		config.setValue("hiderange", edict.value("hiderange"));
-		config.setValue("hideunused", edict.value("hideunused"));
-		qDebug() << QString("hideboolean:").leftJustified(20, '.') << edict.value("hideboolean").toBool();
-		qDebug() << QString("hidecomment:").leftJustified(20, '.') << edict.value("hidecomment").toBool();
-		qDebug() << QString("hidecounter:").leftJustified(20, '.') << edict.value("hidecounter").toBool();
-		qDebug() << QString("hidenumber:").leftJustified(20, '.') << edict.value("hidenumber").toBool();
-		qDebug() << QString("hiderange:").leftJustified(20, '.') << edict.value("hiderange").toBool();
-		qDebug() << QString("hideunused:").leftJustified(20, '.') << edict.value("hideunused").toBool();
-	config.endGroup();
 }
 
 void MainWindow::setupMenuBar()
@@ -873,6 +792,12 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 MainWindow::~MainWindow()
 {
+	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
+	config.beginGroup("MainWindow");
+		config.setValue("maximized", isMaximized());
+		config.setValue("size", size());
+		config.setValue("position", pos());
+	config.endGroup();
 	delete ui;
 }
 
@@ -889,11 +814,10 @@ void MainWindow::on_actionFileNew_triggered()
 		setWindowFilePath(workFile);
 		setWindowTitle(TITLELABEL);
 
-		unitReady = false;
 		QFile freshFile(":/strings/freshfile");
 		if(!freshFile.open(QFile::ReadOnly | QFile::Text))
 		{
-			QMessageBox::warning(this, "Application", QString("Cannot generating a fresh file :\n%1.").arg(freshFile.errorString()));
+			QMessageBox::warning(this, "Application", QString("Cannot generate a fresh file :\n%1.").arg(freshFile.errorString()));
 			ui->statusBar->showMessage(QString("Generating a fresh file failed"));
 			return;
 		}
@@ -915,7 +839,6 @@ void MainWindow::on_actionFileNew_triggered()
 		#endif
 
 			ui->statusBar->showMessage(QString("Generating a fresh file complete"));
-			unitReady = true;
 		}
 		mem0[1] = cName;
 		mem0[36] = QString::number(fun);
@@ -984,7 +907,6 @@ void MainWindow::on_actionFileExit_triggered()
 	{
 		this->close();
 	}
-
 }
 
 void MainWindow::on_actionFileResetUndo_triggered()
@@ -1003,29 +925,22 @@ void MainWindow::on_actionFileResetTransactionCancellation_triggered()
 	// For undoing certain SOUL transaction with a certain FALLEN CHILD
 }
 
-void MainWindow::configReciever(QString key, QVariant value)
+void MainWindow::configReciever()
 {
-	if(key == "refreshInfo")
+	QString group;
+	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
+	foreach(QString key, config.allKeys())
 	{
-		displayInfo();
+		group = key.section("/", 0, 0);
+		key = key.section("/", -1);
+		config.beginGroup(group);
+		edict[key] = config.value(key);
+		config.endGroup();
 	}
-	else
-	{
-		edict[key] = value;
-	}
+	displayInfo();
 }
 
 void MainWindow::on_actionConfigDialog_triggered()
 {
-	qDebug() << "before show:" << isMaximized();
-	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
-	config.beginGroup("MainWindow");
-		config.setValue("maximized", isMaximized());
-		if(!isMaximized())
-		{
-			config.setValue("size", size());
-			config.setValue("position", pos());
-		}
-	config.endGroup();
 	settingsDialog->show();
 }

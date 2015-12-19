@@ -3,6 +3,7 @@
 ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent)
 {
 	setWindowTitle("Settings");
+	setWindowIcon(QIcon(":/images/tobdog_wrench.png"));
 
 	configTab = new QTabWidget;
 	configTab->addTab(new DefaultsTab(this), "Defaults");
@@ -24,53 +25,80 @@ ConfigDialog::ConfigDialog(QWidget *parent) : QDialog(parent)
 	connect(this, SIGNAL(initiator()), dTab, SLOT(initializer()));
 	connect(this, SIGNAL(transmitter(QString,QVariant)), dTab, SLOT(reciever(QString,QVariant)));
 	connect(this, SIGNAL(transmitter(QString,QVariant)), fTab, SLOT(reciever(QString,QVariant)));
-	connect(this, SIGNAL(configTransmitter(QString,QVariant)), parent, SLOT(configReciever(QString,QVariant)));
+	connect(this, SIGNAL(configTransmitter()), parent, SLOT(configReciever()));
+}
+
+void ConfigDialog::initSettings()
+{
+	int screen = QApplication::desktop()->screenNumber(QCursor::pos());
+	int mResWidth = QApplication::desktop()->screen(screen)->width();
+	int mResHeight = QApplication::desktop()->screen(screen)->height();
+
+	QWidget *w;
+	QString cName, gName;
+	foreach (QWidget *var, QApplication::topLevelWidgets())
+	{
+		cName = var->metaObject()->className();
+		if(cName == "MainWindow")
+		{
+			w = var;
+		}
+	}
+	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
+	config.beginGroup("MainWindow");
+	gName = config.group() + "/";
+		edict[gName + "maximized"] = config.value("maximized", false);
+		edict[gName + "size"] = config.value("size", QSize(w->property("minimumWidth").toInt(), w->property("minimumHeight").toInt()));
+		edict[gName + "position"] = config.value("position", QPoint((mResWidth/2) - (w->property("minimumWidth").toInt()/2), (mResHeight/2) - (w->property("minimumHeight").toInt()/2)));
+	config.endGroup();
+	config.beginGroup("Settings");
+	gName = config.group() + "/";
+		edict[gName + "file"] = config.value("file", "file0");
+		edict[gName + "directory"] = config.value("directory", QDir::homePath() + "/AppData/Local/UNDERTALE/");
+		edict[gName + "loadfile"] = config.value("loadfile", false);
+		edict[gName + "loaddir"] = config.value("loaddir", false);
+		edict[gName + "confirmsave"] = config.value("confirmsave", true);
+		edict[gName + "rememberlastdir"] = config.value("rememberlastdir", true);
+	config.endGroup();
+	config.beginGroup("Filters");
+	gName = config.group() + "/";
+		edict[gName + "hideboolean"] = config.value("hideboolean", false);
+		edict[gName + "hidecomment"] = config.value("hidecomment", true);
+		edict[gName + "hidecounter"] = config.value("hidecounter", false);
+		edict[gName + "hidenumber"] = config.value("hidenumber", false);
+		edict[gName + "hiderange"] = config.value("hiderange", false);
+		edict[gName + "hideunused"] = config.value("hideunused", true);
+	config.endGroup();
 }
 
 void ConfigDialog::showEvent(QShowEvent *event)
 {
 	QDialog::showEvent(event);
-	setWindowIcon(QIcon(":/images/tobdog_wrench.png"));
 
 	emit initiator();
-	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
-	foreach(QString var, config.allKeys())
+	initSettings();
+
+	foreach(QString key, edict.keys())
 	{
-		edict.insert(var, config.value(var));
-		if(var.section("/", -1) == "size")
-		{
-			transmitter("mainw", config.value(var).toSize().width());
-			transmitter("mainh", config.value(var).toSize().height());
-		}
-		if(var.section("/", -1) == "position")
-		{
-			transmitter("mainx", config.value(var).toPoint().x());
-			transmitter("mainy", config.value(var).toPoint().y());
-		}
-		transmitter(var.section("/", -1), config.value(var));
+		transmitter(key.section("/", -1), edict.value(key));
 	}
 }
 
 void ConfigDialog::boolReciever(const bool &value)
 {
 	QString dummy = sender()->objectName();
-	foreach(QString var, edict.keys())
+	foreach(QString key, edict.keys())
 	{
-		if(dummy == var.section("/", -1))
+		if(dummy == key.section("/", -1))
 		{
-			edict[var] = value;
+			edict[key] = value;
 		}
-	}
-	if(dummy == "maximized")
-	{
-		parent()->setProperty("isMaximized", value);
 	}
 }
 
 void ConfigDialog::intReciever(const int &value)
 {
 	QString dummy = sender()->objectName();
-
 	if(dummy == "mainw" || dummy == "mainh")
 	{
 		QSize mainSize = edict.value("MainWindow/size").toSize();
@@ -126,9 +154,8 @@ void ConfigDialog::accept()
 	foreach(QString var, edict.keys())
 	{
 		config.setValue(var, edict.value(var));
-		emit configTransmitter(var.section("/", -1), edict.value(var));
 	}
-	emit configTransmitter("refreshInfo", "");
+	emit configTransmitter();
 	done(Accepted);
 }
 
