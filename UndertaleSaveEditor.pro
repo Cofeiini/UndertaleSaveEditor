@@ -1,21 +1,18 @@
-QT	+= core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET	= UndertaleSaveEditor
-TEMPLATE	= app
-
-SOURCES	+= main.cpp\
-	    mainwindow.cpp \
-    configdialog.cpp
-
-HEADERS	+= mainwindow.h \
-    configdialog.h
-
-FORMS	+= mainwindow.ui
-
-RESOURCES	+= assets.qrc
-
 CONFIG += static
-
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core gui
 RC_ICONS = icon.ico
+TARGET = UndertaleSaveEditor
+TEMPLATE = app
+VERSION = 0.1
+
+FORMS += mainwindow.ui
+
+HEADERS += mainwindow.h\
+        configdialog.h
+
+RESOURCES += assets.qrc
+
+SOURCES += main.cpp\
+        mainwindow.cpp\
+        configdialog.cpp
