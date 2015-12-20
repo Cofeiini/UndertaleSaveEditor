@@ -1,19 +1,19 @@
 /*
-			  hsssssN       msssssd               	Howdy!
-		 ms--hyhy---/++o  o+/----yds--hN          	This is the SOURCE CODE for Undertale Save Editor by Cofeiini.
-		s-  ``om   NNNNNNNNNN     s``  :h
-		 h+o   dsss          .sssm  N++m          	hmm...
-  mo....om   d:`    -:.   -:.    `+d   d+....sm   	You're new here, aren'tcha?
-N+.``````o N:       dMy   dMs      `/  /````` -sN
-   -oooom  N        dMy   dMs       `   hoooo.  - 	Golly, you must be so confused.
-::.     `o N    `:  oh+   sh/  :`   `  /`     -:+ 	Someone ought to teach you how things work around here.
-  mo`    +N h`  `:shysssssssyhs:`  -d m-    .sm   	I guess little old me will have to do.
-	Nsssssy  s.    +ossssssso/    :y  ssssss
-		dyo.   y-    ```````    :d  N`sym
+			  hsssssN	   msssssd			   	Howdy!
+		 ms--hyhy---/++o  o+/----yds--hN		  	This is the SOURCE CODE for Undertale Save Editor by Cofeiini.
+		s-  ``om   NNNNNNNNNN	 s``  :h
+		 h+o   dsss		  .sssm  N++m		  	hmm...
+  mo....om   d:`	-:.   -:.	`+d   d+....sm   	You're new here, aren'tcha?
+N+.``````o N:	   dMy   dMs	  `/  /````` -sN
+   -oooom  N		dMy   dMs	   `   hoooo.  - 	Golly, you must be so confused.
+::.	 `o N	`:  oh+   sh/  :`   `  /`	 -:+ 	Someone ought to teach you how things work around here.
+  mo`	+N h`  `:shysssssssyhs:`  -d m-	.sm   	I guess little old me will have to do.
+	Nsssssy  s.	+ossssssso/	:y  ssssss
+		dyo.   y-	```````	:d  N`sym
 	  d:` `-ddN Ndd----------/dd  Ndd-  .+m
-	 N   :s/  :++o             +++- `+s.  .
-	 N   :+         :++o +++-         o.  .
-	  dd+------sddddN       Ndddd+------sdm
+	 N   :s/  :++o			 +++- `+s.  .
+	 N   :+		 :++o +++-		 o.  .
+	  dd+------sddddN	   Ndddd+------sdm
 					 y/oN
 					-
 				   .  `/m
@@ -22,7 +22,7 @@ N+.``````o N:       dMy   dMs      `/  /````` -sN
 					Ns-  `m
 					  Ns  -h
 					  d/   :h
-				h-  h:      + N`m
+				h-  h:	  + N`m
 				Nh+dd+-----sdh+d
 				   y++++++++oh
 
@@ -44,18 +44,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
 	ui->setupUi(this);
 	setWindowTitle(TITLELABEL);
+	setWindowFilePath(NULL);
 
 	int screen = QApplication::desktop()->screenNumber(QCursor::pos());
 	mResWidth = QApplication::desktop()->screen(screen)->width();
 	mResHeight = QApplication::desktop()->screen(screen)->height();
+	wMinWidth = MainWindow::minimumWidth();
+	wMinHeight = MainWindow::minimumHeight();
 
 	unitReady = false;
 	stats.fill(0,4);
-	fileWasModified(0);
-	setWindowFilePath(NULL);
 	readSettings();
 	setupMenuBar();
-
 	setupEntries();
 
 	settingsDialog = new ConfigDialog(this);
@@ -275,11 +275,16 @@ void MainWindow::displayInfo()
 	for(int i = 0; i < size; i++)
 	{
 		// It's better to store the value inside a variable rather than fetch the value each time it's needed.
+		comment[i]->setVisible(true);
+		numfo[i]->setVisible(true);
+		info[i]->setVisible(true);
+		items[i]->setVisible(true);
+
 		QString curType = mem2.value(i+1);
 		QString val = mem0.value(i+1);
+		QWidget *dummy = items[i];
 		if(curType == "bool")
 		{
-			QWidget *dummy = items[i];
 			dummy->setProperty("text", val);
 			dummy->setProperty("value", val.toInt());
 			Qt::CheckState state = Qt::Unchecked;
@@ -315,17 +320,9 @@ void MainWindow::displayInfo()
 				info[i]->setVisible(false);
 				items[i]->setVisible(false);
 			}
-			else
-			{
-				comment[i]->setVisible(true);
-				numfo[i]->setVisible(true);
-				info[i]->setVisible(true);
-				items[i]->setVisible(true);
-			}
 		}
 		else if(curType == "counter")
 		{
-			QWidget *dummy = items.value(i);
 			dummy->setProperty("value", val.toInt());
 			if(!isModified)
 			{
@@ -339,17 +336,9 @@ void MainWindow::displayInfo()
 				info[i]->setVisible(false);
 				items[i]->setVisible(false);
 			}
-			else
-			{
-				comment[i]->setVisible(true);
-				numfo[i]->setVisible(true);
-				info[i]->setVisible(true);
-				items[i]->setVisible(true);
-			}
 		}
 		else if(curType == "range")
 		{
-			QWidget *dummy = items.value(i);
 			dummy->setProperty("value", val.toInt());
 			if(!isModified)
 			{
@@ -363,30 +352,17 @@ void MainWindow::displayInfo()
 				info[i]->setVisible(false);
 				items[i]->setVisible(false);
 			}
-			else
-			{
-				comment[i]->setVisible(true);
-				numfo[i]->setVisible(true);
-				info[i]->setVisible(true);
-				items[i]->setVisible(true);
-			}
 		}
 		else if(curType == "timer")
 		{
-			QWidget *dummy = items.value(i);
 			dummy->setProperty("value", val.toDouble());
 			if(!isModified)
 			{
 				dummy->setProperty("styleSheet", "");
 			}
-			comment[i]->setVisible(true);
-			numfo[i]->setVisible(true);
-			info[i]->setVisible(true);
-			items[i]->setVisible(true);
 		}
 		else
 		{
-			QWidget *dummy = items.value(i);
 			dummy->setProperty("text", val);
 			if(!isModified)
 			{
@@ -398,13 +374,6 @@ void MainWindow::displayInfo()
 				numfo[i]->setVisible(false);
 				info[i]->setVisible(false);
 				items[i]->setVisible(false);
-			}
-			else
-			{
-				comment[i]->setVisible(true);
-				numfo[i]->setVisible(true);
-				info[i]->setVisible(true);
-				items[i]->setVisible(true);
 			}
 		}
 		if(edict.value("hidecomment").toBool())
@@ -425,16 +394,60 @@ void MainWindow::displayInfo()
 
 void MainWindow::readSettings()
 {
-	QString group;
+// Combination of read and write in case there's no previous settings file. If one does exist, this will have no effect since it writes the same value back immediately.
+	QString vName;
 	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
-	foreach(QString key, config.allKeys())
-	{
-		group = key.section("/", 0, 0);
-		key = key.section("/", -1);
-		config.beginGroup(group);
-		edict[key] = config.value(key);
-		config.endGroup();
-	}
+	config.beginGroup("MainWindow");
+		vName = "maximized";
+		edict[vName] = config.value(vName, false);
+		config.setValue(vName, edict.value(vName));
+		vName = "size";
+		edict[vName] = config.value(vName, QSize(wMinWidth, wMinHeight));
+		config.setValue(vName, edict.value(vName));
+		vName = "position";
+		edict[vName] = config.value(vName, QPoint((mResWidth/2) - (wMinWidth/2), (mResHeight/2) - (wMinHeight/2)));
+		config.setValue(vName, edict.value(vName));
+	config.endGroup();
+	config.beginGroup("Settings");
+		vName = "file";
+		edict[vName] = config.value(vName, "file0");
+		config.setValue(vName, edict.value(vName));
+		vName = "directory";
+		edict[vName] = config.value(vName, QDir::homePath() + "/AppData/Local/UNDERTALE/");
+		config.setValue(vName, edict.value(vName));
+		vName = "loadfile";
+		edict[vName] = config.value(vName, false);
+		config.setValue(vName, edict.value(vName));
+		vName = "loaddir";
+		edict[vName] = config.value(vName, false);
+		config.setValue(vName, edict.value(vName));
+		vName = "confirmsave";
+		edict[vName] = config.value(vName, true);
+		config.setValue(vName, edict.value(vName));
+		vName = "rememberlastdir";
+		edict[vName] = config.value(vName, true);
+		config.setValue(vName, edict.value(vName));
+	config.endGroup();
+	config.beginGroup("Filters");
+		vName = "hideboolean";
+		edict[vName] = config.value(vName, false);
+		config.setValue(vName, edict.value(vName));
+		vName = "hidecomment";
+		edict[vName] = config.value(vName, true);
+		config.setValue(vName, edict.value(vName));
+		vName = "hidecounter";
+		edict[vName] = config.value(vName, false);
+		config.setValue(vName, edict.value(vName));
+		vName = "hidenumber";
+		edict[vName] = config.value(vName, false);
+		config.setValue(vName, edict.value(vName));
+		vName = "hiderange";
+		edict[vName] = config.value(vName, false);
+		config.setValue(vName, edict.value(vName));
+		vName = "hideunused";
+		edict[vName] = config.value(vName, true);
+		config.setValue(vName, edict.value(vName));
+	config.endGroup();
 
 	// A sprouting new feature...
 	QSettings undertale(":/strings/undertale.ini", QSettings::IniFormat);

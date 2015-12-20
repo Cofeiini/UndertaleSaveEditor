@@ -1,6 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-//For future releases. Right now I'm calling this a "preview".
 #define TITLELABEL windowFilePath() + "[*]" + " - " + QApplication::applicationName() + " (v" + QApplication::applicationVersion() + ")"
 
 // I like having my includes in a single place
@@ -8,11 +7,9 @@
 
 #include <QCheckBox>
 #include <QCloseEvent>
-//#include <QComboBox>
 #include <QDebug>
 #include <QDesktopWidget>
 #include <QDir>
-//#include <QFile>
 #include <QFileDialog>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -20,18 +17,10 @@
 #include <QMainWindow>
 #include <QtMath>
 #include <QMessageBox>
-//#include <QPalette>
-//#include <QPlainTextEdit>
 #include <QProgressBar>
 #include <QSettings>
 #include <QSpinBox>
-//#include <QString>
-//#include <QStringListModel>
 #include <QTextBrowser>
-//#include <QTextStream>
-//#include <QVariant>
-//#include <QVector>
-//#include <QWhatsThis>
 
 namespace Ui
 {
@@ -51,6 +40,9 @@ class MainWindow : public QMainWindow
 		void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 	private slots:
+		bool on_actionFileSaveAs_triggered();
+		bool on_actionFileSave_triggered();
+
 		void configReciever();
 		void dataBoolWasModified(int number);
 		void dataSliderWasModified(int number);
@@ -58,8 +50,7 @@ class MainWindow : public QMainWindow
 		void dataTimeWasModified(double number);
 		void fileWasModified(bool mode);
 
-		bool on_actionFileSave_triggered();
-		bool on_actionFileSaveAs_triggered();
+		void on_actionConfigDialog_triggered();
 		void on_actionFileExit_triggered();
 		void on_actionFileNew_triggered();
 		void on_actionFileOpen_triggered();
@@ -67,7 +58,6 @@ class MainWindow : public QMainWindow
 		void on_actionFileResetTrueReset_triggered();
 		void on_actionFileResetUndo_triggered();
 
-		void on_actionConfigDialog_triggered();
 
 private:
 		bool buildingInProgress;
@@ -77,6 +67,8 @@ private:
 		bool unitReady;
 		int mResHeight;
 		int mResWidth;
+		int wMinHeight;
+		int wMinWidth;
 		void displayInfo();
 		void loadFile(const QDir &fileDir, const QString &fileName);
 		void readSettings();
@@ -84,7 +76,6 @@ private:
 		void setupMenuBar();
 		void writeSettings();
 
-		QAction *actionRefresh;
 		QDir edictDir;
 		QDir workDir;
 		QHash<int, QString> mem0;
@@ -94,19 +85,19 @@ private:
 		QHash<int, QString> mem4;
 		QLabel *info[549];
 		QLabel *numfo[549];
-		QMap<QString, QVariant> edict;
 		QMap<QString, QString> law;
+		QMap<QString, QVariant> edict;
 		QString edictFile;
-		QString workFile;
 		QStringList inilist;
 		QStringList inivals;
+		QString workFile;
 		QTextBrowser *comment[549];
 		QVector<int> stats;
 		QVector<QHBoxLayout*> itemRows;
 		QVector<QWidget*> items;
 
-		Ui::MainWindow *ui;
 		ConfigDialog *settingsDialog;
+		Ui::MainWindow *ui;
 };
 
 #endif // MAINWINDOW_H
