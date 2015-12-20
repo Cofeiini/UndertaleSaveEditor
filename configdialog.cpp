@@ -35,7 +35,7 @@ void ConfigDialog::initSettings()
 	int mResHeight = QApplication::desktop()->screen(screen)->height();
 
 	QWidget *w;
-	QString cName, gName;
+	QString cName;
 	foreach (QWidget *var, QApplication::topLevelWidgets())
 	{
 		cName = var->metaObject()->className();
@@ -46,28 +46,25 @@ void ConfigDialog::initSettings()
 	}
 	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
 	config.beginGroup("MainWindow");
-	gName = config.group() + "/";
-		edict[gName + "maximized"] = config.value("maximized", false);
-		edict[gName + "size"] = config.value("size", QSize(w->property("minimumWidth").toInt(), w->property("minimumHeight").toInt()));
-		edict[gName + "position"] = config.value("position", QPoint((mResWidth/2) - (w->property("minimumWidth").toInt()/2), (mResHeight/2) - (w->property("minimumHeight").toInt()/2)));
+		edict["maximized"] = config.value("maximized", false);
+		edict["size"] = config.value("size", QSize(w->property("minimumWidth").toInt(), w->property("minimumHeight").toInt()));
+		edict["position"] = config.value("position", QPoint((mResWidth/2) - (w->property("minimumWidth").toInt()/2), (mResHeight/2) - (w->property("minimumHeight").toInt()/2)));
 	config.endGroup();
 	config.beginGroup("Settings");
-	gName = config.group() + "/";
-		edict[gName + "file"] = config.value("file", "file0");
-		edict[gName + "directory"] = config.value("directory", QDir::homePath() + "/AppData/Local/UNDERTALE/");
-		edict[gName + "loadfile"] = config.value("loadfile", false);
-		edict[gName + "loaddir"] = config.value("loaddir", false);
-		edict[gName + "confirmsave"] = config.value("confirmsave", true);
-		edict[gName + "rememberlastdir"] = config.value("rememberlastdir", true);
+		edict["file"] = config.value("file", "file0");
+		edict["directory"] = config.value("directory", QDir::homePath() + "/AppData/Local/UNDERTALE/");
+		edict["loadfile"] = config.value("loadfile", false);
+		edict["loaddir"] = config.value("loaddir", false);
+		edict["confirmsave"] = config.value("confirmsave", true);
+		edict["rememberlastdir"] = config.value("rememberlastdir", true);
 	config.endGroup();
 	config.beginGroup("Filters");
-	gName = config.group() + "/";
-		edict[gName + "hideboolean"] = config.value("hideboolean", false);
-		edict[gName + "hidecomment"] = config.value("hidecomment", true);
-		edict[gName + "hidecounter"] = config.value("hidecounter", false);
-		edict[gName + "hidenumber"] = config.value("hidenumber", false);
-		edict[gName + "hiderange"] = config.value("hiderange", false);
-		edict[gName + "hideunused"] = config.value("hideunused", true);
+		edict["hideboolean"] = config.value("hideboolean", false);
+		edict["hidecomment"] = config.value("hidecomment", true);
+		edict["hidecounter"] = config.value("hidecounter", false);
+		edict["hidenumber"] = config.value("hidenumber", false);
+		edict["hiderange"] = config.value("hiderange", false);
+		edict["hideunused"] = config.value("hideunused", true);
 	config.endGroup();
 }
 
@@ -101,7 +98,7 @@ void ConfigDialog::intReciever(const int &value)
 	QString dummy = sender()->objectName();
 	if(dummy == "mainw" || dummy == "mainh")
 	{
-		QSize mainSize = edict.value("MainWindow/size").toSize();
+		QSize mainSize = edict.value("size").toSize();
 		if(dummy == "mainw")
 		{
 			mainSize.setWidth(value);
@@ -110,8 +107,8 @@ void ConfigDialog::intReciever(const int &value)
 		{
 			mainSize.setHeight(value);
 		}
-		edict["MainWindow/size"] = mainSize;
-		if(!edict.value("MainWindow/maximized").toBool())
+		edict["size"] = mainSize;
+		if(!edict.value("maximized").toBool())
 		{
 			parent()->setProperty("size", mainSize);
 		}
@@ -119,7 +116,7 @@ void ConfigDialog::intReciever(const int &value)
 
 	if(dummy == "mainx" || dummy == "mainy")
 	{
-		QPoint mainPos = edict.value("MainWindow/position").toPoint();
+		QPoint mainPos = edict.value("position").toPoint();
 		if(dummy == "mainx")
 		{
 			mainPos.setX(value);
@@ -128,8 +125,8 @@ void ConfigDialog::intReciever(const int &value)
 		{
 			mainPos.setY(value);
 		}
-		edict["MainWindow/position"] = mainPos;
-		if(!edict.value("MainWindow/maximized").toBool())
+		edict["position"] = mainPos;
+		if(!edict.value("maximized").toBool())
 		{
 			parent()->setProperty("pos", mainPos);
 		}
@@ -140,20 +137,25 @@ void ConfigDialog::stringReciever(const QString &target, const QString &value)
 {
 	if(target == "dir")
 	{
-		edict["Settings/directory"] = value;
+		edict["directory"] = value;
 	}
 	if(target == "file")
 	{
-		edict["Settings/file"] = value;
+		edict["file"] = value;
 	}
 }
 
 void ConfigDialog::accept()
 {
+	QString group;
 	QSettings config(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(), QApplication::applicationDisplayName());
-	foreach(QString var, edict.keys())
+	foreach(QString key, config.allKeys())
 	{
-		config.setValue(var, edict.value(var));
+		group = key.section("/", 0, 0);
+		key = key.section("/", -1);
+		config.beginGroup(group);
+			config.setValue(key, edict.value(key));
+		config.endGroup();
 	}
 	emit configTransmitter();
 	done(Accepted);

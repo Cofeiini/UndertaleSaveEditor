@@ -16,26 +16,26 @@ protected:
 	void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
 
 signals:
+	void configTransmitter();
 	void initiator();
 	void transmitter(const QString &target, const QVariant &value);
-	void configTransmitter();
 
 private slots:
+	void accept();
 	void boolReciever(const bool &value);
 	void intReciever(const int &value);
-	void stringReciever(const QString &target, const QString &value);
-	void accept();
 	void reject();
+	void stringReciever(const QString &target, const QString &value);
 
 public:
 	explicit ConfigDialog(QWidget *parent = 0);
 
 private:
-	void initSettings();
-	QString workPath;
-	QMap<QString, QVariant> edict;
-	QTabWidget *configTab;
 	QDialogButtonBox *configBox;
+	QMap<QString, QVariant> edict;
+	QString workPath;
+	QTabWidget *configTab;
+	void initSettings();
 
 };
 
@@ -48,18 +48,18 @@ signals:
 
 private slots:
 	void fileBrowse();
-	void reciever(const QString &target, const QVariant &value);
 	void initializer();
+	void reciever(const QString &target, const QVariant &value);
 
 public:
 	explicit DefaultsTab(QWidget *parent = 0);
 
 private:
-	QFile workFile;
 	QDir workDir;
-	QVector<QWidget *> items;
-	QLabel *autoFileLabel;
+	QFile workFile;
 	QLabel *autoDirLabel;
+	QLabel *autoFileLabel;
+	QVector<QWidget *> items;
 };
 
 class FiltersTab : public QWidget
