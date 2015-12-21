@@ -57,6 +57,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	readSettings();
 	setupMenuBar();
 	setupEntries();
+    fileWasModified(0);
 
 	settingsDialog = new ConfigDialog(this);
 	settingsDialog->setModal(true);
