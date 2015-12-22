@@ -72,11 +72,27 @@ void ConfigDialog::showEvent(QShowEvent *event)
 {
 	QDialog::showEvent(event);
 
-	emit initiator();
-	initSettings();
+    emit initiator(); // To set dial values and ranges; prevents the window from jumping around when config is opened.
+    initSettings(); // To load settings from ini file.
 
+    QWidget *w;
+    QString cName;
+    foreach (QWidget *var, QApplication::topLevelWidgets())
+    {
+        cName = var->metaObject()->className();
+        if(cName == "MainWindow")
+        {
+            w = var;
+        }
+    }
 	foreach(QString key, edict.keys())
 	{
+        qDebug() << key << edict.value(key);
+        if(key == "position")
+        {
+            qDebug() << "position:" << w->property("pos");
+            edict["position"] = w->property("pos");
+        }
 		transmitter(key.section("/", -1), edict.value(key));
 	}
 }
@@ -340,6 +356,7 @@ void DefaultsTab::initializer()
 		}
 		if(cName == "QLabel")
 		{
+            qDebug() << w->width() << w->height() << w->x() << w->y();
 			if(oName == "wlabel")
 			{
 				var->setProperty("text", w->width());
@@ -354,7 +371,7 @@ void DefaultsTab::initializer()
 			}
 			if(oName == "ylabel")
 			{
-				var->setProperty("text", w->y());
+                var->setProperty("text", w->y());
 			}
 		}
 	}
