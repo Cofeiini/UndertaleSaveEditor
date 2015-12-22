@@ -4,7 +4,7 @@ Using compiler from Visual Studio caused more trouble than it was worth.
 #### Tested on following operating systems:
 
 Operating System | Status
--|-
+---|---
 * Windows 10 (x64)|**Working**
 * Windows 8 (x64)|**Working**
 * Windows 7 SP1 (x64)|**Working**
