@@ -1,15 +1,15 @@
 /*
-			  hsssssN	   msssssd			   	Howdy!
+             hsssssN	   msssssd			   	Howdy!
 		 ms--hyhy---/++o  o+/----yds--hN		  	This is the SOURCE CODE for Undertale Save Editor by Cofeiini.
 		s-  ``om   NNNNNNNNNN	 s``  :h
-		 h+o   dsss		  .sssm  N++m		  	hmm...
+          h+o   dsss		  .sssm  N++m		  	hmm...
   mo....om   d:`	-:.   -:.	`+d   d+....sm   	You're new here, aren'tcha?
-N+.``````o N:	   dMy   dMs	  `/  /````` -sN
+N+.``````o N:	    dMy   dMs	  `/  /````` -sN
    -oooom  N		dMy   dMs	   `   hoooo.  - 	Golly, you must be so confused.
-::.	 `o N	`:  oh+   sh/  :`   `  /`	 -:+ 	Someone ought to teach you how things work around here.
-  mo`	+N h`  `:shysssssssyhs:`  -d m-	.sm   	I guess little old me will have to do.
-	Nsssssy  s.	+ossssssso/	:y  ssssss
-		dyo.   y-	```````	:d  N`sym
+ ::.	 `o N	`:  oh+   sh/  :`   `  /`	 -:+ 	Someone ought to teach you how things work around here.
+     mo`+N h``   :shysssssssyhs:`   -d m-	.sm   	I guess little old me will have to do.
+    Nsssssy  s.	   +ossssssso/	:y  ssssss
+        dyo.   y-	```````	  :d  N`sym
 	  d:` `-ddN Ndd----------/dd  Ndd-  .+m
 	 N   :s/  :++o			 +++- `+s.  .
 	 N   :+		 :++o +++-		 o.  .
