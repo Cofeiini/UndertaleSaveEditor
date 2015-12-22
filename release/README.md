@@ -1,6 +1,12 @@
-###Pre-compiled executable version 0.0  
-The source is updated to version 0.1, but for some reason the new executable is missing some .dll files.  
-When this problem is solved the new executable will be uploaded.
+###Pre-compiled executable version 0.1  
+Should be working without problems. Thanks to MinGW.  
+Using compiler from Visual Studio caused more trouble than it was worth.  
+#### Tested on following operating systems:
 
-###In case of errors
-MSVCP120.dll is missing: Installing *Visual C++ Redistributable for Visual Studio 2013* (vcredist_x86.exe) seems to fix this. You can get it from [Microsoft Download Center](https://www.microsoft.com/en-us/download/details.aspx?id=40784).
+Operating System | Status
+-|-
+* Windows 10 (x64)|**Working**
+* Windows 8 (x64)|**Working**
+* Windows 7 SP1 (x64)|**Working**
+* Windows XP SP3 (x86)|**Working**
+* Ubuntu 15.10 (Wine 1.8-rc3)|**Working**, but can be slow when changing filters.
