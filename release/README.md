@@ -1,9 +1,9 @@
 ###Pre-compiled executable version 0.1  
 Should be working without problems. Thanks to MinGW.  
 Using compiler from Visual Studio caused more trouble than it was worth.  
+Compressed with [UPX](http://upx.sourceforge.net/)  
 #### Tested on following operating systems:
-
-Operating System | Status
+Operating System | Test Results
 ---|---
 * Windows 10 (x64)|**Working**
 * Windows 8 (x64)|**Working**
