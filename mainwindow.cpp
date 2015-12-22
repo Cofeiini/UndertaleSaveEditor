@@ -414,7 +414,7 @@ void MainWindow::readSettings()
 		edict[vName] = config.value(vName, "file0");
 		config.setValue(vName, edict.value(vName));
 		vName = "directory";
-		edict[vName] = config.value(vName, QDir::homePath() + "/AppData/Local/UNDERTALE/");
+		edict[vName] = config.value(vName, UNDERTALE_PATH);
 		config.setValue(vName, edict.value(vName));
 		vName = "loadfile";
 		edict[vName] = config.value(vName, false);
