@@ -2,6 +2,14 @@
 #define MAINWINDOW_H
 #define TITLELABEL windowFilePath() + "[*]" + " - " + QApplication::applicationName() + " (v" + QApplication::applicationVersion() + ")"
 
+#if defined(__linux__)
+#  define UNDERTALE_PATH (QDir::homePath() + "/.config/UNDERTALE/")
+#elif defined(__macosx__)
+#  define UNDERTALE_PATH (QDir::homePath() + "/Library/Application Support/com.tobyfox.undertale/")
+#else
+#  define UNDERTALE_PATH (QDir::homePath() + "/AppData/Local/UNDERTALE/")
+#endif
+
 // I like having my includes in a single place
 #include "configdialog.h"
 
