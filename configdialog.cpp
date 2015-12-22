@@ -34,7 +34,7 @@ void ConfigDialog::initSettings()
 	int mResWidth = QApplication::desktop()->screen(screen)->width();
 	int mResHeight = QApplication::desktop()->screen(screen)->height();
 
-	QWidget *w;
+    QWidget *w = NULL;
 	QString cName;
 	foreach (QWidget *var, QApplication::topLevelWidgets())
 	{
@@ -75,7 +75,7 @@ void ConfigDialog::showEvent(QShowEvent *event)
     emit initiator(); // To set dial values and ranges; prevents the window from jumping around when config is opened.
     initSettings(); // To load settings from ini file.
 
-    QWidget *w;
+    QWidget *w = NULL;
     QString cName;
     foreach (QWidget *var, QApplication::topLevelWidgets())
     {
@@ -87,13 +87,11 @@ void ConfigDialog::showEvent(QShowEvent *event)
     }
 	foreach(QString key, edict.keys())
 	{
-        qDebug() << key << edict.value(key);
         if(key == "position")
         {
-            qDebug() << "position:" << w->property("pos");
             edict["position"] = w->property("pos");
         }
-		transmitter(key.section("/", -1), edict.value(key));
+        transmitter(key, edict.value(key));
 	}
 }
 
@@ -102,7 +100,7 @@ void ConfigDialog::boolReciever(const bool &value)
 	QString dummy = sender()->objectName();
 	foreach(QString key, edict.keys())
 	{
-		if(dummy == key.section("/", -1))
+        if(dummy == key)
 		{
 			edict[key] = value;
 		}
@@ -305,7 +303,7 @@ DefaultsTab::DefaultsTab(QWidget *parent) : QWidget(parent)
 
 void DefaultsTab::initializer()
 {
-	QWidget *w;
+    QWidget *w = NULL;
 	QString cName, oName;
 	QRect desk = QApplication::desktop()->frameGeometry();
 
@@ -356,7 +354,6 @@ void DefaultsTab::initializer()
 		}
 		if(cName == "QLabel")
 		{
-            qDebug() << w->width() << w->height() << w->x() << w->y();
 			if(oName == "wlabel")
 			{
 				var->setProperty("text", w->width());
