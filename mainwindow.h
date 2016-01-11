@@ -52,10 +52,10 @@ class MainWindow : public QMainWindow
 		bool on_actionFileSave_triggered();
 
 		void configReciever();
-		void dataBoolWasModified(int number);
-		void dataSliderWasModified(int number);
+		void dataBoolWasModified(int num);
+		void dataComboWasModified(int num);
 		void dataStringWasModified(QString string);
-		void dataTimeWasModified(double number);
+		void dataTimeWasModified(double num);
 		void fileWasModified(bool mode);
 
 		void on_actionConfigDialog_triggered();
@@ -95,7 +95,11 @@ private:
 		QLabel *numfo[549];
 		QMap<QString, QString> law;
 		QMap<QString, QVariant> edict;
+		QStandardItemModel *inventoryModel;
+		QStandardItemModel *phoneModel;
 		QString edictFile;
+		QStringList cellEntries;
+		QStringList invEntries;
 		QStringList inilist;
 		QStringList inivals;
 		QString workFile;

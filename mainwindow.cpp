@@ -1,19 +1,19 @@
 /*
-             hsssssN	   msssssd			   	Howdy!
-		 ms--hyhy---/++o  o+/----yds--hN		  	This is the SOURCE CODE for Undertale Save Editor by Cofeiini.
-		s-  ``om   NNNNNNNNNN	 s``  :h
-          h+o   dsss		  .sssm  N++m		  	hmm...
-  mo....om   d:`	-:.   -:.	`+d   d+....sm   	You're new here, aren'tcha?
-N+.``````o N:	    dMy   dMs	  `/  /````` -sN
-   -oooom  N		dMy   dMs	   `   hoooo.  - 	Golly, you must be so confused.
- ::.	 `o N	`:  oh+   sh/  :`   `  /`	 -:+ 	Someone ought to teach you how things work around here.
-     mo`+N h``   :shysssssssyhs:`   -d m-	.sm   	I guess little old me will have to do.
-    Nsssssy  s.	   +ossssssso/	:y  ssssss
-        dyo.   y-	```````	  :d  N`sym
+			 hsssssN       msssssd                    Howdy!
+		 ms--hyhy---/++o  o+/----yds--hN              This is the SOURCE CODE for Undertale Save Editor by Cofeiini.
+		s-  ``om   NNNNNNNNNN     s``  :h
+		 h+o   dsss           .sssm  N++m             hmm...
+  mo....om   d:`    -:.   -:.    `+d   d+....sm       You're new here, aren'tcha?
+N+.``````o N:       dMy   dMs      `/  /````` -sN
+-   oooom  N        dMy   dMs       `   hoooo.  -     Golly, you must be so confused.
+ ::.     `o N   `:  oh+   sh/  :`   `  /`     -:+     Someone ought to teach you how things work around here.
+	 mo`+N h``   :shysssssssyhs:`   -d m-   .sm       I guess little old me will have to do.
+	Nsssssy  s.    +ossssssso/    :y  ssssss
+		dyo.   y-    ```````      :d  N`sym
 	  d:` `-ddN Ndd----------/dd  Ndd-  .+m
-	 N   :s/  :++o			 +++- `+s.  .
-	 N   :+		 :++o +++-		 o.  .
-	  dd+------sddddN	   Ndddd+------sdm
+	 N   :s/  :++o             +++- `+s.  .
+	 N   :+         :++o +++-         o.  .
+	  dd+------sddddN       Ndddd+------sdm
 					 y/oN
 					-
 				   .  `/m
@@ -22,7 +22,7 @@ N+.``````o N:	    dMy   dMs	  `/  /````` -sN
 					Ns-  `m
 					  Ns  -h
 					  d/   :h
-				h-  h:	  + N`m
+				h-  h:      + N`m
 				Nh+dd+-----sdh+d
 				   y++++++++oh
 
@@ -51,6 +51,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	mResHeight = QApplication::desktop()->screen(screen)->height();
 	wMinWidth = MainWindow::minimumWidth();
 	wMinHeight = MainWindow::minimumHeight();
+
+	inventoryModel = new QStandardItemModel();
+	phoneModel = new QStandardItemModel();
+	invEntries = (QStringList() << "13" << "15" << "17" << "19" << "21" << "23" << "25" << "27" << "29" << "30" << "331" << "332" << "333" << "334" << "335" << "336" << "337" << "338" << "339" << "340" << "341" << "342" << "343" << "344" << "345" << "346" << "347" << "348" << "349" << "350" << "351" << "352" << "353" << "354");
+	cellEntries = (QStringList() << "14" << "16" << "18" << "20" << "22" << "24" << "26" << "28");
+
+	QStringList allItems = (QStringList() << "" << "Monster Candy" << "Croquet Roll" << "Stick" << "Bandage" << "Rock Candy" << "Pumpkin Rings" << "Spider Donut" << "Stoic Onion" << "Ghost Fruit" << "Spider Cider" << "Butterscotch Pie" << "Faded Ribbon" << "Toy Knife" << "Tough Glove" << "Manly Bandanna" << "Snowman Piece" << "Nice Cream" << "Puppydough Ice cream" << "Bisicle" << "Unisicle" << "Cinnamon Bun" << "Temmie Flakes" << "Abandoned Quiche" << "Old Tutu" << "Ballet Shoes" << "Punch Card" << "Annoying Dog" << "Dog Salad" << "Dog Residue" << "Dog Residue" << "Dog Residue" << "Dog Residue" << "Dog Residue" << "Dog Residue" << "Astronaut Food" << "Instant Noodles" << "Crab Apple" << "Hot Dog...?" << "Hot Cat" << "Glamburger" << "Sea Tea" << "Starfait" << "Legendary Hero" << "Cloudy Glasses" << "Torn Notebook" << "Stained Apron" << "Burnt Pan" << "Cowboy Hat" << "Empty Gun" << "Heart Locket" << "Worn Dagger" << "Real Knife" << "The Locket" << "Bad Memory" << "Dream" << "Undyne's Letter" << "Undyne Letter EX" << "Potato Chips" << "Junk Food" << "Mystery Key" << "Face Steak" << "Hush Puppy" << "Snail Pie" << "temy armor");
+	QStringList allCalls = (QStringList() << "" << "Say Hello" << "Puzzle Help" << "About Yourself" << "Call Her \"Mom\"" << "Flirt" << "Toriel's Phone" << "Papyrus's Phone" << "Dimensional Box A" << "Dimensional Box B");
+	foreach (QString var, allItems)
+	{
+		QStandardItem *newItem = new QStandardItem(var);
+		inventoryModel->appendRow(newItem);
+	}
+	foreach (QString var, allCalls)
+	{
+		QStandardItem *newItem = new QStandardItem(var);
+		phoneModel->appendRow(newItem);
+	}
 
 	unitReady = false;
 	stats.fill(0,4);
@@ -98,7 +116,6 @@ void MainWindow::showEvent(QShowEvent *event)
 
 void MainWindow::setupEntries()
 {
-
 	// Using OverrideCursor because this phase takes forever. User input during this phase leads to bad times
 #ifndef QT_NO_CURSOR
 	QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -172,17 +189,68 @@ void MainWindow::setupEntries()
 		}
 		else if(curType == "range")
 		{
-			QSpinBox *sBox = new QSpinBox();
-			int rMin = mem3.value(i+1).section(',',0,0).toInt();
-			int rStep = mem3.value(i+1).section(',',1,1).toInt();
-			int rMax = mem3.value(i+1).section(',',2,2).toInt();
+			bool invCombo = false;
+			bool cellCombo = false;
 
-			sBox->setRange(rMin, rMax);
-			sBox->setSingleStep(rStep);
-			sBox->setObjectName(QString::number(i+1));
-			sBox->setValue(val.toInt());
-			connect(sBox, SIGNAL(valueChanged(QString)), this, SLOT(dataStringWasModified(QString)));
-			items.append(sBox);
+			foreach(QString var, cellEntries)
+			{
+				if(i+1 == var.toInt())
+				{
+					cellCombo = true;
+				}
+			}
+			foreach(QString var, invEntries)
+			{
+				if(i+1 == var.toInt())
+				{
+					invCombo = true;
+				}
+
+			}
+			if(cellCombo)
+			{
+				QComboBox *cBox = new QComboBox;
+				cBox->setObjectName(QString::number(i+1));
+				cBox->setModel(phoneModel);
+				cBox->setCurrentIndex(val.toInt() - 200);
+				switch(val.toInt())
+				{
+					case 210:
+						cBox->setCurrentIndex(7);
+					break;
+					case 220:
+						cBox->setCurrentIndex(8);
+					break;
+					case 221:
+						cBox->setCurrentIndex(9);
+					break;
+				}
+				connect(cBox, SIGNAL(currentIndexChanged(int)), this, SLOT(dataComboWasModified(int)));
+				items.append(cBox);
+			}
+			else if(invCombo)
+			{
+				QComboBox *cBox = new QComboBox;
+				cBox->setObjectName(QString::number(i+1));
+				cBox->setModel(inventoryModel);
+				cBox->setCurrentIndex(val.toInt());
+				connect(cBox, SIGNAL(currentIndexChanged(int)), this, SLOT(dataComboWasModified(int)));
+				items.append(cBox);
+			}
+			else
+			{
+				QSpinBox *sBox = new QSpinBox();
+				int rMin = mem3.value(i+1).section(',',0,0).toInt();
+				int rStep = mem3.value(i+1).section(',',1,1).toInt();
+				int rMax = mem3.value(i+1).section(',',2,2).toInt();
+
+				sBox->setRange(rMin, rMax);
+				sBox->setSingleStep(rStep);
+				sBox->setObjectName(QString::number(i+1));
+				sBox->setValue(val.toInt());
+				connect(sBox, SIGNAL(valueChanged(QString)), this, SLOT(dataStringWasModified(QString)));
+				items.append(sBox);
+			}
 		}
 		else if(curType == "timer")
 		{
@@ -462,7 +530,7 @@ void MainWindow::readSettings()
 #ifndef QT_NO_CURSOR
 	QApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-	// At the moment using FOUR different files is more convenient than one really messy one.
+	// At the moment using FOUR different files is more convenient than a single really messy one.
 	QFile infofile(":/strings/infofile");
 	QFile typefile(":/strings/typefile");
 	QFile rangefile(":/strings/rangefile");
@@ -482,10 +550,11 @@ void MainWindow::readSettings()
 		int i = 0;
 		while(!buffer1.atEnd())
 		{
-			buffer1.readLineInto(&mem1[++i]);
-			buffer2.readLineInto(&mem2[i]);
-			buffer3.readLineInto(&mem3[i]);
-			buffer4.readLineInto(&mem4[i]);
+			buffer1.readLineInto(&mem1[++i]); // label
+			buffer2.readLineInto(&mem2[i]); // type
+			buffer3.readLineInto(&mem3[i]); // range
+			buffer4.readLineInto(&mem4[i]); // comment
+			mem4[i] = "<html></head><body>" + mem4.value(i) + "</body></html>";
 
 			if(mem2.value(i) == "bool")
 			{
@@ -700,11 +769,42 @@ bool MainWindow::saveFile(const QDir &fileDir, const QString &fileName)
 	return true;
 }
 
-void MainWindow::dataSliderWasModified(int number)
+void MainWindow::dataComboWasModified(int num)
 {
-	qDebug() << "dataSliderWasModified(" << number << ")";
+	qDebug() << "dataComboWasModified(" << num << ")";
 	int index = sender()->property("objectName").toInt();
-	mem0[index] = QString::number(number);
+	bool cellCombo = false;
+
+	foreach(QString var, cellEntries)
+	{
+		if(index == var.toInt())
+		{
+			cellCombo = true;
+		}
+	}
+	if(cellCombo && num != 0)
+	{
+		mem0[index] = QString::number(num + 200);
+		switch(num)
+		{
+			case 7:
+				mem0[index] = QString::number(210);
+			break;
+			case 8:
+				mem0[index] = QString::number(220);
+			break;
+			case 9:
+				mem0[index] = QString::number(221);
+			break;
+		}
+
+		qDebug() << index << mem0.value(index);
+	}
+	else
+	{
+		mem0[index] = QString::number(num);
+		qDebug() << index << mem0.value(index);
+	}
 	if(unitReady)
 	{
 		fileWasModified(1);
@@ -722,10 +822,10 @@ void MainWindow::dataStringWasModified(QString string)
 	}
 }
 
-void MainWindow::dataTimeWasModified(double number)
+void MainWindow::dataTimeWasModified(double num)
 {
-	qDebug() << "dataTimeWasModified(" << number << ")";
-	QString string = QString::number(number);
+	qDebug() << "dataTimeWasModified(" << num << ")";
+	QString string = QString::number(num);
 	int index = sender()->property("objectName").toInt();
 	mem0[index] = string;
 
@@ -741,31 +841,31 @@ void MainWindow::dataTimeWasModified(double number)
 	}
 }
 
-void MainWindow::dataBoolWasModified(int number)
+void MainWindow::dataBoolWasModified(int num)
 {
-	qDebug() << "USE dataBoolWasModified(bool " << number << ")";
+	qDebug() << "USE dataBoolWasModified(bool " << num << ")";
 	QObject *dummy = sender();
 	int index = dummy->property("objectName").toInt();
 	int fst = mem3.value(index).section(',',0,0).toInt();
 	int snd = mem3.value(index).section(',',1,1).toInt();
 	int trd = mem3.value(index).section(',',2,2).toInt();
-	switch(number)
+	switch(num)
 	{
 		case 0:
-			number = fst;
+			num = fst;
 		break;
 
 		case 1:
-			number = snd;
+			num = snd;
 		break;
 
 		case 2:
-			number = trd;
+			num = trd;
 		break;
 	}
 
-	mem0[index] = QString::number(number);
-	dummy->setProperty("text", QString::number(number));
+	mem0[index] = QString::number(num);
+	dummy->setProperty("text", QString::number(num));
 	if(unitReady)
 	{
 		fileWasModified(1);
