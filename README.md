@@ -1,6 +1,6 @@
 # UndertaleSaveEditor
 
->If you're just looking for the executable (.exe file): You'll find it in the **[release](/release/)** folder. (to download, use the "raw" option)  
+>If you're just looking for the executable (.exe file): You'll find it in the **[release](/release/)** folder. (use the "raw" option to download, until I learn how to use GitHub tags)  
 >For more details, check the release [README](/release/README.md)  
 
 ***

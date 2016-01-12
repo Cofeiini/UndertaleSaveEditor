@@ -1,4 +1,4 @@
-###Pre-compiled executable version 0.1  
+###Pre-compiled executable version 0.2  
 Should be working without problems. Thanks to MinGW.  
 Using compiler from Visual Studio caused more trouble than it was worth.  
 Compressed with [UPX](http://upx.sourceforge.net/)  
