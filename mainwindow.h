@@ -12,6 +12,7 @@
 
 // I like having my includes in a single place
 #include "configdialog.h"
+#include "dataeditor.h"
 
 #include <QCheckBox>
 #include <QCloseEvent>
@@ -86,17 +87,12 @@ private:
 
 		QDir edictDir;
 		QDir workDir;
-		QHash<int, QString> mem0;
-		QHash<int, QString> mem1;
-		QHash<int, QString> mem2;
-		QHash<int, QString> mem3;
-		QHash<int, QString> mem4;
+		QHash<int, QString> mem0, mem1, mem2, mem3, mem4;
+		QHash<int, QString> tem0;
 		QLabel *info[549];
 		QLabel *numfo[549];
 		QMap<QString, QString> law;
 		QMap<QString, QVariant> edict;
-		QStandardItemModel *inventoryModel;
-		QStandardItemModel *phoneModel;
 		QString edictFile;
 		QStringList cellEntries;
 		QStringList invEntries;
@@ -105,6 +101,7 @@ private:
 		QString workFile;
 		QTextBrowser *comment[549];
 		QVector<int> stats;
+		QVector<int> totalChanges;
 		QVector<QHBoxLayout*> itemRows;
 		QVector<QWidget*> items;
 

@@ -52,25 +52,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	wMinWidth = MainWindow::minimumWidth();
 	wMinHeight = MainWindow::minimumHeight();
 
-	inventoryModel = new QStandardItemModel();
-	phoneModel = new QStandardItemModel();
 	invEntries = (QStringList() << "13" << "15" << "17" << "19" << "21" << "23" << "25" << "27" << "29" << "30" << "331" << "332" << "333" << "334" << "335" << "336" << "337" << "338" << "339" << "340" << "341" << "342" << "343" << "344" << "345" << "346" << "347" << "348" << "349" << "350" << "351" << "352" << "353" << "354");
 	cellEntries = (QStringList() << "14" << "16" << "18" << "20" << "22" << "24" << "26" << "28");
 
-	QStringList allItems = (QStringList() << "" << "Monster Candy" << "Croquet Roll" << "Stick" << "Bandage" << "Rock Candy" << "Pumpkin Rings" << "Spider Donut" << "Stoic Onion" << "Ghost Fruit" << "Spider Cider" << "Butterscotch Pie" << "Faded Ribbon" << "Toy Knife" << "Tough Glove" << "Manly Bandanna" << "Snowman Piece" << "Nice Cream" << "Puppydough Ice cream" << "Bisicle" << "Unisicle" << "Cinnamon Bun" << "Temmie Flakes" << "Abandoned Quiche" << "Old Tutu" << "Ballet Shoes" << "Punch Card" << "Annoying Dog" << "Dog Salad" << "Dog Residue" << "Dog Residue" << "Dog Residue" << "Dog Residue" << "Dog Residue" << "Dog Residue" << "Astronaut Food" << "Instant Noodles" << "Crab Apple" << "Hot Dog...?" << "Hot Cat" << "Glamburger" << "Sea Tea" << "Starfait" << "Legendary Hero" << "Cloudy Glasses" << "Torn Notebook" << "Stained Apron" << "Burnt Pan" << "Cowboy Hat" << "Empty Gun" << "Heart Locket" << "Worn Dagger" << "Real Knife" << "The Locket" << "Bad Memory" << "Dream" << "Undyne's Letter" << "Undyne Letter EX" << "Potato Chips" << "Junk Food" << "Mystery Key" << "Face Steak" << "Hush Puppy" << "Snail Pie" << "temy armor");
-	QStringList allCalls = (QStringList() << "" << "Say Hello" << "Puzzle Help" << "About Yourself" << "Call Her \"Mom\"" << "Flirt" << "Toriel's Phone" << "Papyrus's Phone" << "Dimensional Box A" << "Dimensional Box B");
-	foreach (QString var, allItems)
-	{
-		QStandardItem *newItem = new QStandardItem(var);
-		inventoryModel->appendRow(newItem);
-	}
-	foreach (QString var, allCalls)
-	{
-		QStandardItem *newItem = new QStandardItem(var);
-		phoneModel->appendRow(newItem);
-	}
-
-	unitReady = false;
 	stats.fill(0,4);
 	readSettings();
 	setupMenuBar();
@@ -209,31 +193,31 @@ void MainWindow::setupEntries()
 			}
 			if(cellCombo)
 			{
-				QComboBox *cBox = new QComboBox;
+				PhoneEditor *cBox = new PhoneEditor;
 				cBox->setObjectName(QString::number(i+1));
-				cBox->setModel(phoneModel);
-				cBox->setCurrentIndex(val.toInt() - 200);
 				switch(val.toInt())
 				{
-					case 210:
-						cBox->setCurrentIndex(7);
+				case 210:
+					cBox->setCurrentIndex(7);
 					break;
-					case 220:
-						cBox->setCurrentIndex(8);
+				case 220:
+					cBox->setCurrentIndex(8);
 					break;
-					case 221:
-						cBox->setCurrentIndex(9);
+				case 221:
+					cBox->setCurrentIndex(9);
+					break;
+				default:
+					cBox->setCurrentIndex(val.toInt() - 200);
 					break;
 				}
-				connect(cBox, SIGNAL(currentIndexChanged(int)), this, SLOT(dataComboWasModified(int)));
+				connect(cBox, SIGNAL(transmitData(int)), this, SLOT(dataComboWasModified(int)));
 				items.append(cBox);
 			}
 			else if(invCombo)
 			{
-				QComboBox *cBox = new QComboBox;
+				InventoryEditor *cBox = new InventoryEditor;
 				cBox->setObjectName(QString::number(i+1));
-				cBox->setModel(inventoryModel);
-				cBox->setCurrentIndex(val.toInt());
+				cBox->setProperty("value", val.toInt());
 				connect(cBox, SIGNAL(currentIndexChanged(int)), this, SLOT(dataComboWasModified(int)));
 				items.append(cBox);
 			}
@@ -343,15 +327,16 @@ void MainWindow::displayInfo()
 	int size = mem0.size();
 	for(int i = 0; i < size; i++)
 	{
-		// It's better to store the value inside a variable rather than fetch the value each time it's needed.
 		comment[i]->setVisible(true);
 		numfo[i]->setVisible(true);
 		info[i]->setVisible(true);
 		items[i]->setVisible(true);
 
+		// It's better to store the value inside a variable rather than fetch the value each time it's needed.
 		QString curType = mem2.value(i+1);
 		QString val = mem0.value(i+1);
 		QWidget *dummy = items[i];
+		dummy->blockSignals(true);
 		if(curType == "bool")
 		{
 			dummy->setProperty("text", val);
@@ -377,11 +362,6 @@ void MainWindow::displayInfo()
 				dummy->setProperty("checked", state);
 			}
 
-			if(!isModified)
-			{
-				dummy->setProperty("styleSheet", "");
-			}
-
 			if(edict.value("hideboolean").toBool())
 			{
 				comment[i]->setVisible(false);
@@ -393,10 +373,6 @@ void MainWindow::displayInfo()
 		else if(curType == "counter")
 		{
 			dummy->setProperty("value", val.toInt());
-			if(!isModified)
-			{
-				dummy->setProperty("styleSheet", "");
-			}
 
 			if(edict.value("hidecounter").toBool())
 			{
@@ -409,10 +385,6 @@ void MainWindow::displayInfo()
 		else if(curType == "range")
 		{
 			dummy->setProperty("value", val.toInt());
-			if(!isModified)
-			{
-				dummy->setProperty("styleSheet", "");
-			}
 
 			if(edict.value("hiderange").toBool())
 			{
@@ -425,18 +397,10 @@ void MainWindow::displayInfo()
 		else if(curType == "timer")
 		{
 			dummy->setProperty("value", val.toDouble());
-			if(!isModified)
-			{
-				dummy->setProperty("styleSheet", "");
-			}
 		}
 		else
 		{
 			dummy->setProperty("text", val);
-			if(!isModified)
-			{
-				dummy->setProperty("styleSheet", "");
-			}
 			if(edict.value("hideunused").toBool() && curType == "unused")
 			{
 				comment[i]->setVisible(false);
@@ -445,14 +409,18 @@ void MainWindow::displayInfo()
 				items[i]->setVisible(false);
 			}
 		}
+
 		if(edict.value("hidecomment").toBool())
 		{
 			comment[i]->setVisible(false);
 		}
+
 		if(edict.value("hidenumber").toBool())
 		{
 			numfo[i]->setVisible(false);
 		}
+
+		dummy->blockSignals(false);
 	}
 
 	ui->contentLayout->update();
@@ -519,13 +487,13 @@ void MainWindow::readSettings()
 	config.endGroup();
 
 	// A sprouting new feature...
-	QSettings undertale(":/strings/undertale.ini", QSettings::IniFormat);
-	inilist = undertale.allKeys();
-	for(int i = 0; i < inilist.size(); i++)
-	{
-		// See? "edict" and "law".
-		law.insert(inilist.at(i), undertale.value(inilist.value(i)).toString());
-	}
+//	QSettings undertale(":/strings/undertale.ini", QSettings::IniFormat);
+//	inilist = undertale.allKeys();
+//	for(int i = 0; i < inilist.size(); i++)
+//	{
+//		// See? "edict" and "law".
+//		law.insert(inilist.at(i), undertale.value(inilist.value(i)).toString());
+//	}
 
 #ifndef QT_NO_CURSOR
 	QApplication::setOverrideCursor(Qt::WaitCursor);
@@ -701,6 +669,7 @@ void MainWindow::loadFile(const QDir &fileDir, const QString &fileName)
 		{
 			buffer.readLineInto(&mem0[++i]);
 			mem0[i] = mem0.value(i).simplified();
+			tem0[i] = mem0.value(i);
 		}
 		setWindowFilePath(fileDir.filePath(fileName));
 		setWindowTitle(TITLELABEL);
@@ -766,6 +735,7 @@ bool MainWindow::saveFile(const QDir &fileDir, const QString &fileName)
 		setWindowTitle(TITLELABEL);
 		ui->statusBar->showMessage(QString("Saving %1 in %2 complete").arg(fileName, fileDir.path()));
 	}
+	unitReady = true;
 	return true;
 }
 
@@ -773,42 +743,11 @@ void MainWindow::dataComboWasModified(int num)
 {
 	qDebug() << "dataComboWasModified(" << num << ")";
 	int index = sender()->property("objectName").toInt();
-	bool cellCombo = false;
 
-	foreach(QString var, cellEntries)
-	{
-		if(index == var.toInt())
-		{
-			cellCombo = true;
-		}
-	}
-	if(cellCombo && num != 0)
-	{
-		mem0[index] = QString::number(num + 200);
-		switch(num)
-		{
-			case 7:
-				mem0[index] = QString::number(210);
-			break;
-			case 8:
-				mem0[index] = QString::number(220);
-			break;
-			case 9:
-				mem0[index] = QString::number(221);
-			break;
-		}
+	mem0[index] = QString::number(num);
+	qDebug() << index << mem0.value(index);
 
-		qDebug() << index << mem0.value(index);
-	}
-	else
-	{
-		mem0[index] = QString::number(num);
-		qDebug() << index << mem0.value(index);
-	}
-	if(unitReady)
-	{
-		fileWasModified(1);
-	}
+	fileWasModified(1);
 }
 
 void MainWindow::dataStringWasModified(QString string)
@@ -816,10 +755,7 @@ void MainWindow::dataStringWasModified(QString string)
 	qDebug() << "dataStringWasModified(" << string << ")";
 	int index = sender()->property("objectName").toInt();
 	mem0[index] = string;
-	if(unitReady)
-	{
-		fileWasModified(1);
-	}
+	fileWasModified(1);
 }
 
 void MainWindow::dataTimeWasModified(double num)
@@ -835,10 +771,7 @@ void MainWindow::dataTimeWasModified(double num)
 	int minute = std::fmod(tim/1800, 60);
 	int second = std::fmod(tim/30, 60);
 	timeLabel->setText( QString::number(hour) + ":" + QString::number(minute) + ":" + QString::number(second));
-	if(unitReady)
-	{
-		fileWasModified(1);
-	}
+	fileWasModified(1);
 }
 
 void MainWindow::dataBoolWasModified(int num)
@@ -866,29 +799,54 @@ void MainWindow::dataBoolWasModified(int num)
 
 	mem0[index] = QString::number(num);
 	dummy->setProperty("text", QString::number(num));
-	if(unitReady)
-	{
-		fileWasModified(1);
-	}
+	fileWasModified(1);
 }
 
 void MainWindow::fileWasModified(bool mode)
 {
 	qDebug() << "BEGIN documentWasModified(" << mode << ")";
 	QObject *dummy = sender();
-	if(mode)
+	if(mode && dummy != NULL)
 	{
-		isModified = true;
-		if(dummy != NULL)
+		int index = dummy->property("objectName").toInt();
+		QString bak = tem0.value(index);
+		QString rep = mem0.value(index);
+		if(bak != rep)
 		{
+			isModified = true;
 			dummy->setProperty("styleSheet", "background-color: yellow");
+
+			if(totalChanges.indexOf(index) == -1)
+			{
+				totalChanges.append(index);
+			}
+		}
+		else
+		{
+			if(totalChanges.size() < 2)
+			{
+				isModified = false;
+			}
+			dummy->setProperty("styleSheet", "");
+			totalChanges.removeAt(totalChanges.indexOf(index));
 		}
 	}
 	else
 	{
 		isModified = false;
+		int size = mem0.size();
+		for(int i = 0; i < size; i++)
+		{
+			QWidget *dummy = items[i];
+			if(!isModified)
+			{
+				dummy->setProperty("styleSheet", "");
+			}
+		}
+		totalChanges.clear();
 	}
 	setWindowModified(isModified);
+	qDebug() << totalChanges;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -984,7 +942,6 @@ void MainWindow::on_actionFileOpen_triggered()
 
 bool MainWindow::on_actionFileSave_triggered()
 {
-	unitReady = false;
 	if (workFile.isEmpty() || !unitReady)
 	{
 		return on_actionFileSaveAs_triggered();
@@ -993,7 +950,6 @@ bool MainWindow::on_actionFileSave_triggered()
 	{
 		return saveFile(workDir, workFile);
 	}
-	unitReady = true;
 	return false;
 }
 
