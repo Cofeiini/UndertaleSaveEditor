@@ -4,15 +4,17 @@ QT += core gui
 RC_ICONS = icon.ico
 TARGET = UndertaleSaveEditor
 TEMPLATE = app
-VERSION = 0.1
+VERSION = 0.3
 
 FORMS += mainwindow.ui
 
 HEADERS += mainwindow.h\
-        configdialog.h
+        configdialog.h \
+    dataeditor.h
 
 RESOURCES += assets.qrc
 
 SOURCES += main.cpp\
         mainwindow.cpp\
-        configdialog.cpp
+        configdialog.cpp \
+    dataeditor.cpp
