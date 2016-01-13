@@ -1,8 +1,6 @@
 # UndertaleSaveEditor
 
->If you're just looking for the executable (.exe file): You'll find it in the **[releases](/releases/)**. 
->For more details, check the release [README](/release/README.md)  
-
+If you're just looking for the executable (.exe file): You'll find it in the **[releases](https://github.com/Cofeiini/UndertaleSaveEditor/releases/)**.  
 ***
 ##### Some thoughts on compiling  
 If you, for some reason, want to compile this yourself, just open the ".pro" file with Qt Creator. Or use any method you like, that's just the way I do it.  
