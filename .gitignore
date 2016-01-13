@@ -33,12 +33,8 @@ Makefile*
 *.qmlproject.user
 *.qmlproject.user.*
 
-#Release binary
-release/*.cpp
-release/*.res
-release/*.exp
-release/*.obj
-release/*.lib
+#Release folder
+/release
 
 *.rc
 *_plugin_import*

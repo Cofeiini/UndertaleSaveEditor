@@ -1,6 +1,4 @@
-###Pre-compiled executable version 0.2  
-Should be working without problems. Thanks to MinGW.  
-Using compiler from Visual Studio caused more trouble than it was worth.  
+Compiled with [MinGW](http://mingw.org/).  
 Compressed with [UPX](http://upx.sourceforge.net/)  
 #### Tested on following operating systems:
 Operating System | Test Results

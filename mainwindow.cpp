@@ -69,7 +69,6 @@ void MainWindow::showEvent(QShowEvent *event)
 {
 	// Due to spacers in the ui, interface elements will overlap each other after the ui is displayed. The "update()" at the end remedies this problem.
 	QMainWindow::showEvent(event);
-	unitReady = true;
 	if(edict.value("maximized").toBool() == true)
 	{
 		showMaximized();
@@ -735,7 +734,6 @@ bool MainWindow::saveFile(const QDir &fileDir, const QString &fileName)
 		setWindowTitle(TITLELABEL);
 		ui->statusBar->showMessage(QString("Saving %1 in %2 complete").arg(fileName, fileDir.path()));
 	}
-	unitReady = true;
 	return true;
 }
 
@@ -875,7 +873,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_actionFileNew_triggered()
 {
-	unitReady = false;
 	if(castWork())
 	{
 		QString cName = mem0.value(1);
@@ -917,12 +914,10 @@ void MainWindow::on_actionFileNew_triggered()
 		fileWasModified(1);
 		displayInfo();
 	}
-	unitReady = true;
 }
 
 void MainWindow::on_actionFileOpen_triggered()
 {
-	unitReady = false;
 	if (castWork())
 	{
 		QDir targetDir;
@@ -937,12 +932,11 @@ void MainWindow::on_actionFileOpen_triggered()
 	}
 	fileWasModified(0);
 	displayInfo();
-	unitReady = true;
 }
 
 bool MainWindow::on_actionFileSave_triggered()
 {
-	if (workFile.isEmpty() || !unitReady)
+	if (workFile.isEmpty())
 	{
 		return on_actionFileSaveAs_triggered();
 	}
@@ -955,7 +949,6 @@ bool MainWindow::on_actionFileSave_triggered()
 
 bool MainWindow::on_actionFileSaveAs_triggered()
 {
-	unitReady = false;
 	QDir targetDir;
 	QString filter = "";
 	QString targetFile = QFileDialog::getSaveFileName(this, "Save As...", workDir.path() + "/" + workFile, "", &filter, QFileDialog::DontConfirmOverwrite);
@@ -967,7 +960,6 @@ bool MainWindow::on_actionFileSaveAs_triggered()
 
 		return saveFile(targetDir, workFile);
 	}
-	unitReady = true;
 	return false;
 }
 
