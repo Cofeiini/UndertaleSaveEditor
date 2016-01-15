@@ -19,5 +19,6 @@
         <file>strings/sortfile</file>
         <file>strings/undertale.ini</file>
         <file>images/tobdog_wrench.png</file>
+        <file>strings/roomfile</file>
     </qresource>
 </RCC>
