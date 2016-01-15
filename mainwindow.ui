@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowIcon">
-   <iconset resource="assets.qrc">
+   <iconset>
     <normaloff>:/images/tobdog.png</normaloff>:/images/tobdog.png</iconset>
   </property>
   <property name="locale">
@@ -174,7 +174,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/heart.png</normaloff>:/images/heart.png</iconset>
    </property>
    <property name="text">
@@ -189,7 +189,7 @@
   </action>
   <action name="actionFileOpen">
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/box.png</normaloff>:/images/box.png</iconset>
    </property>
    <property name="text">
@@ -201,7 +201,7 @@
   </action>
   <action name="actionFileSave">
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/save.png</normaloff>:/images/save.png</iconset>
    </property>
    <property name="text">
@@ -213,7 +213,7 @@
   </action>
   <action name="actionFileSaveAs">
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/amalgam_save.png</normaloff>:/images/amalgam_save.png</iconset>
    </property>
    <property name="text">
@@ -225,7 +225,7 @@
   </action>
   <action name="actionFileExit">
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/heartgtfo.png</normaloff>:/images/heartgtfo.png</iconset>
    </property>
    <property name="text">
@@ -237,7 +237,7 @@
   </action>
   <action name="actionFileResetUndo">
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/heartbreak.png</normaloff>:/images/heartbreak.png</iconset>
    </property>
    <property name="text">
@@ -249,7 +249,7 @@
   </action>
   <action name="actionFileResetTrueReset">
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/asriel.png</normaloff>:/images/asriel.png</iconset>
    </property>
    <property name="text">
@@ -261,7 +261,7 @@
   </action>
   <action name="actionFileResetTransactionCancellation">
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/truechara.png</normaloff>:/images/truechara.png</iconset>
    </property>
    <property name="text">
@@ -273,7 +273,7 @@
   </action>
   <action name="actionConfigDialog">
    <property name="icon">
-    <iconset resource="assets.qrc">
+    <iconset>
      <normaloff>:/images/tobdog_wrench.png</normaloff>:/images/tobdog_wrench.png</iconset>
    </property>
    <property name="text">
@@ -285,8 +285,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="assets.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

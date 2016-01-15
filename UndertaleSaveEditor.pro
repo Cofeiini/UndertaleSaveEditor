@@ -4,7 +4,7 @@ QT += core gui
 RC_ICONS = icon.ico
 TARGET = UndertaleSaveEditor
 TEMPLATE = app
-VERSION = 0.3
+VERSION = 0.4
 
 FORMS += mainwindow.ui
 
