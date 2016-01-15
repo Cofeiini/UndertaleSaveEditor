@@ -1,0 +1,335 @@
+6#Ruins - Entrance
+12#Ruins - Leaf Pile
+18#Ruins - Mouse Hole
+31#Ruins - Home
+46#Snowdin - Box Road
+56#Snowdin - Spaghetti
+61#Snowdin - Dog House
+68#Snowdin - Town
+83#Waterfall - Checkpoint
+86#Waterfall - Hallway
+94#Waterfall - Crystal
+110#Waterfall - Bridge
+114#Waterfall - Trash Zone
+116#Waterfall - Quiet Area
+128#Waterfall - Temmie Village
+134#Waterfall - Undyne Arena
+139#Hotland - Laboratory Entrance
+145#Hotland - Magma Chamber
+155#Hotland - Core View
+164#Hotland - Bad Opinion Zone
+176#Hotland - Spider Entrance
+183#Hotland - Hotel Lobby
+196#Hotland - Core Branch
+210#Hotland - Core End
+216#Castle Elevator
+219#New Home
+231#Last Corridor
+232#Throne Entrance
+235#Throne Room
+236#The End
+246#True Laboratory
+251#True Lab - Bedroom
+0#room_start
+1#room_introstory
+2#room_introimage
+3#room_intromenu
+4#room_area1
+5#room_area1_2
+7#Ruins - 2
+8#Ruins - 3
+9#Ruins - 4
+10#Ruins - 5
+11#Ruins - 6
+13#Ruins - 7A
+14#Ruins - 8
+15#Ruins - 9
+16#Ruins - 10
+17#Ruins - 11
+19#Ruins - 12
+20#Ruins - 12B
+21#Ruins - 13
+22#Ruins - 14
+23#Ruins - 15A
+24#Ruins - 15B
+25#Ruins - 15C
+26#Ruins - 15D
+27#Ruins - 15E
+28#Ruins - 16
+29#Ruins - 17
+30#Ruins - 18OLD
+32#Home - Entrance Hall
+33#Home - Living Room
+34#Home - Hall
+35#Home - Toriel's Room
+36#Home - Asriel's Room
+37#Home - Kitchen
+38#room_basement1
+39#room_basement2
+40#room_basement3
+41#room_basement4
+42#room_basement5
+43#Snowdin - Ruins Exit
+44#Snowdin - 1
+45#Snowdin - 2
+47#Snowdin - 3A
+48#Snowdin - 4
+49#Snowdin - 5
+50#Snowdin - 6
+51#Snowdin - 6A
+52#Snowdin - 7
+53#Snowdin - 8
+54#Snowdin - 8A
+55#Snowdin - 9
+57#Snowdin - Snow Puzzle
+58#Snowdin - XO Puzzle (Small)
+59#Snowdin - XO Puzzle (Papyrus)
+60#Snowdin - Tile Puzzle
+62#Snowdin - icehole
+63#Snowdin - iceentrance
+64#Snowdin - iceexit_new
+65#Snowdin - iceexit
+66#Snowdin - Snow Poff Zone
+67#Snowdin - Dangerous Bridge Puzzle
+69#Snowdin - town2
+70#Snowdin - Dock
+71#Snowdin - Snowed Inn
+72#Snowdin - Snowed Inn (2nd floor)
+73#Snowdin - Grillby's
+74#Snowdin - Library
+75#Snowdin - Garage
+76#Snowdin - Papyrus's and Sans's House
+77#Snowdin - Papyrus's Room
+78#Snowdin - Sans's Room
+79#Snowdin - Sans's Room (Dark)
+80#Snowdin - Sans's Basement
+81#Snowdin - Foggy Hallway
+82#Waterfall - 1
+84#Waterfall - 3
+85#Waterfall - 3A
+87#Waterfall - bridgepuzz1
+88#Waterfall - 5
+89#Waterfall - 5A
+90#Waterfall - 6
+91#Waterfall - 7
+92#Waterfall - 8
+93#Waterfall - 9
+95#Waterfall - 11
+96#Waterfall - nicecream
+97#Waterfall - 12
+98#Waterfall - shoe
+99#Waterfall - bird
+100#Waterfall - Onionsan
+101#Waterfall - 14
+102#Waterfall - Piano Puzzle
+103#Waterfall - dogroom
+104#Waterfall - Music Box Statue
+105#Waterfall - prewaterfall
+106#Waterfall - waterfall
+107#Waterfall - waterfall2
+108#Waterfall - waterfall3
+109#Waterfall - waterfall4
+111#Waterfall - undynebridge
+112#Waterfall - undynebridgeend
+113#Waterfall - trashzone1
+115#Waterfall - trashzone2
+117#Waterfall - Undyne's Yard
+118#Waterfall - Undyne's House
+119#Waterfall - Blooky's Yard
+120#Waterfall - Blooky's House
+121#Waterfall - hapstablook
+122#Waterfall - Blook Farm
+123#Waterfall - prebird
+124#Waterfall - Gerson's Shop
+125#Waterfall - Dock
+126#Waterfall - 15
+127#Waterfall - 16
+129#Waterfall - 17
+130#Waterfall - 18
+131#Waterfall - 19
+132#Waterfall - 20
+133#Waterfall - Puzzle Elder
+135#Waterfall - Arena Exit
+136#Waterfall - Hotland Entrance
+137#Hotland - Sans's Station
+138#Hotland - Water Cooler
+140#Hotland - Dock
+141#Hotland - lab1
+142#Hotland - lab2
+143#Hotland - 3
+144#Hotland - 5
+146#Hotland - 6A
+147#Hotland - lasers1
+148#Hotland - 7
+149#Hotland - 8
+150#Hotland - shootguy_2
+151#Hotland - 9
+152#Hotland - shootguy_1
+153#Hotland - turn
+154#Hotland - cookingshow
+156#Hotland - elevator_r1
+157#Hotland - elevator_r2
+158#Hotland - hotdog
+159#Hotland - walkandbranch
+160#Hotland - sorry
+161#Hotland - apron
+162#Hotland - 10
+163#Hotland - rpuzzle
+165#Hotland - boysnightout
+166#Hotland - newsreport
+167#Hotland - coreview2
+168#Hotland - elevator_l2
+169#Hotland - elevator_l3
+170#Hotland - spidershop
+171#Hotland - walkandbranch2
+172#Hotland - conveyorlaser
+173#Hotland - shootguy_3
+174#Hotland - preshootguy4
+175#Hotland - shootguy_4
+177#Hotland - Spider's Web
+178#Hotland - pacing
+179#Hotland - operatest
+180#Hotland - Tile Puzzle EX
+181#Hotland - hotelfront_1
+182#Hotland - hotelfront_2
+184#Hotel - Restaurant
+185#Hotland - hoteldoors
+186#Hotland - hotelbed
+187#Hotland - elevator_r3
+188#Hotland - precore
+189#Hotland - core1
+190#Hotland - core2
+191#Hotland - core3
+192#Hotland - core4
+193#Hotland - core5
+194#Hotland - core_freebattle
+195#Hotland - core_laserfun
+197#Hotland - core_bottomleft
+198#Hotland - core_left
+199#Hotland - core_topleft
+200#Hotland - core_top
+201#Hotland - core_topright
+202#Hotland - core_right
+203#Hotland - core_bottomright
+204#Hotland - core_center
+205#Hotland - shootguy_5
+206#Hotland - core_treasureleft
+207#Hotland - core_treasureright
+208#Hotland - core_warrior
+209#Hotland - core_bridge
+211#Hotland - core_metttest
+212#Hotland - core_final
+213#Hotland - elevator
+214#Hotland - elevator_l1
+215#Hotland - finalelevator
+217#room_castle_precastle
+218#room_castle_hook
+220#room_asghouse1
+221#room_asghouse2
+222#room_asghouse3
+223#room_asgoreroom
+224#room_asrielroom_final
+225#room_kitchen_final
+226#room_basement1_final
+227#room_basement2_final
+228#room_basement3_final
+229#room_basement4_final
+230#room_lastruins_corridor
+233#room_castle_coffins1
+234#room_castle_coffins2
+237#room_castle_barrier
+238#room_castle_exit
+239#room_undertale_end
+240#room_castle_trueexit
+241#room_outsideworld
+242#Hotland - labelevator
+243#True Lab - elevatorinside
+244#True Lab - elevator
+245#True Lab - hall1
+247#True Lab - hall2
+248#True Lab - operatingroom
+249#True Lab - Red Lever
+250#True Lab - prebed
+252#True Lab - mirror
+253#True Lab - Blue Lever
+254#True Lab - hall3
+255#True Lab - shower
+256#True Lab - determination
+257#True Lab - tv
+258#True Lab - cooler
+259#True Lab - Green Lever
+260#True Lab - fan
+261#True Lab - castle_elevator
+262#True Lab - prepower
+263#True Lab - power
+264#room_gaster
+265#room_icecave1
+266#room_ice_dog
+267#room2
+268#Waterfall - fakehallway
+269#room_mysteryman
+270#room_soundtest
+271#TESTROOM
+272#Waterfall - redacted
+273#Waterfall - 13
+274#room_overworld
+275#room_overworld3
+276#bullettest
+277#Waterfall - 16A
+278#room_end_castroll
+279#room_end_highway
+280#room_end_beach
+281#room_end_metta
+282#room_end_school
+283#room_end_mtebott
+284#room_creditsdodger
+285#room_end_myroom
+286#room_end_theend
+287#room_spritecheck
+288#room_joyconfig
+289#room_controltest
+290#room_f_start
+291#room_f_intro
+292#room_f_menu
+293#room_f_room
+294#room_floweyx
+295#room_f_phrase
+296#Hotland - 4
+297#Hotland - 10_old
+298#Hotland - 10A_old
+299#Snowdin - placeholder
+300#Ruins - 12B_old
+301#Snowdin - rollsnow
+302#Waterfall - 7_older
+303#room_meetundyne_old
+304#Waterfall - mushroom
+305#room_monsteralign_test
+306#room_battle
+307#room_floweybattle
+308#room_fastbattle
+309#room_storybattle
+310#room_gameover
+311#room_shop1
+312#room_shop2
+313#room_shop3
+314#room_shop4
+315#room_shop5
+316#room_riverman_transition
+317#room_papdate
+318#room_adate
+319#room_flowey_endchoice
+320#room_flowey_regret
+321#room_empty
+322#room_emptywhite
+323#room_emptyblack
+324#room_nothingness
+325#room_undertale
+326#room_of_dog
+327#room_quizholder
+328#room_friendtest
+329#room_bringitinguys
+330#room_asrielappears
+331#room_goodbyeasriel
+332#room_asrielmemory
+333#room_asrieltest
+334#room_afinaltest
