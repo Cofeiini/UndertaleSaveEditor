@@ -52,8 +52,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	wMinWidth = MainWindow::minimumWidth();
 	wMinHeight = MainWindow::minimumHeight();
 
-	invEntries = (QStringList() << "13" << "15" << "17" << "19" << "21" << "23" << "25" << "27" << "29" << "30" << "331" << "332" << "333" << "334" << "335" << "336" << "337" << "338" << "339" << "340" << "341" << "342" << "343" << "344" << "345" << "346" << "347" << "348" << "349" << "350" << "351" << "352" << "353" << "354");
-	cellEntries = (QStringList() << "14" << "16" << "18" << "20" << "22" << "24" << "26" << "28");
+	entryTypes = (QStringList() << "bool" << "counter" << "range" << "timer" << "iEdit" << "pEdit" << "sEdit" << "unused");
+//	invEntries = (QStringList() << "13" << "15" << "17" << "19" << "21" << "23" << "25" << "27" << "29" << "30" << "331" << "332" << "333" << "334" << "335" << "336" << "337" << "338" << "339" << "340" << "341" << "342" << "343" << "344" << "345" << "346" << "347" << "348" << "349" << "350" << "351" << "352" << "353" << "354");
+//	cellEntries = (QStringList() << "14" << "16" << "18" << "20" << "22" << "24" << "26" << "28");
 
 	stats.fill(0,4);
 	readSettings();
@@ -116,175 +117,151 @@ void MainWindow::setupEntries()
 	{
 		QString curType = mem2.value(i+1);
 		QString val = mem0.value(i+1);
-		if(curType == "bool")
+		QString id = QString::number(i+1);
+		int mod = entryTypes.indexOf(curType);
+		switch(mod)
 		{
-			// CheckBox, strangely, can be in three states. This fact of course needlessly complicates things.
-			QCheckBox *cBox = new QCheckBox();
-			Qt::CheckState state = Qt::Unchecked;
-			QStringList lst = mem3.value(i+1).split(",");
+		case 0:
+			{
+				// CheckBox, strangely, can be in three states. This fact of course needlessly complicates things.
+				QCheckBox *entry = new QCheckBox;
+				Qt::CheckState state = Qt::Unchecked;
+				QStringList lst = mem3.value(i+1).split(",");
+				entry->setObjectName(id);
+				entry->setText(val);
 
-			if(lst.value(1) != "-1")
-			{
-				cBox->setTristate(true);
-				if(lst.value(2) == val)
+				if(lst.value(1) != "-1")
 				{
-					state = Qt::Checked;
+					entry->setTristate(true);
+					if(lst.value(2) == val)
+					{
+						state = Qt::Checked;
+					}
+					else if(lst.value(1) == val)
+					{
+						state = Qt::PartiallyChecked;
+					}
+					entry->setCheckState(state);
 				}
-				else if(lst.value(1) == val)
+				else
 				{
-					state = Qt::PartiallyChecked;
+					if(lst.value(2) == val)
+					{
+						state = Qt::Checked;
+					}
+					entry->setChecked(state);
 				}
+				connect(entry, SIGNAL(stateChanged(int)), this, SLOT(dataBoolWasModified(int)));
+				items.append(entry);
 			}
-			else
-			{
-				if(lst.value(2) == val)
-				{
-					state = Qt::Checked;
-				}
-			}
-
-			cBox->setObjectName(QString::number(i+1));
-			if(cBox->isTristate())
-			{
-				cBox->setCheckState(state);
-			}
-			else
-			{
-				cBox->setChecked(state);
-			}
-			cBox->setText(val);
-			connect(cBox, SIGNAL(stateChanged(int)), this, SLOT(dataBoolWasModified(int)));
-			items.append(cBox);
-		}
-		else if(curType == "counter")
+			break;
+		case 1:
 		{
-			QSpinBox *sBox = new QSpinBox();
+			QSpinBox *entry = new QSpinBox;
 			int rMin = mem3.value(i+1).section(',',0,0).toInt();
 			int rStep = mem3.value(i+1).section(',',1,1).toInt();
 			qint32 rMax = mem3.value(i+1).section(',',2,2).toLong();
 
-			sBox->setRange(rMin,rMax);
-			sBox->setSingleStep(rStep);
-			sBox->setValue(val.toInt());
-			sBox->setObjectName(QString::number(i+1));
-			connect(sBox, SIGNAL(valueChanged(QString)), this, SLOT(dataStringWasModified(QString)));
-			items.append(sBox);
+			entry->setRange(rMin,rMax);
+			entry->setSingleStep(rStep);
+			entry->setValue(val.toInt());
+			entry->setObjectName(id);
+			connect(entry, SIGNAL(valueChanged(QString)), this, SLOT(dataStringWasModified(QString)));
+			items.append(entry);
 		}
-		else if(curType == "range")
+			break;
+		case 2:
 		{
-			bool invCombo = false;
-			bool cellCombo = false;
+			QSpinBox *entry = new QSpinBox;
+			int rMin = mem3.value(i+1).section(',',0,0).toInt();
+			int rStep = mem3.value(i+1).section(',',1,1).toInt();
+			int rMax = mem3.value(i+1).section(',',2,2).toInt();
 
-			foreach(QString var, cellEntries)
-			{
-				if(i+1 == var.toInt())
-				{
-					cellCombo = true;
-				}
-			}
-			foreach(QString var, invEntries)
-			{
-				if(i+1 == var.toInt())
-				{
-					invCombo = true;
-				}
-
-			}
-			if(cellCombo)
-			{
-				PhoneEditor *cBox = new PhoneEditor;
-				cBox->setObjectName(QString::number(i+1));
-				switch(val.toInt())
-				{
-				case 210:
-					cBox->setCurrentIndex(7);
-					break;
-				case 220:
-					cBox->setCurrentIndex(8);
-					break;
-				case 221:
-					cBox->setCurrentIndex(9);
-					break;
-				default:
-					cBox->setCurrentIndex(val.toInt() - 200);
-					break;
-				}
-				connect(cBox, SIGNAL(transmitData(int)), this, SLOT(dataComboWasModified(int)));
-				items.append(cBox);
-			}
-			else if(invCombo)
-			{
-				InventoryEditor *cBox = new InventoryEditor;
-				cBox->setObjectName(QString::number(i+1));
-				cBox->setProperty("value", val.toInt());
-				connect(cBox, SIGNAL(currentIndexChanged(int)), this, SLOT(dataComboWasModified(int)));
-				items.append(cBox);
-			}
-			else
-			{
-				QSpinBox *sBox = new QSpinBox();
-				int rMin = mem3.value(i+1).section(',',0,0).toInt();
-				int rStep = mem3.value(i+1).section(',',1,1).toInt();
-				int rMax = mem3.value(i+1).section(',',2,2).toInt();
-
-				sBox->setRange(rMin, rMax);
-				sBox->setSingleStep(rStep);
-				sBox->setObjectName(QString::number(i+1));
-				sBox->setValue(val.toInt());
-				connect(sBox, SIGNAL(valueChanged(QString)), this, SLOT(dataStringWasModified(QString)));
-				items.append(sBox);
-			}
+			entry->setRange(rMin, rMax);
+			entry->setSingleStep(rStep);
+			entry->setObjectName(id);
+			entry->setValue(val.toInt());
+			connect(entry, SIGNAL(valueChanged(QString)), this, SLOT(dataStringWasModified(QString)));
+			items.append(entry);
 		}
-		else if(curType == "timer")
+			break;
+		case 3:
 		{
 			// Displaying the time is bit more complicated. Scientific notation and all that jazz.
-			QDoubleSpinBox *dsBox = new QDoubleSpinBox();
+			QDoubleSpinBox *entry = new QDoubleSpinBox();
 			int rMin = mem3.value(i+1).section(',',0,0).toInt();
 			int rStep = mem3.value(i+1).section(',',1,1).toInt();
 			qint64 rMax = mem3.value(i+1).section(',',2,2).toLongLong();
 
-			dsBox->setDecimals(0);
-			dsBox->setRange(rMin,rMax);
-			dsBox->setSingleStep(rStep);
-			dsBox->setValue(val.toDouble());
-			dsBox->setObjectName(QString::number(i+1));
-			connect(dsBox, SIGNAL(valueChanged(double)), this, SLOT(dataTimeWasModified(double)));
-			items.append(dsBox);
+			entry->setDecimals(0);
+			entry->setRange(rMin,rMax);
+			entry->setSingleStep(rStep);
+			entry->setValue(val.toDouble());
+			entry->setObjectName(id);
+			connect(entry, SIGNAL(valueChanged(double)), this, SLOT(dataTimeWasModified(double)));
+			items.append(entry);
 		}
-		else
+			break;
+		case 4:
+		{
+			DataEditor *entry = new DataEditor(this, 0);
+			entry->setObjectName(id);
+			entry->setProperty("value", val.toInt());
+			connect(entry, SIGNAL(currentIndexChanged(int)), this, SLOT(dataComboWasModified(int)));
+			items.append(entry);
+		}
+			break;
+		case 5:
+		{
+			PhoneEditor *entry = new PhoneEditor;
+			entry->setObjectName(id);
+			entry->setProperty("value", val.toInt());
+			connect(entry, SIGNAL(transmitData(int)), this, SLOT(dataComboWasModified(int)));
+			items.append(entry);
+		}
+			break;
+		case 6:
+		{
+			DataEditor* entry = new DataEditor(this, i+1);
+			entry->setObjectName(id);
+			entry->setProperty("value", val.toInt());
+			connect(entry, SIGNAL(transmitData(int)), this, SLOT(dataComboWasModified(int)));
+			items.append(entry);
+		}
+			break;
+		default:
 		{
 			// Usually these are "unused" or "unaccessed"... Usually.
-			QLineEdit *lEdi =  new QLineEdit();
-			lEdi->setText(val);
-			lEdi->setObjectName(QString::number(i+1));
-			connect(lEdi, SIGNAL(textEdited(QString)), this, SLOT(dataStringWasModified(QString)));
-			items.append(lEdi);
+			QLineEdit *entry = new QLineEdit;
+			entry->setText(val);
+			entry->setObjectName(id);
+			connect(entry, SIGNAL(textEdited(QString)), this, SLOT(dataStringWasModified(QString)));
+			items.append(entry);
+		}
+			break;
 		}
 
 		// Entry "title" label
 		QLabel *qLab = new QLabel();
 		qLab->setText(QString(mem1.value(i+1)));
 		qLab->setFrameStyle(QFrame::Box | QFrame::Plain);
-		qLab->setFixedWidth(220);
-		qLab->setFixedHeight(20);
+		qLab->setFixedSize(220, 20);
 		qLab->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 		info[i] = qLab;
 
 		// Entry number
 		QLabel *nLab = new QLabel();
-		nLab->setText(QString::number(i+1).rightJustified(3,'0'));
+		nLab->setText(id.rightJustified(3,'0'));
 		nLab->setAlignment(Qt::AlignCenter);
 		nLab->setFrameStyle(QFrame::Box | QFrame::Plain);
-		nLab->setFixedWidth(30);
-		nLab->setFixedHeight(20);
+		nLab->setFixedSize(30, 20);
 		nLab->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 		numfo[i] = nLab;
 
 		// Entry comment
 		QTextBrowser *tBro = new QTextBrowser;
 		tBro->setText(mem4.value(i+1));
-		tBro->setFixedWidth(175);
-		tBro->setFixedHeight(50);
+		tBro->setFixedSize(175, 50);
 		comment[i] = tBro;
 
 		// Horizontal container for current row. Add all components in to the mix.
@@ -299,9 +276,11 @@ void MainWindow::setupEntries()
 		{
 			QLabel *tLab = new QLabel();
 			qint64 tim = val.toDouble();
-			int hour = std::fmod(tim/108000, 60);
-			int minute = std::fmod(tim/1800, 60);
-			int second = std::fmod(tim/30, 60);
+			int hour = std::fmod(tim/108000, 24);	// divide value (1 000 000 for example) by frames*60*60 to get frames as hours (~9 hours) and modulo by (hours in a day) 24 = ~9h
+			int minute = std::fmod(tim/1800, 60);	// divide value (1 000 000 for example) by frames*60 to get frames as minutes (~555 minutes) and modulo by (minutes in an hour) 60 = ~15m
+			int second = std::fmod(tim/30, 60);		// divide value (1 000 000 for example) by frames(30fps) to get frames as seconds (~33 333 seconds) and modulo by (seconds in a minute) 60 = ~30s
+													// So 1 000 000 frames converts to roughly 9:15:30. 109 830 frames would convert to 01:01:01
+													// I should consider either adding days counter or removing hours to days conversion.
 			tLab->setText( QString::number(hour) + ":" + QString::number(minute) + ":" + QString::number(second));
 			tLab->setObjectName("timeLabel");
 			tLab->setFrameStyle(QFrame::Box | QFrame::Plain);
@@ -309,7 +288,7 @@ void MainWindow::setupEntries()
 			hLay->addWidget(tLab);
 		}
 
-		// Add container to interface
+		// Add container to the interface
 		ui->contentLayout->addLayout(hLay);
 	}
 #ifndef QT_NO_CURSOR

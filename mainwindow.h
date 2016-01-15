@@ -69,11 +69,9 @@ class MainWindow : public QMainWindow
 
 
 private:
-		bool buildingInProgress;
 		bool castWork();
 		bool isModified;
 		bool saveFile(const QDir &fileDir, const QString &fileName);
-		bool unitReady;
 		int mResHeight;
 		int mResWidth;
 		int wMinHeight;
@@ -83,9 +81,7 @@ private:
 		void readSettings();
 		void setupEntries();
 		void setupMenuBar();
-		void writeSettings();
 
-		QDir edictDir;
 		QDir workDir;
 		QHash<int, QString> mem0, mem1, mem2, mem3, mem4;
 		QHash<int, QString> tem0;
@@ -93,16 +89,13 @@ private:
 		QLabel *numfo[549];
 		QMap<QString, QString> law;
 		QMap<QString, QVariant> edict;
-		QString edictFile;
-		QStringList cellEntries;
-		QStringList invEntries;
 		QStringList inilist;
 		QStringList inivals;
+		QStringList entryTypes;
 		QString workFile;
 		QTextBrowser *comment[549];
 		QVector<int> stats;
 		QVector<int> totalChanges;
-		QVector<QHBoxLayout*> itemRows;
 		QVector<QWidget*> items;
 
 		ConfigDialog *settingsDialog;
