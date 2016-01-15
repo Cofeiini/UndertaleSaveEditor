@@ -49,8 +49,8 @@ unaccessed
 unaccessed
 unused
 comment
-Non-Genoside only.
-Set when you talk to the frog in the ruins.<br>When sparing monsters:<br>0 for yellow names,<br>1 for white,<br>2 for pink.<br>Also a small easter egg in the trash area if not equal to 0.
+Non-Genocide only.
+Set when you talk to the frog in the ruins and say "It's bad".<br>When sparing monsters:<br>0 for yellow names,<br>1 for white,<br>2 for pink.<br>Also a small easter egg in the trash area if not equal to 0.
 comment
 comment
 comment
@@ -68,13 +68,13 @@ Wait for Toriel to call you when she asks to stay in a room.
 unused
 unused
 unused
-After 4, Toriel's raction stays the same
+After 4, Toriel's reaction stays the same
 comment
 In combination with flirted_toriel, affects a few dialogues.
 When greater than 25, changes the displayed text upon pressing a switch.
-After 10, Toriel's raction stays the same.
+After 10, Toriel's reaction stays the same.
 1st time at "Home" (0),<br>Disobeyed (1),<br>Fight (3),<br>Kill (4),<br>Spare (5)
-??? (0),<br>Butterscotch (1),<br>??? (2)
+??? (0),<br>Butterscotch (1),<br> Cinnamon (2)
 "Don't you know how to greet a new pal?"
 unused
 unused
@@ -85,7 +85,7 @@ After a while, gives you a hint about which switch to press.
 1 if you kill Greater Dog,<br>2 if you throw him a stick and spare him,<br>3 if you ignore him repeatedly.
 1 if you kill Lesser Dog,<br>2 if you pet him until his neck extends at max.<br>If 2, room_ruins6 will be filled with broken dog structures.
 1 if you get a Snowman Piece from the snowman in room_tundra6A,<br>2 if you get another piece after disposing of the first one,<br>4 if you use the Snowman Piece in front of the him,<br>5 if you talk to the him when the flag is 4.
-1 if you laugh at Snowdrake's joke;<br>2 if you kill him, all future instances of Snowdrake with Chilldrakes.
+1 if you laugh at Snowdrake's joke;<br>2 if you kill him, all future instances of Snowdrake are replaced with Chilldrakes.
 ? after Sans' puzzle ? Junior Jumble or Crosswords ?
 comment
 Seems to change when business relocates
@@ -100,7 +100,7 @@ Skip fight (-3),<br>Improved "prison" (-2),<br>Captured (-1),<br>Spare (0),<br>K
 Very slightly changes the dialogue with Burgerpants.
 comment
 unused
-After "Not enough GOLD" (0),<br>Saty a night (1),<br>Not enough GOLD (2)
+After "Not enough GOLD" (0),<br>Stay a night (1),<br>Not enough GOLD (2)
 comment
 Set if you "betray" Gyftrot by putting a present after removing some gifts off him.<br>Unaccessed
 Equals to the id of the armor you're wearing upon the first call.<br>The combination of these affects the dialogue you get in Papyrus' second phone call.
@@ -379,7 +379,7 @@ unused
 unused
 unused
 Kill (1),<br>Spare, but don't give water (2)
-Equals to the HP Undyne died with.<br>Unaccessed.
+Undyne's HP after the battle.<br>Unaccessed.
 "The heroine that NEVER gives up."
 Affects the dialogue with Clamguy, creates a puddle after a while.
 comment
@@ -452,7 +452,7 @@ Pre-castle specific flags, seem to affect whether you can proceed or not and are
 Pre-castle specific flags, seem to affect whether you can proceed or not and are naturally set as you progress.
 unused
 comment
-Turn available (1),<br>Already turned (2).<br>Propably used if Game Over during Mettaton battle.
+Turn available (1),<br>Already turned (2).<br>Probably used if Game Over during Mettaton battle.
 1: kill Mettaton.
 Incremental values: as you battle unique monsters in the core.
 unused
@@ -463,7 +463,7 @@ Determines which direction the elevator will go.
 comment
 comment
 Remebered the name (1),<br>Forgot the name (2).
-Bought something (1),<br>Had a chat (2).<br>Propably about the origin of the name.
+Bought something (1),<br>Had a chat (2).<br>Probably about the origin of the name.
 Burgerpants' MTT conversation.
 Burgerpants' conversation about Bratty and Catty.
 unused
@@ -472,7 +472,7 @@ comment
 comment
 "An antique revolver."<br>"It has no ammo."
 "This battle-worn hat makes you want to grow a beard."
-"Unique"<br>"It is too bent to fit on your keychain."
+"Unique"<br>"It is too bent to fit on your key chain."
 "Huge steak in the shape of Mettaton's face."<br>Character names Drak, Gigi and Gugu changes Face Steak to FSteak.
 unused
 unused

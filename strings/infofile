@@ -42,7 +42,7 @@ Previous fight (Spare)
 Previous fight (Flee)
 Previous fight (Kill)
 Previous fight (Bored)
-Status of Dummy (Ruins)
+Interaction with Dummy (Ruins)
 in_battle
 type_heart_transition
 unaccessed
@@ -73,60 +73,60 @@ CELL -> Toriel -> Flirt
 CELL -> Toriel -> Call "Mom"
 ruins_switches_pressed
 Tried to exit "Home"
-Status of Toriel
+Interaction with Toriel
 Chosen flavor
 Sans creeping
 unused
 unused
 Learned about "water sausage"
 wrong_switches_pressed
-Status of Doggo
-Status of Dogamy and Dogaressa
-Status of Greater Dog
-Status of Lesser Dog
-Status of Snowman
-Status of Snowdrake
+Interaction with Doggo
+Interaction with Dogamy and Dogaressa
+Interaction with Greater Dog
+Interaction with Lesser Dog
+Interaction with Snowman
+Interaction with Snowdrake
 choice_harder_puzzle
 GOLD spent on Spider Bakesale
 GOLD spent on Nice Cream
 unused
 Papyrus asks about spaghetti trap
-xoxo_resets
+Reset XO puzzle
 Switch buried under snow
 Found 30G in a snow poff
 Flirted with Papyrus
-Status of Papyrus
+Interaction with Papyrus
 Encountered Papyrus
 bpants_alt_dialogue
 Snowdin Forest Progress
 unused
-Status of Snowed Inn
+Interaction with Snowed Inn
 stayed_inn
 Betray Gyftrot
 armor_papyrus_inquiry
 choice_papyrus_inquiry
 armor_undyne_saw
 Tough Punch Card
-Status of Nice Cream business
+Interaction with Nice Cream business
 Nice Cream Punch Cards bought
-Status of Shyren
+Interaction with Shyren
 Found the Annoying Dog
 Found 20G inside a "saggy old couch"
 unaccessed
 Have an umbrella
 Placed an umbrella on a statue
 unused
-Status of date with Papyrus
-Status of date with Sans at Grillby's
-Met Monster Kid in the rain
+Progress of date with Papyrus
+Progress of date with Sans at Grillby's
+Monster Kid in the rain
 interacted_garbage_savepoint
-Status of "Stable"
-Status of date with Napstablook
+Interaction with "Stable"
+Progress of date with Napstablook
 Spooky tune playing
 Spooked Aaron and Woshua
 Talked with Gerson
 creepy_friend_seen
-Saved Monster Kid
+Interaction with Monster Kid
 undyne_difficulty
 Found a Faded Ribbon
 unused
@@ -249,11 +249,11 @@ unused
 unused
 unused
 unused
-Genoside (Ruins)
-Genoside (Snowdin)
-Genoside (Waterfall)
-Genoside (Hotland)
-Genoside (CORE)
+Genocide (Ruins)
+Genocide (Snowdin)
+Genocide (Waterfall)
+Genocide (Hotland)
+Genocide (CORE)
 unused
 unused
 unused
@@ -282,7 +282,7 @@ nicecream_business2
 KILL -> Undyne the Undying
 KILL -> Glad Dummy
 KILL -> Snowman
-Interracted with Sans' puzzle
+Interacted with Sans' puzzle
 robbed_snowdin
 robbed_core
 unused
@@ -293,7 +293,7 @@ interacted_fakedog
 Delivered Sea Tea
 Delivered Cinnabun
 Delivered "Hot Dog"
-Sales needed for "i gota have dat"
+Sell stuff to Temmie
 Temmie Armor discount
 status_hotel
 unused
@@ -303,14 +303,14 @@ Encountered Sans
 Accepted Sans' MERCY
 unused
 unused
-Heavy stick
+Heavy stick at Ruins exit
 Sent Temmie to Cool Leg
 Prank call
 completed_tile_puzzle
-Interracted with "Clamgirl"
+Interacted with "Clamgirl"
 Talked to "Puzzle Elder"
-Status of So Sorry
-Encountered Glyde
+Interaction with So Sorry
+SPARE -> Glyde
 check_papyrus_kitchen_again
 undyne_spears_anger
 unaccessed
@@ -378,12 +378,12 @@ unused
 unused
 unused
 unused
-Status of Undyne
+Interaction with Undyne
 undyne_hp_left
 Encountered Undyne
 poured_water_ground
 conversation_papyrus_calls
-Interracted with Mad Dummy
+Interaction with Mad Dummy
 Solved piano puzzle
 Encounters in Waterfall area
 Encounters near Temmie Village
@@ -417,7 +417,7 @@ status_yellow_button
 reset_bridgeseed_puzzle
 won_ball_game
 fall_animation_parameters
-Status of date with Undyne
+Progress of date with Undyne
 undyne_expression
 Food at Grillby's
 unused
@@ -431,28 +431,28 @@ Solved shooting puzzle (3)
 Solved shooting puzzle (4)
 asked_papyrus_rg
 KILL -> Royal Guards
-Spent 9999 GOLD on Muffet's bakesale
+Spent 9999 GOLD on Muffet's bake sale
 Disabled Laser (3)
 Talked to Bratty and Catty
 Bratty and Catty: Mettaton
 Bratty and Catty: Alphys
-Encounters in Hotlands area
+Encounters in Hotland area
 Napstablook's friend request
 unused
 unused
 unused
-dated_sans2
-Alphys hepled with puzzle (1)
-Alphys hepled with puzzle (2)
-Alphys hepled with puzzle (3)
-Alphys hepled with puzzle (4)
+Progress of date with Sans at the Restaurant
+Alphys helped with puzzle (1)
+Alphys helped with puzzle (2)
+Alphys helped with puzzle (3)
+Alphys helped with puzzle (4)
 unclear
 unclear
 unclear
 unclear
 unused
 Encounters in CORE area
-turn_mettaton
+Exposed Mettaton's switch
 KILL -> Mettaton
 progress_core_battles2
 unused
@@ -463,7 +463,7 @@ Elevator target floor
 rode_long_elevator
 Unlocked Mettaton's House
 choice_flamey_challenge
-Status of Burger Pants
+Interaction with Burger Pants
 conversation_mtt
 conversation_girls
 unused
@@ -487,9 +487,9 @@ early_story_parameter1
 early_story_parameter2
 Point of No Return
 experience_cosmic_garbage
-Riverperson Destination
+Riverperson destination
 Got a hint from Riverperson
-Riverperson's boat
+Riverperson's boat looks like Temmie
 called_already
 unused
 unused
@@ -521,7 +521,7 @@ truelab_events
 truelab_events
 truelab_events
 truelab_events
-Status of date with Alphys
+Progress of date with Alphys
 Undyne's letter
 popato_chisps_bought
 Talked to Onionsan
@@ -531,7 +531,7 @@ seen_cast
 fighting_asriel
 conversation_asriel_fight
 Does your SOUL Re-Fuse
-dreamed_asriel_fight
+Final stage of the Dreamer Battle
 unused
 saved_lost_soul
 saved_lost_soul
