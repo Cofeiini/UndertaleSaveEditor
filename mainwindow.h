@@ -1,105 +1,83 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-#define TITLELABEL windowFilePath() + "[*]" + " - " + QApplication::applicationName() + " (v" + QApplication::applicationVersion() + ")"
 
-#if defined(__linux__)
-#  define UNDERTALE_PATH (QDir::homePath() + "/.config/UNDERTALE/")
-#elif defined(__macosx__)
-#  define UNDERTALE_PATH (QDir::homePath() + "/Library/Application Support/com.tobyfox.undertale/")
-#else
-#  define UNDERTALE_PATH (QDir::homePath() + "/AppData/Local/UNDERTALE/")
-#endif
-
-// I like having my includes in a single place
-#include "configdialog.h"
-#include "dataeditor.h"
-
-#include <QCheckBox>
-#include <QCloseEvent>
-#include <QDebug>
-#include <QDesktopWidget>
-#include <QDir>
-#include <QFileDialog>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QLineEdit>
+#include <QListWidget>
 #include <QMainWindow>
-#include <QtMath>
-#include <QMessageBox>
-#include <QProgressBar>
-#include <QSettings>
-#include <QSpinBox>
-#include <QTextBrowser>
+#include <QMap>
+#include <QNetworkReply>
+#include <QStackedWidget>
 
-namespace Ui
+class FileDownloader : public QObject
 {
-	class MainWindow;
-}
+	Q_OBJECT
+public:
+	FileDownloader(QUrl url, QObject *parent) : QObject(parent)
+	{
+		connect(&manager, SIGNAL(finished(QNetworkReply*)),
+				this, SLOT(fileDownloaded(QNetworkReply*)));
+		manager.get(QNetworkRequest(url));
+	}
+	QByteArray data;
+signals:
+	void downloaded();
+private slots:
+	void fileDownloaded(QNetworkReply* reply)
+	{
+		data = reply->readAll();
+		reply->deleteLater();
+		reply = nullptr;
+		emit downloaded();
+	}
+private:
+	QNetworkAccessManager manager;
+};
 
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
-
-	public:
-		explicit MainWindow(QWidget *parent = 0);
-		~MainWindow();
-
-	protected:
-		void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
-		void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
-
-	private slots:
-		bool on_actionFileSaveAs_triggered();
-		bool on_actionFileSave_triggered();
-
-		void configReciever();
-		void dataBoolWasModified(int num);
-		void dataComboWasModified(int num);
-		void dataStringWasModified(QString string);
-		void dataTimeWasModified(double num);
-		void fileWasModified(bool mode);
-
-		void on_actionConfigDialog_triggered();
-		void on_actionFileExit_triggered();
-		void on_actionFileNew_triggered();
-		void on_actionFileOpen_triggered();
-		void on_actionFileResetTransactionCancellation_triggered();
-		void on_actionFileResetTrueReset_triggered();
-		void on_actionFileResetUndo_triggered();
-
-
+public:
+	MainWindow(QWidget *parent = nullptr);
+	QStringList saveData = QString("null,Chara,1,20,20,10,0,10,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,4,0,0,0,0,0,100,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0").split(",");
+	QMap<QString, QVariant> iniData;
+protected:
+	void closeEvent(QCloseEvent *event) override;
+	void showEvent(QShowEvent * event) override;
+signals:
+	void updateWidgets();
+	void updateIniWidgets();
+public slots:
+	void changePage(QListWidgetItem *current, QListWidgetItem *previous);
+	void fileModified(bool value);
+	void iniModified(bool value);
+private slots:
+	void openFile();
+	void openIni();
+	void saveFile();
+	void saveFileAs();
+	void loadData();
+	void showDebug(bool checked);
+	void showDog(bool checked);
 private:
-		bool castWork();
-		bool isModified;
-		bool saveFile(const QDir &fileDir, const QString &fileName);
-		int mResHeight;
-		int mResWidth;
-		int wMinHeight;
-		int wMinWidth;
-		void displayInfo();
-		void loadFile(const QDir &fileDir, const QString &fileName);
-		void readSettings();
-		void setupEntries();
-		void setupMenuBar();
+	bool checkIfFileSave();
+	bool checkIfIniSave();
+	void writeFile();
+	void writeIni();
 
-		QDir workDir;
-		QHash<int, QString> mem0, mem1, mem2, mem3, mem4;
-		QHash<int, QString> tem0;
-		QLabel *info[549];
-		QLabel *numfo[549];
-		QMap<QString, QString> law;
-		QMap<QString, QVariant> edict;
-		QStringList inilist;
-		QStringList inivals;
-		QStringList entryTypes;
-		QString workFile;
-		QTextBrowser *comment[549];
-		QVector<int> stats;
-		QVector<int> totalChanges;
-		QVector<QWidget*> items;
+	QString iniPath;
+	QString filePath;
+	QString workDir;
+	QVector<QListWidgetItem *> buttons;
 
-		ConfigDialog *settingsDialog;
-		Ui::MainWindow *ui;
+	FileDownloader *downloader;
+	QAction *saveAction;
+	QAction *saveAsAction;
+	QListWidget *icons;
+	QStackedWidget *pages;
+	QTabWidget *window;
+
+	bool isFileModified = false;
+	bool isIniModified = false;
+	QIcon floppy[2] = {QIcon(":/images/ico_floppy.png"), QIcon(":/images/ico_floppy_red.png")};
 };
 
 #endif // MAINWINDOW_H

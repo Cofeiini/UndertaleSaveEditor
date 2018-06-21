@@ -1,24 +1,14 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/box.png</file>
-        <file>images/flowey.png</file>
-        <file>strings/infofile</file>
-        <file>images/truechara.png</file>
-        <file>images/save.png</file>
-        <file>images/heart.png</file>
-        <file>images/amalgam_save.png</file>
-        <file>images/asriel.png</file>
-        <file>images/heartgtfo.png</file>
-        <file>images/heartbreak.png</file>
-        <file>images/tobdog.png</file>
-        <file>images/spaghetti.png</file>
-        <file>strings/dullfile</file>
-        <file>strings/rangefile</file>
-        <file>strings/typefile</file>
-        <file>strings/freshfile</file>
-        <file>strings/sortfile</file>
-        <file>strings/undertale.ini</file>
-        <file>images/tobdog_wrench.png</file>
-        <file>strings/roomfile</file>
+        <file>images/ico_player.png</file>
+        <file>images/ico_toriel.png</file>
+        <file>images/ico_napstablook.png</file>
+        <file>images/ico_dogshrine.png</file>
+        <file>images/ico_savepoint.png</file>
+        <file>images/ico_debug.png</file>
+        <file>images/ico_floppy.png</file>
+        <file>images/ico_floppy_red.png</file>
+        <file>fonts/Vegur-Regular.otf</file>
+        <file>images/icon.png</file>
     </qresource>
 </RCC>

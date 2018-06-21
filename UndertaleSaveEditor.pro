@@ -1,20 +1,33 @@
-CONFIG += static
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-QT += core gui
-RC_ICONS = icon.ico
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += network widgets
+
 TARGET = UndertaleSaveEditor
 TEMPLATE = app
-VERSION = 0.4
 
-FORMS += mainwindow.ui
+DEFINES += QT_DEPRECATED_WARNINGS
 
-HEADERS += mainwindow.h\
-        configdialog.h \
-    dataeditor.h
+win32:RC_FILE = win_ico.rc
+macx:ICON = icon.icns
 
-RESOURCES += assets.qrc
+CONFIG += static
+VERSION = 1.0
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
-SOURCES += main.cpp\
-        mainwindow.cpp\
-        configdialog.cpp \
-    dataeditor.cpp
+linux:QMAKE_LFLAGS += -no-pie
+
+SOURCES += \
+    main.cpp\
+    mainwindow.cpp \
+    initools.cpp \
+    pages.cpp \
+    tools.cpp
+
+HEADERS += \
+    mainwindow.h \
+    initools.h \
+    pages.h \
+    tools.h
+
+RESOURCES += \
+    assets.qrc
