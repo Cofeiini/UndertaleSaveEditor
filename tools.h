@@ -125,7 +125,7 @@ class WeaponComboBox : public QComboBox
 {
 	Q_OBJECT
 public:
-	WeaponComboBox(int id, MainWindow *mainWindow, QWidget *parent = nullptr);
+	WeaponComboBox(int id, MainWindow *mainWindow, CustomSpinBox *weaponAT, QWidget *parent = nullptr);
 signals:
 	void dataChanged(bool value);
 public slots:
@@ -133,16 +133,18 @@ public slots:
 	void updateData();
 private:
 	int id;
-	int values[10] = {0, 3, 13, 14, 25, 45, 47, 49, 51, 52};
+	int values[9] = {3, 13, 14, 25, 45, 47, 49, 51, 52};
+	int atValues[9] = {0, 3, 5, 7, 2, 10, 12, 15, 99};
 	QMap<int, int> indexes{{3, 0}, {13, 1}, {14, 2}, {25, 3}, {45, 4}, {47, 5}, {49, 6}, {51, 7}, {52, 8}};
 	MainWindow *mw;
+	CustomSpinBox *wat;
 };
 
 class ArmorComboBox : public QComboBox
 {
 	Q_OBJECT
 public:
-	ArmorComboBox(int id, MainWindow *mainWindow, QWidget *parent = nullptr);
+	ArmorComboBox(int id, MainWindow *mainWindow, CustomSpinBox *armorDF, QWidget *parent = nullptr);
 signals:
 	void dataChanged(bool value);
 public slots:
@@ -150,9 +152,11 @@ public slots:
 	void updateData();
 private:
 	int id;
-	int values[11] = {0, 4, 12, 15, 24, 44, 46, 48, 50, 53, 64};
+	int values[10] = {4, 12, 15, 24, 44, 46, 48, 50, 53, 64};
+	int dfValues[10] = {0, 3, 7, 10, 5, 11, 12, 15, 99, 20};
 	QMap<int, int> indexes{{4, 0}, {12, 1}, {15, 2}, {24, 3}, {44, 4}, {46, 5}, {48, 6}, {50, 7}, {53, 8}, {64, 9}};
 	MainWindow *mw;
+	CustomSpinBox *adf;
 };
 
 class RoomComboBox : public QComboBox

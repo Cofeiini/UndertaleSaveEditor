@@ -8,7 +8,6 @@
 #include <QLabel>
 #include <QLineEdit>
 
-
 PlayerPage::PlayerPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 {
 	QWidget *window = new QWidget();
@@ -18,22 +17,23 @@ PlayerPage::PlayerPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(pa
 	QGridLayout *attackLayout = new QGridLayout();
 	attackLayout->addWidget(new QLabel("AT"), 0, 0, Qt::AlignRight);
 	attackLayout->addWidget(new CustomSpinBox(5, mainWindow), 0, 1);
-	attackLayout->addWidget(new QLabel("Weapon"), 1, 0, Qt::AlignRight);
-	attackLayout->addWidget(new WeaponComboBox(29, mainWindow), 1, 1);
 	attackLayout->addWidget(new QLabel("Weapon AT"), 2, 0, Qt::AlignRight);
-	attackLayout->addWidget(new CustomSpinBox(6, mainWindow), 2, 1);
+	CustomSpinBox *weaponAT = new CustomSpinBox(6, mainWindow);
+	attackLayout->addWidget(weaponAT, 2, 1);
+	attackLayout->addWidget(new QLabel("Weapon"), 1, 0, Qt::AlignRight);
+	attackLayout->addWidget(new WeaponComboBox(29, mainWindow, weaponAT), 1, 1);
 	attackGroup->setLayout(attackLayout);
 
 	QGroupBox *defenceGroup = new QGroupBox(tr("Defence"));
 	QGridLayout *defenceLayout = new QGridLayout();
 	defenceLayout->addWidget(new QLabel("DF"), 0, 0, Qt::AlignRight);
 	defenceLayout->addWidget(new CustomSpinBox(7, mainWindow), 0, 1);
-	defenceLayout->addWidget(new QLabel("Armor"), 1, 0, Qt::AlignRight);
-	defenceLayout->addWidget(new ArmorComboBox(30, mainWindow), 1, 1);
 	defenceLayout->addWidget(new QLabel("Armor DF"), 2, 0, Qt::AlignRight);
-	defenceLayout->addWidget(new CustomSpinBox(8, mainWindow), 2, 1);
+	CustomSpinBox *armorDF = new CustomSpinBox(8, mainWindow);
+	defenceLayout->addWidget(armorDF, 2, 1);
+	defenceLayout->addWidget(new QLabel("Armor"), 1, 0, Qt::AlignRight);
+	defenceLayout->addWidget(new ArmorComboBox(30, mainWindow, armorDF), 1, 1);
 	defenceGroup->setLayout(defenceLayout);
-
 
 	QGroupBox *inventoryGroup = new QGroupBox(tr("Inventory"));
 	inventoryGroup->setLayout(new QVBoxLayout());

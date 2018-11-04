@@ -1556,7 +1556,7 @@ void PhoneComboBox::updateData()
 	setCurrentIndex(indexes.value(mw->saveData.at(id).toInt()));
 }
 
-WeaponComboBox::WeaponComboBox(int id, MainWindow *mainWindow, QWidget *parent) : QComboBox(parent), id(id), mw(mainWindow)
+WeaponComboBox::WeaponComboBox(int id, MainWindow *mainWindow, CustomSpinBox *weaponAT, QWidget *parent) : QComboBox(parent), id(id), mw(mainWindow), wat(weaponAT)
 {
 	addItem(tr("Stick"));
 	addItem(tr("Toy Knife"));
@@ -1575,6 +1575,7 @@ WeaponComboBox::WeaponComboBox(int id, MainWindow *mainWindow, QWidget *parent) 
 void WeaponComboBox::updateSave(int i)
 {
 	mw->saveData.replace(id, QString::number(values[i]));
+	wat->setValue(atValues[i]);
 	emit dataChanged(true);
 }
 void WeaponComboBox::updateData()
@@ -1582,7 +1583,7 @@ void WeaponComboBox::updateData()
 	setCurrentIndex(indexes.value(mw->saveData.at(id).toInt()));
 }
 
-ArmorComboBox::ArmorComboBox(int id, MainWindow *mainWindow, QWidget *parent) : QComboBox(parent), id(id), mw(mainWindow)
+ArmorComboBox::ArmorComboBox(int id, MainWindow *mainWindow, CustomSpinBox *armorDF, QWidget *parent) : QComboBox(parent), id(id), mw(mainWindow), adf(armorDF)
 {
 	addItem(tr("Bandage"));
 	addItem(tr("Faded Ribbon"));
@@ -1602,6 +1603,7 @@ ArmorComboBox::ArmorComboBox(int id, MainWindow *mainWindow, QWidget *parent) : 
 void ArmorComboBox::updateSave(int i)
 {
 	mw->saveData.replace(id, QString::number(values[i]));
+	adf->setValue(dfValues[i]);
 	emit dataChanged(true);
 }
 void ArmorComboBox::updateData()

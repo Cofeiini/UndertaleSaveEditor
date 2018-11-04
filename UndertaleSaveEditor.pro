@@ -11,7 +11,7 @@ win32:RC_FILE = win_ico.rc
 macx:ICON = icon.icns
 
 CONFIG += static
-VERSION = 1.0
+VERSION = 1.1
 DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 
 linux:QMAKE_LFLAGS += -no-pie

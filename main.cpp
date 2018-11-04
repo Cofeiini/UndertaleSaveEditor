@@ -6,7 +6,7 @@ int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
 	a.setOrganizationName("Cofeiini");
-	a.setApplicationName(QString("Undertale Save Editor"));
+	a.setApplicationName("Undertale Save Editor");
 	a.setApplicationVersion(APP_VERSION);
 #if defined(Q_OS_LINUX)
 	a.setWindowIcon(QIcon(":/images/icon.png"));
