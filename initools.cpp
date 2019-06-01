@@ -1,7 +1,5 @@
 #include "initools.h"
 
-#include <QDebug>
-
 IniCheckBox::IniCheckBox(QString id, MainWindow *mainWindow, QWidget *parent) : QCheckBox(parent), id(id), mw(mainWindow)
 {
 	connect(this, SIGNAL(stateChanged(int)), this, SLOT(updateSave(int)));

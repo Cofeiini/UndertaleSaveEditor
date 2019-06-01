@@ -20,7 +20,7 @@ public slots:
 private:
 	QString id;
 	int values[3] = {0, 1, 1};
-	QMap<int, Qt::CheckState> states{{0, Qt::Unchecked}, {1, Qt::Checked}};
+	QMap<int, Qt::CheckState> states = { {0, Qt::Unchecked}, {1, Qt::Checked} };
 	MainWindow *mw;
 };
 

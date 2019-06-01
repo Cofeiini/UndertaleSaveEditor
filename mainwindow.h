@@ -71,13 +71,13 @@ private:
 	FileDownloader *downloader;
 	QAction *saveAction;
 	QAction *saveAsAction;
-	QListWidget *icons;
-	QStackedWidget *pages;
-	QTabWidget *window;
+	QListWidget icons;
+	QStackedWidget pages;
+	QTabWidget window;
 
 	bool isFileModified = false;
 	bool isIniModified = false;
-	QIcon floppy[2] = {QIcon(":/images/ico_floppy.png"), QIcon(":/images/ico_floppy_red.png")};
+	QIcon floppy[2] = { QIcon(":/images/ico_floppy.png"), QIcon(":/images/ico_floppy_red.png") };
 };
 
 #endif // MAINWINDOW_H
