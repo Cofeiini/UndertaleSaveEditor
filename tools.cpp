@@ -4,11 +4,9 @@
 
 CustomLineEdit::CustomLineEdit(int id, MainWindow *mainWindow, QWidget *parent) : QLineEdit(parent), id(id), mw(mainWindow)
 {
-	switch (id)
+	if(id == 1)
 	{
-	case 1:
-		setToolTip(tr("if length of the name is >=7 add text \"Easy to change, huh?\" next to the name"));
-		break;
+		setToolTip(tr("if length of the name is >=7, text \"Easy to change, huh?\" is added next to the name"));
 	}
 
 	connect(this, SIGNAL(textEdited(QString)), this, SLOT(updateSave(QString)));
@@ -19,6 +17,7 @@ void CustomLineEdit::updateSave(QString text)
 {
 	mw->saveData.replace(id, text);
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void CustomLineEdit::updateData()
 {
@@ -860,7 +859,7 @@ CustomComboBox::CustomComboBox(int id, MainWindow *mainWindow, QWidget *parent) 
 
 		setToolTip(tr(""));
 		break;
-	case 468: // TEST
+	case 468:
 		addItem(tr("[B.Pants] \"Romance Advice\""));
 		values.append(0);
 		indexes.insert(0, 0);
@@ -1201,6 +1200,7 @@ void CustomComboBox::updateSave(int i)
 {
 	mw->saveData.replace(id, QString::number(values[i]));
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void CustomComboBox::updateData()
 {
@@ -1216,7 +1216,7 @@ CustomSpinBox::CustomSpinBox(int id, MainWindow *mainWindow, QWidget *parent) : 
 		setRange(1, 20);
 		break;
 	case 10:
-		setMaximum(99999);
+		setRange(0, 99999);
 		break;
 	case 56:
 		setToolTip(tr("if this is >5, remove a frog from the \"four frog\" room"));
@@ -1241,7 +1241,7 @@ CustomSpinBox::CustomSpinBox(int id, MainWindow *mainWindow, QWidget *parent) : 
 	case 94:
 		setToolTip(tr("if this is >5, changes sans's dialog after the puzzle"));
 		break;
-	case 101: // TEST
+	case 101:
 		setToolTip(tr("0 = Snowdrake\n"
 					  "1 = Ice Cap\n"
 					  "2 (if not encountered Doggo) = random\n"
@@ -1319,6 +1319,7 @@ void CustomSpinBox::updateSave(QString text)
 {
 	mw->saveData.replace(id, text);
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void CustomSpinBox::updateData()
 {
@@ -1418,6 +1419,7 @@ void CustomCheckBox::updateSave(int i)
 {
 	mw->saveData.replace(id, QString::number(values[i]));
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void CustomCheckBox::updateData()
 {
@@ -1441,6 +1443,7 @@ void CustomRadioButton::updateSave(bool checked)
 {
 	mw->saveData.replace(id, QString::number(checked));
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void CustomRadioButton::updateData()
 {
@@ -1523,6 +1526,7 @@ void ItemComboBox::updateSave(int i)
 {
 	mw->saveData.replace(id, QString::number(i));
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void ItemComboBox::updateData()
 {
@@ -1550,6 +1554,7 @@ void PhoneComboBox::updateSave(int i)
 {
 	mw->saveData.replace(id, QString::number(values[i]));
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void PhoneComboBox::updateData()
 {
@@ -1577,6 +1582,7 @@ void WeaponComboBox::updateSave(int i)
 	mw->saveData.replace(id, QString::number(values[i]));
 	wat->setValue(atValues[i]);
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void WeaponComboBox::updateData()
 {
@@ -1605,6 +1611,7 @@ void ArmorComboBox::updateSave(int i)
 	mw->saveData.replace(id, QString::number(values[i]));
 	adf->setValue(dfValues[i]);
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void ArmorComboBox::updateData()
 {
@@ -1957,6 +1964,7 @@ void RoomComboBox::updateSave(int i)
 {
 	mw->saveData.replace(id, QString::number(values[i]));
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void RoomComboBox::updateData()
 {
@@ -1986,6 +1994,7 @@ void TimeEdit::updateSave(double d)
 	label->setText(QString("%1:%2:%3").arg(h, 2, 'f', 0, '0').arg(m, 2, 'f', 0, '0').arg(s, 2, 'f', 0, '0'));
 	mw->saveData.replace(id, QString::number(d, 'g', 5));
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void TimeEdit::updateData()
 {
@@ -2129,8 +2138,28 @@ void PlotEdit::updateSave(int i)
 {
 	mw->saveData.replace(id, QString::number(values[i]));
 	emit dataChanged(true);
+	emit mw->updateWidgets();
 }
 void PlotEdit::updateData()
 {
 	setCurrentIndex(indexes.value(mw->saveData.at(id).toInt()));
+}
+
+YellowNameCheckBox::YellowNameCheckBox(int id, MainWindow *mainWindow, QWidget *parent) : QCheckBox(parent), id(id), mw(mainWindow)
+{
+	connect(this, SIGNAL(stateChanged(int)), this, SLOT(updateSave(int)));
+	connect(mw, SIGNAL(updateWidgets()), this, SLOT(updateData()));
+	connect(this, SIGNAL(dataChanged(bool)), mw, SLOT(fileModified(bool)));
+}
+
+void YellowNameCheckBox::updateSave(int i)
+{
+	mw->saveData.replace(id, QString::number(values[i]));
+	emit dataChanged(true);
+	emit mw->updateWidgets();
+}
+
+void YellowNameCheckBox::updateData()
+{
+	setCheckState(states.value(mw->saveData.at(id).toInt()));
 }

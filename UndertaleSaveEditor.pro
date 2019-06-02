@@ -17,6 +17,7 @@ DEFINES += APP_VERSION=\\\"$$VERSION\\\"
 linux:QMAKE_LFLAGS += -no-pie
 
 SOURCES += \
+    dialogs.cpp \
     main.cpp\
     mainwindow.cpp \
     initools.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
     tools.cpp
 
 HEADERS += \
+    dialogs.h \
     mainwindow.h \
     initools.h \
     pages.h \

@@ -10,9 +10,6 @@
 
 PlayerPage::PlayerPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 {
-	QWidget *window = new QWidget();
-	QGridLayout *mainLayout = new QGridLayout();
-
 	QGroupBox *attackGroup = new QGroupBox(tr("Attack"));
 	QGridLayout *attackLayout = new QGridLayout();
 	attackLayout->addWidget(new QLabel("AT"), 0, 0, Qt::AlignRight);
@@ -112,6 +109,7 @@ PlayerPage::PlayerPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(pa
 	spinBoxLayout->addRow(tr("Gold spent on Nice Cream"), new CustomSpinBox(91, mainWindow));
 	spinBoxLayout->addRow(tr("Gold spent on Hot Dogs"), new CustomSpinBox(409, mainWindow));
 
+	QGridLayout *mainLayout = new QGridLayout();
 	mainLayout->addWidget(new QLabel("Name"), 0, 0, Qt::AlignRight);
 	mainLayout->addWidget(new CustomLineEdit(1, mainWindow), 0, 1);
 	mainLayout->addWidget(new QLabel("Plot"), 0, 2, Qt::AlignRight);
@@ -147,15 +145,13 @@ PlayerPage::PlayerPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(pa
 	mainLayout->addLayout(checkboxLayout, 9, 0, 1, 2);
 	mainLayout->addLayout(spinBoxLayout, 9, 3, 1, 2);
 
+	QWidget *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }
 
 BossesPage::BossesPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 {
-	QWidget *window = new QWidget();
-	QVBoxLayout *mainLayout = new QVBoxLayout();
-
 	QGroupBox *floweyGroup = new QGroupBox(QString("Flowey"));
 	QFormLayout *floweyLayout = new QFormLayout();
 	floweyLayout->addRow(tr("Stalker Flowey counter"), new CustomSpinBox(40, mainWindow));
@@ -255,6 +251,7 @@ BossesPage::BossesPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(pa
 	asrielLayout->addRow(tr("Child Asriel chat counter"), new CustomSpinBox(542, mainWindow));
 	asrielGroup->setLayout(asrielLayout);
 
+	QVBoxLayout *mainLayout = new QVBoxLayout();
 	mainLayout->addWidget(floweyGroup);
 	mainLayout->addWidget(torielGroup);
 	mainLayout->addWidget(sansGroup);
@@ -264,14 +261,14 @@ BossesPage::BossesPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(pa
 	mainLayout->addWidget(mettatonGroup);
 	mainLayout->addWidget(asgoreGroup);
 	mainLayout->addWidget(asrielGroup);
+
+	QWidget *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }
 
 MonstersPage::MonstersPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 {
-	QWidget *window = new QWidget();
-	QHBoxLayout *mainLayout = new QHBoxLayout();
 	QFormLayout *leftLayout = new QFormLayout();
 	leftLayout->addRow(tr("Interaction with the first dummy"), new CustomComboBox(45, mainWindow));
 	leftLayout->addRow(tr("Monster spare name color"), new CustomComboBox(53, mainWindow));
@@ -285,11 +282,11 @@ MonstersPage::MonstersPage(MainWindow *mainWindow, QWidget *parent) : QScrollAre
 	leftLayout->addRow(tr("Interaction with Shyren"), new CustomComboBox(112, mainWindow));
 	leftLayout->addRow(tr("Interaction with Monster Kid"), new CustomComboBox(122, mainWindow));
 	leftLayout->addRow(tr("Monster Kid tripped on a bridge"), new CustomComboBox(129, mainWindow));
-	leftLayout->addRow(tr("Spared Frogit"), new CustomCheckBox(161, mainWindow));
+	leftLayout->addRow(tr("Spared Froggit"), new CustomCheckBox(161, mainWindow));
 	leftLayout->addRow(tr("Spared Whimsun"), new CustomCheckBox(162, mainWindow));
 	leftLayout->addRow(tr("Spared Moldsmal"), new CustomCheckBox(163, mainWindow));
 	leftLayout->addRow(tr("Spared Loox"), new CustomCheckBox(164, mainWindow));
-	leftLayout->addRow(tr("Spared Vegitoid"), new CustomCheckBox(165, mainWindow));
+	leftLayout->addRow(tr("Spared Vegetoid"), new CustomCheckBox(165, mainWindow));
 	leftLayout->addRow(tr("Spared Migosp"), new CustomCheckBox(166, mainWindow));
 	leftLayout->addRow(tr("Spared Snowdrake"), new CustomCheckBox(167, mainWindow));
 	leftLayout->addRow(tr("Spared Ice Cap"), new CustomCheckBox(168, mainWindow));
@@ -319,6 +316,7 @@ MonstersPage::MonstersPage(MainWindow *mainWindow, QWidget *parent) : QScrollAre
 	leftLayout->addRow(tr("Killed the Royal Guards"), new CustomCheckBox(433, mainWindow));
 
 	QVBoxLayout *rightLayout = new QVBoxLayout();
+
 	QGroupBox *napstablookGroup = new QGroupBox(QString("Napstablook"));
 	QFormLayout *napstablookLayout = new QFormLayout();
 	napstablookLayout->addRow(tr("Napstablook encounter"), new CustomComboBox(67, mainWindow));
@@ -328,6 +326,7 @@ MonstersPage::MonstersPage(MainWindow *mainWindow, QWidget *parent) : QScrollAre
 	napstablookLayout->addRow(tr("NAPSTABLOOK22 has sent you a friend request"), new CustomCheckBox(440, mainWindow));
 	napstablookLayout->addRow(tr("Feel like garbage with Napstablook"), new CustomCheckBox(489, mainWindow));
 	napstablookGroup->setLayout(napstablookLayout);
+	rightLayout->addWidget(napstablookGroup);
 
 	QGroupBox *temmieGroup = new QGroupBox(QString("Temmie"));
 	QFormLayout *temmieLayout = new QFormLayout();
@@ -336,6 +335,7 @@ MonstersPage::MonstersPage(MainWindow *mainWindow, QWidget *parent) : QScrollAre
 	temmieLayout->addRow(tr("Talked to allergic Temmie"), new CustomCheckBox(300, mainWindow));
 	temmieLayout->addRow(tr("Send tem to \"cool leg\""), new CustomCheckBox(307, mainWindow));
 	temmieGroup->setLayout(temmieLayout);
+	rightLayout->addWidget(temmieGroup);
 
 	QGroupBox *muffetGroup = new QGroupBox(QString("Muffet"));
 	QFormLayout *muffetLayout = new QFormLayout();
@@ -344,6 +344,7 @@ MonstersPage::MonstersPage(MainWindow *mainWindow, QWidget *parent) : QScrollAre
 	muffetLayout->addRow(tr("Muffet conversation"), new CustomComboBox(427, mainWindow));
 	muffetLayout->addRow(tr("Killed Muffet"), new CustomCheckBox(428, mainWindow));
 	muffetGroup->setLayout(muffetLayout);
+	rightLayout->addWidget(muffetGroup);
 
 	QGroupBox *riverPersonGroup = new QGroupBox(QString("River Person"));
 	QFormLayout *riverPersonLayout = new QFormLayout();
@@ -351,24 +352,21 @@ MonstersPage::MonstersPage(MainWindow *mainWindow, QWidget *parent) : QScrollAre
 	riverPersonLayout->addRow(tr("Boat ride counter"), new CustomSpinBox(491, mainWindow));
 	riverPersonLayout->addRow(tr("River Person's boat is a dog"), new CustomCheckBox(492, mainWindow));
 	riverPersonGroup->setLayout(riverPersonLayout);
-
-	rightLayout->addWidget(napstablookGroup);
-	rightLayout->addWidget(temmieGroup);
-	rightLayout->addWidget(muffetGroup);
 	rightLayout->addWidget(riverPersonGroup);
-	rightLayout->addStretch(1);
 
+	rightLayout->addStretch();
+
+	QHBoxLayout *mainLayout = new QHBoxLayout();
 	mainLayout->addLayout(leftLayout);
 	mainLayout->addLayout(rightLayout);
+
+	QWidget *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }
 
 LocationsPage::LocationsPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 {
-	QWidget *window = new QWidget();
-	QVBoxLayout *mainLayout = new QVBoxLayout();
-
 	QGroupBox *ruinsGroup = new QGroupBox(QString("Ruins"));
 	QFormLayout *ruinsLayout = new QFormLayout();
 	ruinsLayout->addRow(tr("Tutorial Froggit encountered"), new CustomCheckBox(61, mainWindow));
@@ -534,48 +532,49 @@ LocationsPage::LocationsPage(MainWindow *mainWindow, QWidget *parent) : QScrollA
 	trueLabLayout->addRow(tr("Potato Chisps buy counter"), new CustomSpinBox(526, mainWindow));
 	trueLabGroup->setLayout(trueLabLayout);
 
+	QVBoxLayout *mainLayout = new QVBoxLayout();
 	mainLayout->addWidget(ruinsGroup);
 	mainLayout->addWidget(snowdinGroup);
 	mainLayout->addWidget(waterfallGroup);
 	mainLayout->addWidget(hotlandGroup);
 	mainLayout->addWidget(castleGroup);
 	mainLayout->addWidget(trueLabGroup);
+
+	QWidget *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }
 
 DebugPage::DebugPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 {
-	QWidget *window = new QWidget();
 	QFormLayout *mainLayout = new QFormLayout();
-
 	mainLayout->addRow(tr("Bypass counted kills"), new CustomCheckBox(35, mainWindow));
 	mainLayout->addRow(tr("Murder level override"), new CustomSpinBox(57, mainWindow));
 	mainLayout->addRow(tr("Debug text skip"), new CustomCheckBox(59, mainWindow));
+
+	QWidget *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }
 
 DogPage::DogPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 {
-	QWidget *window = new QWidget();
 	QFormLayout *mainLayout = new QFormLayout();
-
 	mainLayout->addRow(tr("Gold donated"), new CustomSpinBox(323, mainWindow));
 	mainLayout->addRow(tr("Donation threshold"), new CustomSpinBox(324, mainWindow));
 	mainLayout->addRow(tr("Reached donation goal"), new CustomSpinBox(325, mainWindow));
 	mainLayout->addRow(tr("Dogshrine upgrades"), new CustomSpinBox(326, mainWindow));
 	mainLayout->addRow(tr("Tried to use the donation box"), new CustomCheckBox(327, mainWindow));
+
+	QWidget *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }
 
 INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 {
-	QWidget *window = new QWidget();
 	QGridLayout *mainLayout = new QGridLayout();
-
-	mainLayout->addWidget(new QLabel("General"), 0, 0);
+	mainLayout->addWidget(new QLabel("General"), 0, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 0, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 1, 0, 16, 1);
 	mainLayout->addWidget(new VerticalLine(), 1, 4, 16, 1);
@@ -629,7 +628,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Randomly generated number at the start of the game"), 16, 3);
 	mainLayout->addWidget(new HorizontalLine(), 17, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Flowey"), 18, 0);
+	mainLayout->addWidget(new QLabel("Flowey"), 18, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 18, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 19, 0, 15, 1);
 	mainLayout->addWidget(new VerticalLine(), 19, 4, 15, 1);
@@ -680,7 +679,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Reached the end of the Ruins while killing everything (Ruins genocide)"), 33, 3);
 	mainLayout->addWidget(new HorizontalLine(), 34, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Toriel"), 35, 0);
+	mainLayout->addWidget(new QLabel("Toriel"), 35, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 35, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 36, 0, 3, 1);
 	mainLayout->addWidget(new VerticalLine(), 36, 4, 3, 1);
@@ -695,7 +694,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Spare counter"), 38, 3);
 	mainLayout->addWidget(new HorizontalLine(), 39, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Sans"), 40, 0);
+	mainLayout->addWidget(new QLabel("Sans"), 40, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 40, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 41, 0, 12, 1);
 	mainLayout->addWidget(new VerticalLine(), 41, 4, 12, 1);
@@ -737,7 +736,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Spare again counter"), 52, 3);
 	mainLayout->addWidget(new HorizontalLine(), 53, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Papyrus"), 54, 0);
+	mainLayout->addWidget(new QLabel("Papyrus"), 54, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 54, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 56, 0, 4, 1);
 	mainLayout->addWidget(new VerticalLine(), 56, 4, 4, 1);
@@ -755,7 +754,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Spare counter"), 59, 3);
 	mainLayout->addWidget(new HorizontalLine(), 60, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Undyne"), 61, 0);
+	mainLayout->addWidget(new QLabel("Undyne"), 61, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 61, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 62, 0, 1, 1);
 	mainLayout->addWidget(new VerticalLine(), 62, 4, 1, 1);
@@ -764,7 +763,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Date complete counter. Changes title menu"), 62, 3);
 	mainLayout->addWidget(new HorizontalLine(), 63, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Alphys"), 64, 0);
+	mainLayout->addWidget(new QLabel("Alphys"), 64, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 64, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 65, 0, 1, 1);
 	mainLayout->addWidget(new VerticalLine(), 65, 4, 1, 1);
@@ -773,7 +772,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Date complete counter. Changes title menu"), 65, 3);
 	mainLayout->addWidget(new HorizontalLine(), 66, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("MTT"), 67, 0);
+	mainLayout->addWidget(new QLabel("MTT"), 67, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 67, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 68, 0, 1, 1);
 	mainLayout->addWidget(new VerticalLine(), 68, 4, 1, 1);
@@ -782,7 +781,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Essay counter"), 68, 3);
 	mainLayout->addWidget(new HorizontalLine(), 69, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Mett"), 70, 0);
+	mainLayout->addWidget(new QLabel("Mett"), 70, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 70, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 71, 0, 1, 1);
 	mainLayout->addWidget(new VerticalLine(), 71, 4, 1, 1);
@@ -791,7 +790,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Experienced the Mettaton opera"), 71, 3);
 	mainLayout->addWidget(new HorizontalLine(), 72, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Mettaton"), 73, 0);
+	mainLayout->addWidget(new QLabel("Mettaton"), 73, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 73, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 74, 0, 1, 1);
 	mainLayout->addWidget(new VerticalLine(), 74, 4, 1, 1);
@@ -800,7 +799,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Encountered Mettaton"), 74, 3);
 	mainLayout->addWidget(new HorizontalLine(), 75, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("Asgore"), 76, 0);
+	mainLayout->addWidget(new QLabel("Asgore"), 76, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 76, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 77, 0, 1, 1);
 	mainLayout->addWidget(new VerticalLine(), 77, 4, 1, 1);
@@ -809,7 +808,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Your death counter"), 77, 3);
 	mainLayout->addWidget(new HorizontalLine(), 78, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("FFFFF"), 79, 0);
+	mainLayout->addWidget(new QLabel("FFFFF"), 79, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 79, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 80, 0, 4, 1);
 	mainLayout->addWidget(new VerticalLine(), 80, 4, 4, 1);
@@ -827,7 +826,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("1 after starting Omega Flowey fight. 2 after knife part. 3 after glove part. 4 after shoe part. 5 after book part. 6 after pan part. 7 after gun part"), 83, 3);
 	mainLayout->addWidget(new HorizontalLine(), 84, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("EndF"), 85, 0);
+	mainLayout->addWidget(new QLabel("EndF"), 85, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 85, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 86, 0, 1, 1);
 	mainLayout->addWidget(new VerticalLine(), 86, 4, 1, 1);
@@ -836,7 +835,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("1 after pacifist ending. 2 after Flowey talks about resetting"), 86, 3);
 	mainLayout->addWidget(new HorizontalLine(), 87, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("F7"), 88, 0);
+	mainLayout->addWidget(new QLabel("F7"), 88, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 88, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 89, 0, 1, 1);
 	mainLayout->addWidget(new VerticalLine(), 89, 4, 1, 1);
@@ -845,7 +844,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Asriel fight over. Changes title menu"), 89, 3);
 	mainLayout->addWidget(new HorizontalLine(), 90, 0, 1, 5);
 
-	mainLayout->addWidget(new QLabel("reset"), 91, 0);
+	mainLayout->addWidget(new QLabel("reset"), 91, 0, Qt::AlignCenter);
 	mainLayout->addWidget(new HorizontalLine(), 91, 1, 1, 4);
 	mainLayout->addWidget(new VerticalLine(), 92, 0, 2, 1);
 	mainLayout->addWidget(new VerticalLine(), 92, 4, 2, 1);
@@ -857,6 +856,7 @@ INIPage::INIPage(MainWindow *mainWindow, QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new QLabel("Set if you hit 0 names on credits. Opens the mysterious door in Snowdin forest"), 93, 3);
 	mainLayout->addWidget(new HorizontalLine(), 94, 0, 1, 5);
 
+	QWidget *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }

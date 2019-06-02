@@ -63,21 +63,22 @@ private:
 	void writeFile();
 	void writeIni();
 
+	FileDownloader *downloader;
+	QAction *saveAction;
+	QAction *saveAsAction;
+	QAction *yellowNamesAction;
+	QListWidget *icons;
+	QStackedWidget *pages;
+	QTabWidget *window;
+
 	QString iniPath;
 	QString filePath;
 	QString workDir;
 	QVector<QListWidgetItem *> buttons;
-
-	FileDownloader *downloader;
-	QAction *saveAction;
-	QAction *saveAsAction;
-	QListWidget icons;
-	QStackedWidget pages;
-	QTabWidget window;
+	QIcon floppy[2] = { QIcon(":/images/ico_floppy.png"), QIcon(":/images/ico_floppy_red.png") };
 
 	bool isFileModified = false;
 	bool isIniModified = false;
-	QIcon floppy[2] = { QIcon(":/images/ico_floppy.png"), QIcon(":/images/ico_floppy_red.png") };
 };
 
 #endif // MAINWINDOW_H

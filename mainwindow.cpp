@@ -16,6 +16,7 @@
 #include <QLabel>
 #include <QPushButton>
 
+#include "dialogs.h"
 #include "mainwindow.h"
 #include "pages.h"
 
@@ -59,7 +60,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	showDogAction->setChecked(false);
 	connect(showDogAction, &QAction::toggled, this, &MainWindow::showDog);
 
-	QDialog *about = new QDialog(this, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+	YellowNamesDialog *yellowNames = new YellowNamesDialog(this, nullptr, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+	yellowNamesAction = new QAction(tr("Set monster names yellow"), this);
+	yellowNamesAction->setEnabled(false);
+	connect(yellowNamesAction, &QAction::triggered, yellowNames, &QDialog::show);
+
+	AboutDialog *about = new AboutDialog(this, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 	QAction *showAboutAction = new QAction(tr("About"), this);
 	connect(showAboutAction, &QAction::triggered, about, &QDialog::show);
 
@@ -76,25 +82,27 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	optionMenu->addAction(showDebugAction);
 	optionMenu->addAction(showDogAction);
 
+	QMenu *toolsMenu = menuBar()->addMenu(tr("Tools"));
+	toolsMenu->addAction(yellowNamesAction);
+
 	menuBar()->addAction(showAboutAction);
 
 	// create list menu
-	icons.setViewMode(QListWidget::IconMode);
-	icons.setIconSize(QSize(64, 64));
-	icons.setMovement(QListView::Static);
-	icons.setMaximumWidth(110); // 64 + 5 + 5 + 36
-	icons.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
-	icons.setSpacing(5);
-	connect(&icons,
-			SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
-			this, SLOT(changePage(QListWidgetItem *, QListWidgetItem *)));
+	icons = new QListWidget();
+	icons->setViewMode(QListWidget::IconMode);
+	icons->setIconSize(QSize(64, 64));
+	icons->setMovement(QListView::Static);
+	icons->setMaximumWidth(110); // 64 + 5 + 5 + 36
+	icons->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+	icons->setSpacing(5);
+	connect(icons, &QListWidget::currentItemChanged, this, &MainWindow::changePage);
 
-	buttons.append(new QListWidgetItem(QIcon(":/images/ico_player.png"), tr("Player"), &icons));
-	buttons.append(new QListWidgetItem(QIcon(":/images/ico_toriel.png"), tr("Bosses"), &icons));
-	buttons.append(new QListWidgetItem(QIcon(":/images/ico_napstablook.png"), tr("Monsters"), &icons));
-	buttons.append(new QListWidgetItem(QIcon(":/images/ico_savepoint.png"), tr("Locations"), &icons));
-	buttons.append(new QListWidgetItem(QIcon(":/images/ico_debug.png"), tr("Debug"), &icons));
-	buttons.append(new QListWidgetItem(QIcon(":/images/ico_dogshrine.png"), tr("Dog Shrine"), &icons));
+	buttons.append(new QListWidgetItem(QIcon(":/images/ico_player.png"), tr("Player"), icons));
+	buttons.append(new QListWidgetItem(QIcon(":/images/ico_toriel.png"), tr("Bosses"), icons));
+	buttons.append(new QListWidgetItem(QIcon(":/images/ico_napstablook.png"), tr("Monsters"), icons));
+	buttons.append(new QListWidgetItem(QIcon(":/images/ico_savepoint.png"), tr("Locations"), icons));
+	buttons.append(new QListWidgetItem(QIcon(":/images/ico_debug.png"), tr("Debug"), icons));
+	buttons.append(new QListWidgetItem(QIcon(":/images/ico_dogshrine.png"), tr("Dog Shrine"), icons));
 
 	foreach (QListWidgetItem *item, buttons)
 	{
@@ -105,60 +113,34 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	buttons.at(5)->setHidden(true);
 
 	// create pages
-	pages.addWidget(new PlayerPage(this));
-	pages.addWidget(new BossesPage(this));
-	pages.addWidget(new MonstersPage(this));
-	pages.addWidget(new LocationsPage(this));
-	pages.addWidget(new DebugPage(this));
-	pages.addWidget(new DogPage(this));
+	pages = new QStackedWidget();
+	pages->addWidget(new PlayerPage(this));
+	pages->addWidget(new BossesPage(this));
+	pages->addWidget(new MonstersPage(this));
+	pages->addWidget(new LocationsPage(this));
+	pages->addWidget(new DebugPage(this));
+	pages->addWidget(new DogPage(this));
 
 	// setup central widget
+	window = new QTabWidget();
 	QWidget *fileWidget = new QWidget();
 	QHBoxLayout *fileLayout = new QHBoxLayout(fileWidget);
-	fileLayout->addWidget(&icons);
-	fileLayout->addWidget(&pages);
-	window.addTab(fileWidget, tr("file0"));
-	window.setTabEnabled(0, false);
-	window.setTabIcon(0, floppy[0]);
+	fileLayout->addWidget(icons);
+	fileLayout->addWidget(pages);
+	window->addTab(fileWidget, tr("file0"));
+	window->setTabEnabled(0, false);
+	window->setTabIcon(0, floppy[0]);
 
 	QWidget *iniWidget = new QWidget();
 	QHBoxLayout *iniLayout = new QHBoxLayout(iniWidget);
 	iniLayout->addWidget(new INIPage(this));
-	window.addTab(iniWidget, tr("undertale.ini"));
-	window.setTabEnabled(1, false);
-	window.setTabIcon(1, floppy[0]);
-
-	// setup about dialog
-	about->setModal(true);
-	about->setMinimumSize(QSize(300, 170));
-	about->setWindowTitle(tr("About %1").arg(QApplication::applicationName()));
-
-	QPushButton *closeButton = new QPushButton(tr("Close"));
-	connect(closeButton, &QPushButton::clicked, about, &QDialog::close);
-
-	QHBoxLayout *bottomLayout = new QHBoxLayout;
-	bottomLayout->addStretch();
-	bottomLayout->addWidget(closeButton);
-
-	QLabel *aboutAppLabel = new QLabel(QString("<b>%1 %2</b>").arg(QApplication::applicationName()).arg(QApplication::applicationVersion()), about);
-	aboutAppLabel->setAlignment(Qt::AlignCenter);
-	QLabel *aboutProjectLabel = new QLabel("Project can be found at");
-	QLabel *aboutLinkLabel = new QLabel("<a href=\"https://github.com/Cofeiini/UndertaleSaveEditor\">https://github.com/Cofeiini/UndertaleSaveEditor</a>");
-	QLabel *aboutMadeByLabel = new QLabel("Made by <b>Cofeiini</b>.");
-	QLabel *aboutThanksLabel = new QLabel("Thanks to <b>chaoskagami</b> and <b>Araraura</b>.");
-
-	QVBoxLayout *aboutLayout = new QVBoxLayout(about);
-	aboutLayout->addWidget(aboutAppLabel);
-	aboutLayout->addWidget(aboutProjectLabel);
-	aboutLayout->addWidget(aboutLinkLabel);
-	aboutLayout->addStretch();
-	aboutLayout->addWidget(aboutMadeByLabel);
-	aboutLayout->addWidget(aboutThanksLabel);
-	aboutLayout->addLayout(bottomLayout);
+	window->addTab(iniWidget, tr("undertale.ini"));
+	window->setTabEnabled(1, false);
+	window->setTabIcon(1, floppy[0]);
 
 	// final setup tasks
-	setCentralWidget(&window);
-	icons.setCurrentItem(buttons.at(0));
+	setCentralWidget(window);
+	icons->setCurrentItem(buttons.at(0));
 	emit updateWidgets();
 	fileModified(false);
 	resize(1228, 690);
@@ -190,19 +172,19 @@ void MainWindow::changePage(QListWidgetItem *current, QListWidgetItem *previous)
 	{
 		current = previous;
 	}
-	pages.setCurrentIndex(icons.row(current));
+	pages->setCurrentIndex(icons->row(current));
 }
 
 void MainWindow::fileModified(bool value)
 {
 	isFileModified = value;
-	window.setTabIcon(0, floppy[value]);
+	window->setTabIcon(0, floppy[value]);
 }
 
 void MainWindow::iniModified(bool value)
 {
 	isIniModified = value;
-	window.setTabIcon(1, floppy[value]);
+	window->setTabIcon(1, floppy[value]);
 }
 
 void MainWindow::openFile()
@@ -242,9 +224,8 @@ void MainWindow::openFile()
 		{
 			QMessageBox::warning(this, QApplication::applicationName(),
 								 tr("File %1\n"
-									"does not contain enough data or is "
-									"incorrectly formated.")
-									 .arg(QDir::toNativeSeparators(path)));
+									"does not contain enough data or is incorrectly formated.")
+								 .arg(QDir::toNativeSeparators(path)));
 			return;
 		}
 
@@ -260,14 +241,16 @@ void MainWindow::openFile()
 #ifndef QT_NO_CURSOR
 		QApplication::restoreOverrideCursor();
 #endif
-		window.setTabEnabled(0, true);
-		window.setTabText(0, QFileInfo(path).fileName());
-		window.setCurrentIndex(0);
+		window->setTabEnabled(0, true);
+		window->setTabText(0, QFileInfo(path).fileName());
+		window->setCurrentIndex(0);
 		emit updateWidgets();
 		fileModified(false);
+
+		saveAction->setEnabled(true);
+		saveAsAction->setEnabled(true);
+		yellowNamesAction->setEnabled(true);
 	}
-	saveAction->setEnabled(true);
-	saveAsAction->setEnabled(true);
 }
 
 void MainWindow::openIni()
@@ -290,19 +273,20 @@ void MainWindow::openIni()
 			iniData.insert(item, iniRead.value(item));
 		}
 
-		window.setTabEnabled(1, true);
-		window.setTabText(1, QFileInfo(path).fileName());
-		window.setCurrentIndex(1);
+		window->setTabEnabled(1, true);
+		window->setTabText(1, QFileInfo(path).fileName());
+		window->setCurrentIndex(1);
 		emit updateIniWidgets();
 		iniModified(false);
+
+		saveAction->setEnabled(true);
+		saveAsAction->setEnabled(true);
 	}
-	saveAction->setEnabled(true);
-	saveAsAction->setEnabled(true);
 }
 
 void MainWindow::saveFile()
 {
-	if(window.currentIndex() == 0)
+	if(window->currentIndex() == 0)
 	{
 		writeFile();
 	}
@@ -334,13 +318,13 @@ void MainWindow::saveFileAs()
 	if (QFileInfo(path).completeSuffix().contains("ini"))
 	{
 		iniPath = path;
-		window.setTabText(1, QFileInfo(path).fileName());
+		window->setTabText(1, QFileInfo(path).fileName());
 		writeIni();
 	}
 	else
 	{
 		filePath = path;
-		window.setTabText(0, QFileInfo(path).fileName());
+		window->setTabText(0, QFileInfo(path).fileName());
 		writeFile();
 	}
 }
@@ -398,7 +382,7 @@ bool MainWindow::checkIfFileSave()
 	switch (ret)
 	{
 	case QMessageBox::Save:
-		window.setCurrentIndex(0);
+		window->setCurrentIndex(0);
 		saveFile();
 		return true;
 	case QMessageBox::Cancel:
@@ -423,7 +407,7 @@ bool MainWindow::checkIfIniSave()
 	switch (ret)
 	{
 	case QMessageBox::Save:
-		window.setCurrentIndex(1);
+		window->setCurrentIndex(1);
 		saveFile();
 		return true;
 	case QMessageBox::Cancel:
