@@ -85,7 +85,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	QMenu *toolsMenu = menuBar()->addMenu(tr("Tools"));
 	toolsMenu->addAction(yellowNamesAction);
 
-	menuBar()->addAction(showAboutAction);
+	QMenu *helpMenu = menuBar()->addMenu(tr("Help"));
+	helpMenu->addAction(showAboutAction);
 
 	// create list menu
 	icons = new QListWidget();
