@@ -1,36 +1,49 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21.1)
 project(UndertaleSaveEditor VERSION 2.0.0.0 LANGUAGES CXX)
 
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
-set(CMAKE_AUTOMOC ON)
-
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core)
+
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui Network Widgets)
 
-qt6_add_executable(UndertaleSaveEditor WIN32 MACOSX_BUNDLE
-    src/core/dialogs.cpp src/core/dialogs.h
-    src/core/initools.cpp src/core/initools.h
-    src/core/mainwindow.cpp src/core/mainwindow.h
-    src/core/pages.cpp src/core/pages.h
-    src/core/tools.cpp src/core/tools.h
-    src/filedownloader.h
-    src/helpers.h
-    src/main.cpp
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+set(CMAKE_AUTOMOC ON)
+
+qt_standard_project_setup()
+
+qt6_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
+	src/core/dialogs.h
+	src/core/dialogs.cpp
+	src/core/initools.h
+	src/core/initools.cpp
+	src/core/mainwindow.h
+	src/core/mainwindow.cpp
+	src/core/pages.h
+	src/core/pages.cpp
+	src/core/tools.h
+	src/core/tools.cpp
+	src/filedownloader.h
+	src/helpers.h
+	src/main.cpp
 )
 
-target_compile_definitions(UndertaleSaveEditor PUBLIC
-	APP_VERSION="2.0.0.0"
-    QT_DISABLE_DEPRECATED_BEFORE=0x060000
+target_compile_definitions(${PROJECT_NAME} PUBLIC
+	APP_VERSION="${PROJECT_VERSION}"
+	QT_DISABLE_DEPRECATED_BEFORE=0x060000
 	RC_ICONS="images/icon.ico"
-	CONFIG+=c++20
 )
 
-target_link_libraries(UndertaleSaveEditor PUBLIC
-    Qt::Core
-    Qt::Gui
-    Qt::Network
-    Qt::Widgets
+target_link_libraries(${PROJECT_NAME} PUBLIC
+	Qt::Core
+	Qt::Gui
+	Qt::Network
+	Qt::Widgets
+)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+	WIN32_EXECUTABLE ON
+	MACOSX_BUNDLE ON
 )
 
 # Resources:
@@ -137,9 +150,7 @@ set(assets_resource_files
     "images/icon.png"
 )
 
-qt6_add_resources(UndertaleSaveEditor "assets"
-    PREFIX
-        "/"
-    FILES
-        ${assets_resource_files}
+qt6_add_resources(${PROJECT_NAME} "assets"
+	PREFIX "/"
+	FILES ${assets_resource_files}
 )

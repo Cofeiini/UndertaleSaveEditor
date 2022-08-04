@@ -5,7 +5,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 
-#include "mainwindow.h"
+#include "src/core/mainwindow.h"
 #include "src/core/dialogs.h"
 #include "src/core/tools.h"
 #include "src/helpers.h"
@@ -138,24 +138,24 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 	layout->addWidget(scrollArea);
 	layout->addLayout(bottomLayout);
 
-	connect(checkAllButton, &QPushButton::clicked, this, [=] () -> void {
+	connect(checkAllButton, &QPushButton::clicked, this, [widgetList] () -> void {
 		for (CustomCheckBox *w : *widgetList)
 		{
 			w->editor->setChecked(true);
 		}
 	});
-	connect(uncheckAllButton, &QPushButton::clicked, this, [=] () -> void {
+	connect(uncheckAllButton, &QPushButton::clicked, this, [widgetList] () -> void {
 		for (CustomCheckBox *w : *widgetList)
 		{
 			w->editor->setChecked(false);
 		}
 	});
-	connect(applyButton, &QPushButton::clicked, this, [=] () -> void {
+	connect(applyButton, &QPushButton::clicked, this, [this] () -> void {
 		isQuit = false; // Important to flip this to keep the changes
 		close();
 	});
 	connect(cancelButton, &QPushButton::clicked, this, &QDialog::close); // Destroy event will handle the cleanup
-	connect(this, &QDialog::destroyed, this, [=] () -> void {
+	connect(this, &QDialog::destroyed, this, [this, widgetList] () -> void {
 		if (!isQuit)
 		{
 			return;

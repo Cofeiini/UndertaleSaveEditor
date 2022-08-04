@@ -12,7 +12,7 @@ class FileDownloader : public QObject
 public:
 	explicit FileDownloader(const QUrl url, QObject *parent = nullptr) : QObject{parent}
 	{
-		connect(&manager, &QNetworkAccessManager::finished, this, [=] (QNetworkReply *reply) -> void {
+		connect(&manager, &QNetworkAccessManager::finished, this, [this] (QNetworkReply *reply) -> void {
 			emit downloaded(reply->readAll());
 			reply->deleteLater();
 			deleteLater();

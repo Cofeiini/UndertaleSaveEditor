@@ -1,5 +1,7 @@
-#ifndef HELPERS_H
+﻿#ifndef HELPERS_H
 #define HELPERS_H
+
+#include <QtGlobal>
 
 namespace
 {

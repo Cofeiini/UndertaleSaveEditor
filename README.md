@@ -34,8 +34,7 @@ Making a "shadow build" is recommended for keeping the source folder clean and o
 1. `git clone https://github.com/Cofeiini/UndertaleSaveEditor.git`
 2. `mkdir build-UndertaleSaveEditor`
 3. `qt-cmake -S UndertaleSaveEditor -B build-UndertaleSaveEditor`
-4. `cd build-UndertaleSaveEditor`
-5. `cmake --build .`
+4. `cmake --build build-UndertaleSaveEditor`
 
 If you don't mind messy source, you can follow these steps. This will generate the executable in the root of the source directory.
 

@@ -238,22 +238,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	connect(this, &MainWindow::enableControls, saveAsAction, &QAction::setEnabled);
 	connect(saveAsAction, &QAction::triggered, this, &MainWindow::saveFileAs);
 	connect(exitAction, &QAction::triggered, this, &MainWindow::close);
-	connect(showDebugAction, &QAction::toggled, this, [=] (const bool checked) -> void {
+	connect(showDebugAction, &QAction::toggled, this, [this] (const bool checked) -> void {
 		buttons.at(4)->setHidden(!checked);
 		bitChange(toggleOptions, checked, TOGGLE_SHOWDEBUG);
 		QTimer::singleShot(1, this, &MainWindow::updateIconScroll); // 1 ms delay should be enough to resize the widget
 	});
-	connect(showShrineAction, &QAction::toggled, this, [=] (const bool checked) -> void {
+	connect(showShrineAction, &QAction::toggled, this, [this] (const bool checked) -> void {
 		buttons.at(5)->setHidden(!checked);
 		bitChange(toggleOptions, checked, TOGGLE_SHOWSHRINE);
 		QTimer::singleShot(1, this, &MainWindow::updateIconScroll); // 1 ms delay should be enough to resize the widget
 	});
-	connect(toggleDarkTheme, &QAction::toggled, this, [=] (const bool checked) -> void {
+	connect(toggleDarkTheme, &QAction::toggled, this, [this] (const bool checked) -> void {
 		QApplication::setPalette(checked ? darkPalette : lightPalette);
 		bitChange(toggleOptions, checked, TOGGLE_DARKMODE);
 		emit toggleDarkMode(checked);
 	});
-	connect(fetchDaily, &QAction::toggled, this, [=] () -> void {
+	connect(fetchDaily, &QAction::toggled, this, [this, fetchDaily, fetchWeekly, fetchMonthly] () -> void {
 		// Block signals to prevent recursive activation
 		const QSignalBlocker blockDaily(fetchDaily);
 		const QSignalBlocker blockWeekly(fetchWeekly);
@@ -265,7 +265,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 		fetchDelay = FETCH_DAILY;
 	});
-	connect(fetchWeekly, &QAction::toggled, this, [=] () -> void {
+	connect(fetchWeekly, &QAction::toggled, this, [this, fetchDaily, fetchWeekly, fetchMonthly] () -> void {
 		// Block signals to prevent recursive activation
 		const QSignalBlocker blockDaily(fetchDaily);
 		const QSignalBlocker blockWeekly(fetchWeekly);
@@ -277,7 +277,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
 		fetchDelay = FETCH_WEEKLY;
 	});
-	connect(fetchMonthly, &QAction::toggled, this, [=] () -> void {
+	connect(fetchMonthly, &QAction::toggled, this, [this, fetchDaily, fetchWeekly, fetchMonthly] () -> void {
 		// Block signals to prevent recursive activation
 		const QSignalBlocker blockDaily(fetchDaily);
 		const QSignalBlocker blockWeekly(fetchWeekly);
@@ -290,17 +290,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 		fetchDelay = FETCH_MONTHLY;
 	});
 	connect(this, &MainWindow::enableTools, yellowNamesAction, &QAction::setEnabled);
-	connect(yellowNamesAction, &QAction::triggered, this, [=] () -> void {
+	connect(yellowNamesAction, &QAction::triggered, this, [this] () -> void {
 		YellowNamesDialog *yellowNamesDialog = new YellowNamesDialog(this, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 		yellowNamesDialog->setAttribute(Qt::WA_DeleteOnClose, true); // This is important. It prevents multiple dialog windows from being stored in memory
 		yellowNamesDialog->show();
 	});
-	connect(showAboutAction, &QAction::triggered, this, [=] () -> void {
+	connect(showAboutAction, &QAction::triggered, this, [this] () -> void {
 		AboutDialog *about = new AboutDialog(this, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 		about->setAttribute(Qt::WA_DeleteOnClose, true); // This is important. It prevents multiple dialog windows from being stored in memory
 		about->show();
 	});
-	connect(icons, &QListWidget::currentRowChanged, this, [=] (const int currentRow) -> void {
+	connect(icons, &QListWidget::currentRowChanged, this, [this] (const int currentRow) -> void {
 		pages->setCurrentIndex(currentRow);
 	});
 
@@ -391,7 +391,7 @@ void MainWindow::showEvent(QShowEvent *event)
 		if (!shouldFetch)
 		{
 			qDebug() << fetchDelay << "day(s)" << "has/have passed since the last prompt";
-			QTimer::singleShot(3, this, &MainWindow::showVersionPrompt); // A short delay should get the main window visible and center the prompt
+			QTimer::singleShot(10, this, &MainWindow::showVersionPrompt); // A short delay should get the main window visible and center the prompt
 		}
 	}
 

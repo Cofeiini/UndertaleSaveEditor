@@ -85,9 +85,9 @@ CustomIniEditor::CustomIniEditor(const QString &identifier, T **editorWidget, QW
 	setLayout(vLayout);
 
 	connect(MainWindow::instance, &MainWindow::updateIniWidgets, this, &CustomIniEditor::updateData);
-	connect(MainWindow::instance, &MainWindow::toggleDarkMode, this, [=] (const bool isDarkMode) -> void {
+	connect(MainWindow::instance, &MainWindow::toggleDarkMode, this, [this] (const bool isDarkMode) -> void {
 		const QString fontColor = isDarkMode ? QStringLiteral("white") : QStringLiteral("black");
-		setStyleSheet(QStringLiteral("CustomIniEditor > QLabel { color: ") + fontColor + QStringLiteral("; } CustomIniEditor:hover { padding: 4px; border: 1px solid gray; }"));
+		setStyleSheet(QStringLiteral("CustomIniEditor > QLabel { color: %1; } CustomIniEditor:hover { padding: 4px; border: 1px solid gray; }").arg(fontColor));
 	});
 	connect(this, &CustomIniEditor::dataChanged, MainWindow::instance, &MainWindow::iniModified);
 }

@@ -23,9 +23,9 @@ CustomEditor::CustomEditor(const int identifier, T **editorWidget, QWidget *budd
 
 
 	connect(MainWindow::instance, &MainWindow::updateWidgets, this, &CustomEditor::updateData);
-	connect(MainWindow::instance, &MainWindow::toggleDarkMode, this, [=] (const bool isDarkMode) -> void {
+	connect(MainWindow::instance, &MainWindow::toggleDarkMode, this, [this] (const bool isDarkMode) -> void {
 		const QString fontColor = isDarkMode ? QStringLiteral("white") : QStringLiteral("black");
-		setStyleSheet(QStringLiteral("CustomEditor > QLabel { color: ") + fontColor + QStringLiteral("; } CustomEditor:hover { padding: 4px; border: 1px solid gray; }"));
+		setStyleSheet(QStringLiteral("CustomEditor > QLabel { color: %1; } CustomEditor:hover { padding: 4px; border: 1px solid gray; }").arg(fontColor));
 	});
 	connect(this, &CustomEditor::dataChanged, MainWindow::instance, &MainWindow::fileModified);
 }
@@ -81,7 +81,7 @@ CustomLineEdit::CustomLineEdit(const int id, QWidget *buddyWidget) : CustomEdito
 		{
 			const QString hintText = QStringLiteral("Used in dialog and menus");
 			addHintText(hintText);
-			callback = [=]() -> void {
+			callback = [this, hintText]() -> void {
 				label->setText((editor->text().size() > 6) ? QStringLiteral("Easy to change, huh?") : hintText);
 			};
 			break;
@@ -1068,7 +1068,7 @@ CustomSpinBox::CustomSpinBox(int id, QWidget *buddyWidget) : CustomEditor(id, &e
 			const QString hintTitle = QStringLiteral("Used to determine random events.");
 			addHintText(hintTitle);
 
-			callback = [=]() -> void {
+			callback = [this, hintTitle]() -> void {
 				const int value = editor->value();
 				QString hintText = QStringLiteral("No event");
 
@@ -2078,7 +2078,7 @@ TimeEdit::TimeEdit(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, bud
 	editor->setDecimals(0);
 
 	addHintText(QStringLiteral("00:00:00"));
-	callback = [=] () {
+	callback = [this] () {
 		const double data = editor->value();
 		const quint64 h = static_cast<quint64>(data * 0.000009259); // 1800 * 60 = 108000 frames
 		const quint8 m = static_cast<quint64>(data * 0.000555555) % 60; // 30 * 60 = 1800 frames
@@ -2261,7 +2261,7 @@ YellowCheckBox::YellowCheckBox(int id, const QString text, QWidget *buddyWidget)
 			states = { { 0, Qt::Unchecked }, { 1, Qt::PartiallyChecked }, { 2, Qt::Checked } };
 
 			addHintText(QStringLiteral(""));
-			callback = [=] () {
+			callback = [this] () {
 				switch (editor->checkState())
 				{
 					case Qt::Unchecked:
