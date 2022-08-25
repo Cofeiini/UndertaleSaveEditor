@@ -8,7 +8,7 @@ class MainWindow;
 
 class PlayerPage : public QTabWidget
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	PlayerPage(QWidget *parent = nullptr);
@@ -16,7 +16,7 @@ public:
 
 class BossesPage : public QTabWidget
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	BossesPage(QWidget *parent = nullptr);
@@ -24,7 +24,7 @@ public:
 
 class MonstersPage : public QTabWidget
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	MonstersPage(QWidget *parent = nullptr);
@@ -32,7 +32,7 @@ public:
 
 class LocationsPage : public QTabWidget
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	LocationsPage(QWidget *parent = nullptr);
@@ -40,7 +40,7 @@ public:
 
 class DebugPage : public QScrollArea
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	DebugPage(QWidget *parent = nullptr);
@@ -48,7 +48,7 @@ public:
 
 class ShrinePage : public QScrollArea
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	ShrinePage(QWidget *parent = nullptr);
@@ -56,7 +56,7 @@ public:
 
 class IniPage : public QScrollArea
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	IniPage(QWidget *parent = nullptr);

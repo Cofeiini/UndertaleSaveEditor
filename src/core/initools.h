@@ -11,13 +11,13 @@ class MainWindow;
 
 class CustomIniEditor : public QFrame
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	template<typename T>
 	explicit CustomIniEditor(const QString &identifier, T **editorWidget, QWidget *buddyWidget = nullptr);
 
-	void addHintText(const QString text);
+	void addHintText(const QString &text);
 	std::function<void()> callback = [] () { /* Keep this empty. Otherwise we crash */ };
 
 	QVBoxLayout *vLayout = new QVBoxLayout();
@@ -25,6 +25,7 @@ public:
 	QLabel *label = nullptr;
 
 	QString id;
+	static const QHash<QString, int> editorIds;
 
 signals:
 	void dataChanged(const bool changed);
@@ -39,16 +40,16 @@ private:
 
 class IniCheckBox : public CustomIniEditor
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
-	IniCheckBox(const QString &id, const QString text, QWidget *buddyWidget = nullptr);
+	IniCheckBox(const QString &id, const QString &text, QWidget *buddyWidget = nullptr);
 
 	QCheckBox *editor;
 
 public slots:
 	void updateSave(const int data);
-	void updateData();
+	void updateData() override;
 
 private:
 	const std::vector<int> values = { 0, 1, 1 };
@@ -57,7 +58,7 @@ private:
 
 class IniLineEdit : public CustomIniEditor
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	IniLineEdit(const QString &id, QWidget *buddyWidget = nullptr);
@@ -66,12 +67,12 @@ public:
 
 public slots:
 	void updateSave(const QString &data);
-	void updateData();
+	void updateData() override;
 };
 
 class IniSpinBox : public CustomIniEditor
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	IniSpinBox(const QString &id, QWidget *buddyWidget = nullptr);
@@ -80,7 +81,7 @@ public:
 
 public slots:
 	void updateSave(const double data);
-	void updateData();
+	void updateData() override;
 };
 
 #endif // INITOOLS_H

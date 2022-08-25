@@ -7,10 +7,10 @@
 
 class FileDownloader : public QObject
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
-	explicit FileDownloader(const QUrl url, QObject *parent = nullptr) : QObject{parent}
+	explicit FileDownloader(const QUrl &url, QObject *parent = nullptr) : QObject{parent}
 	{
 		connect(&manager, &QNetworkAccessManager::finished, this, [this] (QNetworkReply *reply) -> void {
 			emit downloaded(reply->readAll());

@@ -11,9 +11,18 @@
 
 #include "src/core/tools.h"
 
+union Options {
+	struct {
+		bool darkMode : 1;
+		bool showDebug : 1;
+		bool showShrine : 1;
+	} option;
+	quint32 data;
+};
+
 class MainWindow : public QMainWindow
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	explicit MainWindow(QWidget *parent = nullptr);
@@ -56,9 +65,8 @@ private slots:
 private:
 	void showVersionPrompt();
 	void showWriteError(const QString &path, const QString &error);
-	bool isRemoteNewer(const QString &local, const QString &remote);
-	bool isSaved(const quint8 modifiedBits);
-	void updateIconScroll();
+	[[nodiscard("Value must be used.")]] auto isRemoteNewer(const QString &local, const QString &remote) -> bool;
+	[[nodiscard("Value must be used.")]] auto isSaved(const quint8 modifiedBits) -> bool;
 	void writeFile();
 	void writeIni();
 
@@ -80,7 +88,7 @@ private:
 	QString fetchMessage = QStringLiteral("Improvements and bug fixes");
 	qint64 fetchTime = 0;
 	int fetchDelay = 7;
-	quint8 toggleOptions = TOGGLE_DARKMODE;
+	Options toggleOptions = { { true, false, false } };
 
 	QPalette lightPalette;
 	QPalette darkPalette;

@@ -16,36 +16,36 @@ AboutDialog::AboutDialog(QWidget *parent, Qt::WindowFlags flags) : QDialog(paren
 	setMinimumSize(QSize(410, 240));
 	setWindowTitle(QStringLiteral("About %1").arg(QApplication::applicationName()));
 
-	QLabel *aboutAppLabel = new QLabel(QStringLiteral("### %1 (%2)").arg(QApplication::applicationName(), QApplication::applicationVersion()));
+	auto *aboutAppLabel = new QLabel(QStringLiteral("### %1 (%2)").arg(QApplication::applicationName(), QApplication::applicationVersion()));
 	aboutAppLabel->setTextFormat(Qt::MarkdownText);
 	aboutAppLabel->setAlignment(Qt::AlignHCenter);
 
-	QLabel *aboutProjectLabel = new QLabel(QStringLiteral("The project can be found here:  \n<%1>").arg(GitHub_Url));
+	auto *aboutProjectLabel = new QLabel(QStringLiteral("The project can be found here:  \n<%1>").arg(GitHub_Url));
 	aboutProjectLabel->setTextFormat(Qt::MarkdownText);
 
-	QLabel *aboutThanksLabel = new QLabel(QStringLiteral("__Special Thanks__"));
+	auto *aboutThanksLabel = new QLabel(QStringLiteral("__Special Thanks__"));
 	aboutThanksLabel->setTextFormat(Qt::MarkdownText);
 	aboutThanksLabel->setAlignment(Qt::AlignHCenter);
-	QLabel *aboutThanksNames = new QLabel(GetCredits());
+	auto *aboutThanksNames = new QLabel(GetCredits());
 	aboutThanksNames->setTextFormat(Qt::MarkdownText);
 	aboutThanksNames->setAlignment(Qt::AlignHCenter);
-	QScrollArea *aboutThanksArea = new QScrollArea();
+	auto *aboutThanksArea = new QScrollArea();
 	aboutThanksArea->setAlignment(Qt::AlignHCenter);
 	aboutThanksArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	aboutThanksArea->setWidget(aboutThanksNames);
 
-	QLabel *aboutMadeByLabel = new QLabel(QStringLiteral("Made by **%1**").arg(Project_Author));
+	auto *aboutMadeByLabel = new QLabel(QStringLiteral("Made by **%1**").arg(Project_Author));
 	aboutMadeByLabel->setTextFormat(Qt::MarkdownText);
 
-	QPushButton *closeButton = new QPushButton(QStringLiteral("Close"));
+	auto *closeButton = new QPushButton(QStringLiteral("Close"));
 	connect(closeButton, &QPushButton::clicked, this, &QDialog::close);
 
-	QHBoxLayout *bottomLayout = new QHBoxLayout;
+	auto *bottomLayout = new QHBoxLayout;
 	bottomLayout->addWidget(aboutMadeByLabel);
 	bottomLayout->addStretch();
 	bottomLayout->addWidget(closeButton);
 
-	QVBoxLayout *aboutLayout = new QVBoxLayout();
+	auto *aboutLayout = new QVBoxLayout();
 	aboutLayout->addWidget(aboutAppLabel);
 	aboutLayout->addWidget(aboutProjectLabel);
 	aboutLayout->addWidget(aboutThanksLabel);
@@ -55,7 +55,7 @@ AboutDialog::AboutDialog(QWidget *parent, Qt::WindowFlags flags) : QDialog(paren
 	setLayout(aboutLayout);
 }
 
-QString AboutDialog::GetCredits()
+auto AboutDialog::GetCredits() -> QString
 {
 	QStringList names = Project_Credits.split(',');
 	for (QString &n : names)
@@ -72,12 +72,12 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 	setWindowTitle(QStringLiteral("Yellow monster names for the credits"));
 	setMinimumWidth(320);
 
-	QPushButton *checkAllButton = new QPushButton(QStringLiteral("Check All"));
-	QPushButton *uncheckAllButton = new QPushButton(QStringLiteral("Uncheck All"));
-	QPushButton *applyButton = new QPushButton(QStringLiteral("Apply"));
-	QPushButton *cancelButton = new QPushButton(QStringLiteral("Cancel"));
+	auto *checkAllButton = new QPushButton(QStringLiteral("Check All"));
+	auto *uncheckAllButton = new QPushButton(QStringLiteral("Uncheck All"));
+	auto *applyButton = new QPushButton(QStringLiteral("Apply"));
+	auto *cancelButton = new QPushButton(QStringLiteral("Cancel"));
 
-	QHBoxLayout *topLayout = new QHBoxLayout();
+	auto *topLayout = new QHBoxLayout();
 	topLayout->addWidget(checkAllButton);
 	topLayout->addWidget(uncheckAllButton);
 	topLayout->addStretch();
@@ -115,25 +115,25 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 		new CustomCheckBox(187, Str_Amalgamates)
 	});
 
-	QVBoxLayout *scrollLayout = new QVBoxLayout();
+	auto *scrollLayout = new QVBoxLayout();
 	for (CustomCheckBox *item : *widgetList)
 	{
 		item->updateData();
 		scrollLayout->addWidget(item);
 	}
 
-	QWidget *scrollWindow = new QWidget();
+	auto *scrollWindow = new QWidget();
 	scrollWindow->setLayout(scrollLayout);
 
-	QScrollArea *scrollArea = new QScrollArea();
+	auto *scrollArea = new QScrollArea();
 	scrollArea->setWidget(scrollWindow);
 
-	QHBoxLayout *bottomLayout = new QHBoxLayout();
+	auto *bottomLayout = new QHBoxLayout();
 	bottomLayout->addStretch();
 	bottomLayout->addWidget(applyButton);
 	bottomLayout->addWidget(cancelButton);
 
-	QVBoxLayout *layout = new QVBoxLayout();
+	auto *layout = new QVBoxLayout();
 	layout->addLayout(topLayout);
 	layout->addWidget(scrollArea);
 	layout->addLayout(bottomLayout);

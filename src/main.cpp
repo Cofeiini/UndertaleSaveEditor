@@ -5,7 +5,7 @@
 #include "src/core/mainwindow.h"
 #include "src/helpers.h"
 
-int main(int argc, char *argv[])
+auto main(int argc, char *argv[]) -> int
 {
 	QApplication a(argc, argv);
 	a.setOrganizationName(Project_Author);
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	const int fontId = QFontDatabase::addApplicationFont(QStringLiteral(":/common-font"));
 	if(fontId > -1)
 	{
-		QFont font = QFont(QStringLiteral("Vegur-Regular"));
+		QFont font = QFont(QFontDatabase::applicationFontFamilies(fontId).at(0));
 		font.setPixelSize(12);
 		a.setFont(font);
 	}

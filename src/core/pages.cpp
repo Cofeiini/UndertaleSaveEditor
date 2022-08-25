@@ -15,36 +15,36 @@ PlayerPage::PlayerPage(QWidget *parent) : QTabWidget(parent)
 	tabBar()->setExpanding(true);
 
 //	##### Character #####
-	QScrollArea *charArea = new QScrollArea();
+	auto *charArea = new QScrollArea();
 	charArea->setWidgetResizable(true);
-	QWidget *charWidget = new QWidget();
-	QVBoxLayout *charLayout = new QVBoxLayout();
+	auto *charWidget = new QWidget();
+	auto *charLayout = new QVBoxLayout();
 //	##### Character - Stats #####
-	QGroupBox *statsGroup = new QGroupBox(QStringLiteral("Stats"));
-	QVBoxLayout *statsLayout = new QVBoxLayout();
+	auto *statsGroup = new QGroupBox(QStringLiteral("Stats"));
+	auto *statsLayout = new QVBoxLayout();
 	statsLayout->addWidget(new CustomLineEdit(1, new QLabel(QStringLiteral("Name"))));
 	statsLayout->addWidget(new CustomSpinBox(2, new QLabel(QStringLiteral("LV"))));
 	statsLayout->addWidget(new CustomSpinBox(3, new QLabel(QStringLiteral("Max HP"))));
 	statsLayout->addWidget(new CustomSpinBox(5, new QLabel(QStringLiteral("AT"))));
-	CustomSpinBox *weaponAT = new CustomSpinBox(6, new QLabel(QStringLiteral("Weapon AT")));
+	auto *weaponAT = new CustomSpinBox(6, new QLabel(QStringLiteral("Weapon AT")));
 	statsLayout->addWidget(weaponAT);
 	statsLayout->addWidget(new CustomSpinBox(7, new QLabel(QStringLiteral("DF"))));
-	CustomSpinBox *armorDF = new CustomSpinBox(8, new QLabel(QStringLiteral("Armor DF")));
+	auto *armorDF = new CustomSpinBox(8, new QLabel(QStringLiteral("Armor DF")));
 	statsLayout->addWidget(armorDF);
 	statsLayout->addWidget(new CustomSpinBox(10, new QLabel(QStringLiteral("EXP"))));
 	statsLayout->addWidget(new CustomSpinBox(11, new QLabel(QStringLiteral("Gold"))));
 	statsGroup->setLayout(statsLayout);
 //	##### Character - Phone #####
-	QGroupBox *phoneGroup = new QGroupBox(QStringLiteral("Phone"));
-	QVBoxLayout *phoneLayout = new QVBoxLayout();
+	auto *phoneGroup = new QGroupBox(QStringLiteral("Phone"));
+	auto *phoneLayout = new QVBoxLayout();
 	for (int i = 14; i <= 28; i += 2)
 	{
 		phoneLayout->addWidget(new PhoneComboBox(i));
 	}
 	phoneGroup->setLayout(phoneLayout);
 //	##### Character - Other #####
-	QGroupBox *otherGroup = new QGroupBox(QStringLiteral("Other"));
-	QVBoxLayout *otherLayout = new QVBoxLayout();
+	auto *otherGroup = new QGroupBox(QStringLiteral("Other"));
+	auto *otherLayout = new QVBoxLayout();
 	otherLayout->addWidget(new CustomSpinBox(36, new QLabel(QStringLiteral("fun"))));
 	otherLayout->addWidget(new PlotEdit(543, new QLabel(QStringLiteral("Plot"))));
 	otherLayout->addWidget(new RoomComboBox(548, new QLabel(QStringLiteral("Room"))));
@@ -61,30 +61,30 @@ PlayerPage::PlayerPage(QWidget *parent) : QTabWidget(parent)
 	addTab(charArea , QIcon(QStringLiteral(":menu-player")), QStringLiteral("Character"));
 
 //	##### Equipment #####
-	QScrollArea *equipmentArea = new QScrollArea();
+	auto *equipmentArea = new QScrollArea();
 	equipmentArea->setWidgetResizable(true);
-	QWidget *equipmentWidget = new QWidget();
-	QVBoxLayout *equipmentLayout = new QVBoxLayout();
+	auto *equipmentWidget = new QWidget();
+	auto *equipmentLayout = new QVBoxLayout();
 //	##### Equipment - Inventory #####
-	QGroupBox *inventoryGroup = new QGroupBox(QStringLiteral("Inventory"));
-	QVBoxLayout *inventoryLayout = new QVBoxLayout();
+	auto *inventoryGroup = new QGroupBox(QStringLiteral("Inventory"));
+	auto *inventoryLayout = new QVBoxLayout();
 	for (int i = 13; i <= 27; i += 2)
 	{
 		inventoryLayout->addWidget(new ItemComboBox(i));
 	}
 	inventoryGroup->setLayout(inventoryLayout);
 //	##### Equipment - Dimensional Box A #####
-	QGroupBox *dBoxAGroup = new QGroupBox(QStringLiteral("Dimensional Box A"));
-	QVBoxLayout *dBoxALayout = new QVBoxLayout();
-	for (int i = 331; i <= 340; i++)
+	auto *dBoxAGroup = new QGroupBox(QStringLiteral("Dimensional Box A"));
+	auto *dBoxALayout = new QVBoxLayout();
+	for (int i = 331; i <= 340; ++i)
 	{
 		dBoxALayout->addWidget(new ItemComboBox(i));
 	}
 	dBoxAGroup->setLayout(dBoxALayout);
 //	##### Equipment - Dimensional Box B #####
-	QGroupBox *dBoxBGroup = new QGroupBox(QStringLiteral("Dimensional Box B"));
-	QVBoxLayout *dBoxBLayout = new QVBoxLayout();
-	for (int i = 343; i <= 352; i++)
+	auto *dBoxBGroup = new QGroupBox(QStringLiteral("Dimensional Box B"));
+	auto *dBoxBLayout = new QVBoxLayout();
+	for (int i = 343; i <= 352; ++i)
 	{
 		dBoxBLayout->addWidget(new ItemComboBox(i));
 	}
@@ -102,13 +102,13 @@ PlayerPage::PlayerPage(QWidget *parent) : QTabWidget(parent)
 	addTab(equipmentArea, QIcon(QStringLiteral(":menu-ribbon")), QStringLiteral("Equipment"));
 
 //	##### Fight #####
-	QScrollArea *fightArea = new QScrollArea();
+	auto *fightArea = new QScrollArea();
 	fightArea->setWidgetResizable(true);
-	QWidget *fightWidget = new QWidget();
-	QVBoxLayout *fightLayout = new QVBoxLayout();
+	auto *fightWidget = new QWidget();
+	auto *fightLayout = new QVBoxLayout();
 //	##### Fight - Kills #####
-	QGroupBox *killsGroup = new QGroupBox(QStringLiteral("Kills"));
-	QVBoxLayout *killsLayout = new QVBoxLayout();
+	auto *killsGroup = new QGroupBox(QStringLiteral("Kills"));
+	auto *killsLayout = new QVBoxLayout();
 	killsLayout->addWidget(new CustomSpinBox(12, new QLabel(QStringLiteral("Current"))));
 	killsLayout->addWidget(new CustomSpinBox(232, new QLabel(QStringLiteral("Total"))));
 	killsLayout->addWidget(new CustomSpinBox(233, new QLabel(Str_Ruins)));
@@ -117,12 +117,12 @@ PlayerPage::PlayerPage(QWidget *parent) : QTabWidget(parent)
 	killsLayout->addWidget(new CustomSpinBox(236, new QLabel(Str_Hotland)));
 	killsGroup->setLayout(killsLayout);
 //	##### Fight - Previous Fight #####
-	QGroupBox *prevFightGroup = new QGroupBox(QStringLiteral("Previous fight"));
-	QVBoxLayout *prevFightLayout = new QVBoxLayout();
-	CustomRadioButton *prevFight1 = new CustomRadioButton(41, QStringLiteral("Spare"));
-	CustomRadioButton *prevFight2 = new CustomRadioButton(42, QStringLiteral("Flee"));
-	CustomRadioButton *prevFight3 = new CustomRadioButton(43, QStringLiteral("Kill"));
-	CustomRadioButton *prevFight4 = new CustomRadioButton(44, QStringLiteral("Bored"));
+	auto *prevFightGroup = new QGroupBox(QStringLiteral("Previous fight"));
+	auto *prevFightLayout = new QVBoxLayout();
+	auto *prevFight1 = new CustomRadioButton(41, QStringLiteral("Spare"));
+	auto *prevFight2 = new CustomRadioButton(42, QStringLiteral("Flee"));
+	auto *prevFight3 = new CustomRadioButton(43, QStringLiteral("Kill"));
+	auto *prevFight4 = new CustomRadioButton(44, QStringLiteral("Bored"));
 	// Unfortunately the custom widget "editor setup" prevents having a shared parent for each radio button
 	connect(prevFight1->editor, &QRadioButton::clicked, this, [=] () -> void {
 		prevFight2->editor->setChecked(false);
@@ -159,13 +159,13 @@ PlayerPage::PlayerPage(QWidget *parent) : QTabWidget(parent)
 	addTab(fightArea, QIcon(QStringLiteral(":menu-fight")), QStringLiteral("Fight"));
 
 //	##### Events #####
-	QScrollArea *eventsArea = new QScrollArea();
+	auto *eventsArea = new QScrollArea();
 	eventsArea->setWidgetResizable(true);
-	QWidget *eventsWidget = new QWidget();
-	QVBoxLayout *eventsLayout = new QVBoxLayout();
+	auto *eventsWidget = new QWidget();
+	auto *eventsLayout = new QVBoxLayout();
 //	##### Events - Neutral #####
-	QGroupBox *neutralGroup = new QGroupBox(QStringLiteral("Neutral"));
-	QVBoxLayout *neutralLayout = new QVBoxLayout();
+	auto *neutralGroup = new QGroupBox(QStringLiteral("Neutral"));
+	auto *neutralLayout = new QVBoxLayout();
 	neutralLayout->addWidget(new CustomCheckBox(37, QStringLiteral("Hard Mode")));
 	neutralLayout->addWidget(new CustomCheckBox(39, QStringLiteral("Disable encounters")));
 	neutralLayout->addWidget(new CustomCheckBox(109, QStringLiteral("Used Punch Card while wearing Tough Glove")));
@@ -174,16 +174,16 @@ PlayerPage::PlayerPage(QWidget *parent) : QTabWidget(parent)
 	neutralLayout->addWidget(new CustomCheckBox(530, QStringLiteral("Seen the cast/credits")));
 	neutralGroup->setLayout(neutralLayout);
 //	##### Events - Pacifist #####
-	QGroupBox *pacifistGroup = new QGroupBox(QStringLiteral("Pacifist"));
-	QVBoxLayout *pacifistLayout = new QVBoxLayout();
+	auto *pacifistGroup = new QGroupBox(QStringLiteral("Pacifist"));
+	auto *pacifistLayout = new QVBoxLayout();
 	pacifistLayout->addWidget(new CustomCheckBox(52, QStringLiteral("Cooked Instant Noodles")));
 	pacifistLayout->addWidget(new CustomCheckBox(58, QStringLiteral("Spared a certain monster")));
 	pacifistLayout->addWidget(new CustomCheckBox(511, QStringLiteral("Inside the True Lab")));
 	pacifistLayout->addWidget(new CustomCheckBox(38, QStringLiteral("True Pacifist")));
 	pacifistGroup->setLayout(pacifistLayout);
 //	##### Events - Genocide #####
-	QGroupBox *genocideGroup = new QGroupBox(QStringLiteral("Genocide"));
-	QVBoxLayout *genocideLayout = new QVBoxLayout();
+	auto *genocideGroup = new QGroupBox(QStringLiteral("Genocide"));
+	auto *genocideLayout = new QVBoxLayout();
 	genocideLayout->addWidget(new CustomCheckBox(252, QStringLiteral("Genocide in %1").arg(Str_Ruins)));
 	genocideLayout->addWidget(new CustomCheckBox(253, QStringLiteral("Genocide in %1").arg(Str_Snowdin)));
 	genocideLayout->addWidget(new CustomCheckBox(254, QStringLiteral("Genocide in %1").arg(Str_Waterfall)));
@@ -191,8 +191,8 @@ PlayerPage::PlayerPage(QWidget *parent) : QTabWidget(parent)
 	genocideLayout->addWidget(new CustomCheckBox(256, QStringLiteral("Genocide in %1").arg(Str_Core)));
 	genocideGroup->setLayout(genocideLayout);
 //	##### Events - Counters #####
-	QGroupBox *countersGroup = new QGroupBox(QStringLiteral("Counters"));
-	QVBoxLayout *countersLayout = new QVBoxLayout();
+	auto *countersGroup = new QGroupBox(QStringLiteral("Counters"));
+	auto *countersLayout = new QVBoxLayout();
 	countersLayout->addWidget(new CustomSpinBox(54, new QLabel(QStringLiteral("Spared fights"))));
 	countersLayout->addWidget(new CustomSpinBox(55, new QLabel(QStringLiteral("Fled fights"))));
 	countersLayout->addWidget(new CustomSpinBox(56, new QLabel(QStringLiteral("Dialog skips"))));
@@ -217,10 +217,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 	tabBar()->setDocumentMode(true);
 	tabBar()->setExpanding(true);
 
-	QScrollArea *floweyArea = new QScrollArea();
+	auto *floweyArea = new QScrollArea();
 	floweyArea->setWidgetResizable(true);
-	QWidget *floweyWidget = new QWidget();
-	QVBoxLayout *floweyLayout = new QVBoxLayout();
+	auto *floweyWidget = new QWidget();
+	auto *floweyLayout = new QVBoxLayout();
 	floweyLayout->addWidget(new CustomSpinBox(40, new QLabel(QStringLiteral("%1 stalking").arg(Str_Flowey))));
 	floweyLayout->addWidget(new CustomCheckBox(506, QStringLiteral("Killed %1").arg(Str_Flowey)));
 	floweyLayout->addStretch();
@@ -229,10 +229,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(floweyArea, QIcon(QStringLiteral(":menu-flowey")), Str_Flowey);
 
-	QScrollArea *torielArea = new QScrollArea();
+	auto *torielArea = new QScrollArea();
 	torielArea->setWidgetResizable(true);
-	QWidget *torielWidget = new QWidget();
-	QVBoxLayout *torielLayout = new QVBoxLayout();
+	auto *torielWidget = new QWidget();
+	auto *torielLayout = new QVBoxLayout();
 	torielLayout->addWidget(new CustomComboBox(68, new QLabel(QStringLiteral("Dog kidnapped %1's phone").arg(Str_Toriel))));
 	torielLayout->addWidget(new CustomComboBox(77, new QLabel(QStringLiteral("Chosen flavor of pie"))));
 	torielLayout->addWidget(new CustomSpinBox(71, new QLabel(QStringLiteral("Said \"Hello\""))));
@@ -248,10 +248,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(torielArea, QIcon(QStringLiteral(":menu-toriel")), Str_Toriel);
 
-	QScrollArea *sansArea = new QScrollArea();
+	auto *sansArea = new QScrollArea();
 	sansArea->setWidgetResizable(true);
-	QWidget *sansWidget = new QWidget();
-	QVBoxLayout *sansLayout = new QVBoxLayout();
+	auto *sansWidget = new QWidget();
+	auto *sansLayout = new QVBoxLayout();
 	sansLayout->addWidget(new CustomComboBox(78, new QLabel(QStringLiteral("%1 creeping in the forest").arg(Str_sans))));
 	sansLayout->addWidget(new CustomComboBox(120, new QLabel(QStringLiteral("Date with %1 at %2's").arg(Str_sans, Str_Grillby))));
 	sansLayout->addWidget(new CustomComboBox(422, new QLabel(QStringLiteral("Food ordered at %1's").arg(Str_Grillby))));
@@ -266,10 +266,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(sansArea, QIcon(QStringLiteral(":menu-sans")), Str_sans);
 
-	QScrollArea *papyrusArea = new QScrollArea();
+	auto *papyrusArea = new QScrollArea();
 	papyrusArea->setWidgetResizable(true);
-	QWidget *papyrusWidget = new QWidget();
-	QVBoxLayout *papyrusLayout = new QVBoxLayout();
+	auto *papyrusWidget = new QWidget();
+	auto *papyrusLayout = new QVBoxLayout();
 	papyrusLayout->addWidget(new CustomCheckBox(97, QStringLiteral("Flirted with %1").arg(Str_Papyrus)));
 	papyrusLayout->addWidget(new CustomComboBox(98, new QLabel(QStringLiteral("Interaction with %1").arg(Str_Papyrus))));
 	papyrusLayout->addWidget(new CustomCheckBox(99, QStringLiteral("Fought %1").arg(Str_Papyrus)));
@@ -284,10 +284,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(papyrusArea, QIcon(QStringLiteral(":menu-papyrus")), Str_Papyrus);
 
-	QScrollArea *undyneArea = new QScrollArea();
+	auto *undyneArea = new QScrollArea();
 	undyneArea->setWidgetResizable(true);
-	QWidget *undyneWidget = new QWidget();
-	QVBoxLayout *undyneLayout = new QVBoxLayout();
+	auto *undyneWidget = new QWidget();
+	auto *undyneLayout = new QVBoxLayout();
 	undyneLayout->addWidget(new CustomSpinBox(130, new QLabel(QStringLiteral("%1 fights").arg(Str_Undyne))));
 	undyneLayout->addWidget(new CustomCheckBox(315, QStringLiteral("%1 got mad at the first bridge").arg(Str_Undyne)));
 	undyneLayout->addWidget(new CustomCheckBox(316, QStringLiteral("%1 got mad at the large bridge").arg(Str_Undyne)));
@@ -307,10 +307,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(undyneArea, QIcon(QStringLiteral(":menu-undyne")), Str_Undyne);
 
-	QScrollArea *alphysArea = new QScrollArea();
+	auto *alphysArea = new QScrollArea();
 	alphysArea->setWidgetResizable(true);
-	QWidget *alphysWidget = new QWidget();
-	QVBoxLayout *alphysLayout = new QVBoxLayout();
+	auto *alphysWidget = new QWidget();
+	auto *alphysLayout = new QVBoxLayout();
 	alphysLayout->addWidget(new CustomCheckBox(523, QStringLiteral("Date with %1 is available").arg(Str_Alphys)));
 	alphysLayout->addWidget(new CustomComboBox(524, new QLabel(QStringLiteral("Interaction with %1").arg(Str_Alphys))));
 	alphysLayout->addWidget(new CustomSpinBox(227, new QLabel(QStringLiteral("Chat with %1 (Pacifist)").arg(Str_Alphys))));
@@ -320,10 +320,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(alphysArea, QIcon(QStringLiteral(":menu-alphys")), Str_Alphys);
 
-	QScrollArea *mettatonArea = new QScrollArea();
+	auto *mettatonArea = new QScrollArea();
 	mettatonArea->setWidgetResizable(true);
-	QWidget *mettatonWidget = new QWidget();
-	QVBoxLayout *mettatonLayout = new QVBoxLayout();
+	auto *mettatonWidget = new QWidget();
+	auto *mettatonLayout = new QVBoxLayout();
 	mettatonLayout->addWidget(new CustomCheckBox(319, QStringLiteral("Failed to defuse a bomb")));
 	mettatonLayout->addWidget(new CustomCheckBox(309, QStringLiteral("Completed the Multicolor Tile Puzzle")));
 	mettatonLayout->addWidget(new CustomCheckBox(320, QStringLiteral("Stepped on a green tile")));
@@ -337,10 +337,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(mettatonArea, QIcon(QStringLiteral(":menu-mettaton")), Str_Mettaton);
 
-	QScrollArea *asgoreArea = new QScrollArea();
+	auto *asgoreArea = new QScrollArea();
 	asgoreArea->setWidgetResizable(true);
-	QWidget *asgoreWidget = new QWidget();
-	QVBoxLayout *asgoreLayout = new QVBoxLayout();
+	auto *asgoreWidget = new QWidget();
+	auto *asgoreLayout = new QVBoxLayout();
 	asgoreLayout->addWidget(new CustomSpinBox(228, new QLabel(QStringLiteral("Chat with %1 (Pacifist)").arg(Str_Asgore))));
 	asgoreLayout->addWidget(new CustomCheckBox(507, QStringLiteral("Killed %1").arg(Str_Asgore)));
 	asgoreLayout->addStretch();
@@ -349,10 +349,10 @@ BossesPage::BossesPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(asgoreArea, QIcon(QStringLiteral(":menu-asgore")), Str_Asgore);
 
-	QScrollArea *asrielArea = new QScrollArea();
+	auto *asrielArea = new QScrollArea();
 	asrielArea->setWidgetResizable(true);
-	QWidget *asrielWidget = new QWidget();
-	QVBoxLayout *asrielLayout = new QVBoxLayout();
+	auto *asrielWidget = new QWidget();
+	auto *asrielLayout = new QVBoxLayout();
 	asrielLayout->addWidget(new CustomCheckBox(531, QStringLiteral("Fought %1").arg(Str_Asriel)));
 	asrielLayout->addWidget(new CustomComboBox(532, new QLabel(QStringLiteral("Stage of the final fight"))));
 	asrielLayout->addWidget(new CustomSpinBox(533, new QLabel(QStringLiteral("How many times re-fused"))));
@@ -377,13 +377,13 @@ MonstersPage::MonstersPage(QWidget *parent) : QTabWidget(parent)
 	tabBar()->setExpanding(true);
 
 //	##### Common #####
-	QScrollArea *commonArea = new QScrollArea();
+	auto *commonArea = new QScrollArea();
 	commonArea->setWidgetResizable(true);
-	QWidget *commonWidget = new QWidget();
-	QVBoxLayout *commonLayout = new QVBoxLayout();
+	auto *commonWidget = new QWidget();
+	auto *commonLayout = new QVBoxLayout();
 //	##### Common - Interactions #####
-	QGroupBox *interactionGroup = new QGroupBox(QStringLiteral("Interactions"));
-	QVBoxLayout *interactionLayout = new QVBoxLayout();
+	auto *interactionGroup = new QGroupBox(QStringLiteral("Interactions"));
+	auto *interactionLayout = new QVBoxLayout();
 	interactionLayout->addWidget(new CustomComboBox(53, new QLabel(QStringLiteral("Spare name color"))));
 	interactionLayout->addWidget(new CustomComboBox(45, new QLabel(QStringLiteral("The first dummy"))));
 	interactionLayout->addWidget(new CustomComboBox(83, new QLabel(Str_Doggo)));
@@ -400,14 +400,14 @@ MonstersPage::MonstersPage(QWidget *parent) : QTabWidget(parent)
 	interactionGroup->setLayout(interactionLayout);
 	commonLayout->addWidget(interactionGroup);
 //	##### Common - Neutral #####
-	QGroupBox *neutralGroup = new QGroupBox(QStringLiteral("Neutral"));
-	QVBoxLayout *neutralLayout = new QVBoxLayout();
+	auto *neutralGroup = new QGroupBox(QStringLiteral("Neutral"));
+	auto *neutralLayout = new QVBoxLayout();
 	neutralLayout->addWidget(new CustomCheckBox(313, QStringLiteral("Fought %1").arg(Str_Glyde)));
 	neutralGroup->setLayout(neutralLayout);
 	commonLayout->addWidget(neutralGroup);
 //	##### Common - Pacifist #####
-	QGroupBox *pacifistGroup = new QGroupBox(QStringLiteral("Pacifist"));
-	QVBoxLayout *pacifistLayout = new QVBoxLayout();
+	auto *pacifistGroup = new QGroupBox(QStringLiteral("Pacifist"));
+	auto *pacifistLayout = new QVBoxLayout();
 	pacifistLayout->addWidget(new CustomCheckBox(161, QStringLiteral("Spared %1").arg(Str_Froggit)));
 	pacifistLayout->addWidget(new CustomCheckBox(162, QStringLiteral("Spared %1").arg(Str_Whimsun)));
 	pacifistLayout->addWidget(new CustomCheckBox(163, QStringLiteral("Spared %1").arg(Str_Moldsmal)));
@@ -438,8 +438,8 @@ MonstersPage::MonstersPage(QWidget *parent) : QTabWidget(parent)
 	pacifistGroup->setLayout(pacifistLayout);
 	commonLayout->addWidget(pacifistGroup);
 //	##### Common - Genocide #####
-	QGroupBox *genocideGroup = new QGroupBox(QStringLiteral("Genocide"));
-	QVBoxLayout *genocideLayout = new QVBoxLayout();
+	auto *genocideGroup = new QGroupBox(QStringLiteral("Genocide"));
+	auto *genocideLayout = new QVBoxLayout();
 	genocideLayout->addWidget(new CustomCheckBox(283, QStringLiteral("Killed %1").arg(Str_Glad_Dummy)));
 	genocideLayout->addWidget(new CustomCheckBox(433, QStringLiteral("Killed %1").arg(Str_Royal_Guards)));
 	genocideGroup->setLayout(genocideLayout);
@@ -451,10 +451,10 @@ MonstersPage::MonstersPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(commonArea, QIcon(QStringLiteral(":menu-froggit")), QStringLiteral("Common"));
 
-	QScrollArea *napstablookArea = new QScrollArea();
+	auto *napstablookArea = new QScrollArea();
 	napstablookArea->setWidgetResizable(true);
-	QWidget *napstablookWidget = new QWidget();
-	QVBoxLayout *napstablookLayout = new QVBoxLayout();
+	auto *napstablookWidget = new QWidget();
+	auto *napstablookLayout = new QVBoxLayout();
 	napstablookLayout->addWidget(new CustomComboBox(67, new QLabel(QStringLiteral("%1 encounter").arg(Str_Napstablook))));
 	napstablookLayout->addWidget(new CustomComboBox(124, new QLabel(QStringLiteral("Date with %1").arg(Str_Napstablook))));
 	napstablookLayout->addWidget(new CustomCheckBox(126, QStringLiteral("Spooked %1").arg(Str_Aaron_and_Woshua)));
@@ -467,10 +467,10 @@ MonstersPage::MonstersPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(napstablookArea, QIcon(QStringLiteral(":menu-napstablook")), Str_Napstablook);
 
-	QScrollArea *temmieArea = new QScrollArea();
+	auto *temmieArea = new QScrollArea();
 	temmieArea->setWidgetResizable(true);
-	QWidget *temmieWidget = new QWidget();
-	QVBoxLayout *temmieLayout = new QVBoxLayout();
+	auto *temmieWidget = new QWidget();
+	auto *temmieLayout = new QVBoxLayout();
 	temmieLayout->addWidget(new CustomSpinBox(296, new QLabel(QStringLiteral("%1 sale countdown").arg(Str_Temmie))));
 	temmieLayout->addWidget(new CustomCheckBox(297, QStringLiteral("%1's special sale").arg(Str_Temmie)));
 	temmieLayout->addWidget(new CustomCheckBox(300, QStringLiteral("Talked to the allergic %1").arg(Str_Temmie)));
@@ -481,10 +481,10 @@ MonstersPage::MonstersPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(temmieArea, QIcon(QStringLiteral(":menu-temmie")), Str_Temmie);
 
-	QScrollArea *muffetArea = new QScrollArea();
+	auto *muffetArea = new QScrollArea();
 	muffetArea->setWidgetResizable(true);
-	QWidget *muffetWidget = new QWidget();
-	QVBoxLayout *muffetLayout = new QVBoxLayout();
+	auto *muffetWidget = new QWidget();
+	auto *muffetLayout = new QVBoxLayout();
 	muffetLayout->addWidget(new CustomSpinBox(413, new QLabel(QStringLiteral("%1 bribe price").arg(Str_Muffet))));
 	muffetLayout->addWidget(new CustomSpinBox(414, new QLabel(QStringLiteral("Gold spent on bribing %1").arg(Str_Muffet))));
 	muffetLayout->addWidget(new CustomComboBox(427, new QLabel(QStringLiteral("Conversation with %1").arg(Str_Muffet))));
@@ -495,10 +495,10 @@ MonstersPage::MonstersPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(muffetArea, QIcon(QStringLiteral(":menu-muffet")), Str_Muffet);
 
-	QScrollArea *riverPersonArea = new QScrollArea();
+	auto *riverPersonArea = new QScrollArea();
 	riverPersonArea->setWidgetResizable(true);
-	QWidget *riverPersonWidget = new QWidget();
-	QVBoxLayout *riverPersonLayout = new QVBoxLayout();
+	auto *riverPersonWidget = new QWidget();
+	auto *riverPersonLayout = new QVBoxLayout();
 	riverPersonLayout->addWidget(new CustomComboBox(490, new QLabel(QStringLiteral("Destination"))));
 	riverPersonLayout->addWidget(new CustomSpinBox(491, new QLabel(QStringLiteral("Boat rides"))));
 	riverPersonLayout->addWidget(new CustomCheckBox(492, QStringLiteral("The boat is a dog")));
@@ -514,10 +514,10 @@ LocationsPage::LocationsPage(QWidget *parent) : QTabWidget(parent)
 	tabBar()->setDocumentMode(true);
 	tabBar()->setExpanding(true);
 
-	QScrollArea *ruinsArea = new QScrollArea();
+	auto *ruinsArea = new QScrollArea();
 	ruinsArea->setWidgetResizable(true);
-	QWidget *ruinsWidget = new QWidget();
-	QVBoxLayout *ruinsLayout = new QVBoxLayout();
+	auto *ruinsWidget = new QWidget();
+	auto *ruinsLayout = new QVBoxLayout();
 	ruinsLayout->addWidget(new CustomCheckBox(131, QStringLiteral("Found the Faded Ribbon")));
 	ruinsLayout->addWidget(new CustomCheckBox(133, QStringLiteral("Found the Toy Knife")));
 	ruinsLayout->addWidget(new CustomCheckBox(61, QStringLiteral("Tutorial %1 encountered").arg(Str_Froggit)));
@@ -537,10 +537,10 @@ LocationsPage::LocationsPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(ruinsArea, QIcon(QStringLiteral(":menu-toriel")), Str_Ruins);
 
-	QScrollArea *snowdinArea = new QScrollArea();
+	auto *snowdinArea = new QScrollArea();
 	snowdinArea->setWidgetResizable(true);
-	QWidget *snowdinWidget = new QWidget();
-	QVBoxLayout *snowdinLayout = new QVBoxLayout();
+	auto *snowdinWidget = new QWidget();
+	auto *snowdinLayout = new QVBoxLayout();
 	snowdinLayout->addWidget(new CustomSpinBox(101, new QLabel(QStringLiteral("Forest encounters"))));
 	snowdinLayout->addWidget(new CustomComboBox(306, new QLabel(QStringLiteral("Entering %1 forest").arg(Str_Snowdin))));
 	snowdinLayout->addWidget(new CustomCheckBox(285, QStringLiteral("Interacted with %1's puzzle").arg(Str_sans)));
@@ -565,10 +565,10 @@ LocationsPage::LocationsPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(snowdinArea, QIcon(QStringLiteral(":menu-papyrus")), Str_Snowdin);
 
-	QScrollArea *waterfallArea = new QScrollArea();
+	auto *waterfallArea = new QScrollArea();
 	waterfallArea->setWidgetResizable(true);
-	QWidget *waterfallWidget = new QWidget();
-	QVBoxLayout *waterfallLayout = new QVBoxLayout();
+	auto *waterfallWidget = new QWidget();
+	auto *waterfallLayout = new QVBoxLayout();
 	waterfallLayout->addWidget(new CustomCheckBox(136, QStringLiteral("Found the Old Tutu")));
 	waterfallLayout->addWidget(new CustomCheckBox(137, QStringLiteral("Found the Ballet Shoes")));
 	waterfallLayout->addWidget(new CustomSpinBox(388, new QLabel(QStringLiteral("%1 (first area) encounters").arg(Str_Waterfall))));
@@ -601,10 +601,10 @@ LocationsPage::LocationsPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(waterfallArea, QIcon(QStringLiteral(":menu-undyne")), Str_Waterfall);
 
-	QScrollArea *hotlandArea = new QScrollArea();
+	auto *hotlandArea = new QScrollArea();
 	hotlandArea->setWidgetResizable(true);
-	QWidget *hotlandWidget = new QWidget();
-	QVBoxLayout *hotlandLayout = new QVBoxLayout();
+	auto *hotlandWidget = new QWidget();
+	auto *hotlandLayout = new QVBoxLayout();
 	hotlandLayout->addWidget(new CustomCheckBox(141, QStringLiteral("Found the Burnt Pan")));
 	hotlandLayout->addWidget(new CustomCheckBox(142, QStringLiteral("Found the Stained Apron")));
 	hotlandLayout->addWidget(new CustomSpinBox(439, new QLabel(QStringLiteral("%1 encounters").arg(Str_Hotland))));
@@ -656,10 +656,10 @@ LocationsPage::LocationsPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(hotlandArea, QIcon(QStringLiteral(":menu-muffet")), Str_Hotland);
 
-	QScrollArea *coreArea = new QScrollArea();
+	auto *coreArea = new QScrollArea();
 	coreArea->setWidgetResizable(true);
-	QWidget *coreWidget = new QWidget();
-	QVBoxLayout *coreLayout = new QVBoxLayout();
+	auto *coreWidget = new QWidget();
+	auto *coreLayout = new QVBoxLayout();
 	coreLayout->addWidget(new CustomSpinBox(454, new QLabel(QStringLiteral("%1 (first area) encounters").arg(Str_Core))));
 	coreLayout->addWidget(new CustomSpinBox(457, new QLabel(QStringLiteral("%1 (second area) encounters").arg(Str_Core))));
 	coreLayout->addWidget(new CustomCheckBox(445, QStringLiteral("Tried to use the elevator in the Core Lobby")));
@@ -678,10 +678,10 @@ LocationsPage::LocationsPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(coreArea, QIcon(QStringLiteral(":menu-mettaton")), Str_Core);
 
-	QScrollArea *newHomeArea = new QScrollArea();
+	auto *newHomeArea = new QScrollArea();
 	newHomeArea->setWidgetResizable(true);
-	QWidget *newHomeWidget = new QWidget();
-	QVBoxLayout *newHomeLayout = new QVBoxLayout();
+	auto *newHomeWidget = new QWidget();
+	auto *newHomeLayout = new QVBoxLayout();
 	newHomeLayout->addWidget(new CustomCheckBox(145, QStringLiteral("Found the Worn Dagger")));
 	newHomeLayout->addWidget(new CustomCheckBox(146, QStringLiteral("Found the Heart Locket")));
 	newHomeLayout->addWidget(new CustomComboBox(462, new QLabel(QStringLiteral("Floor of the %1 elevator").arg(Str_Castle))));
@@ -700,10 +700,10 @@ LocationsPage::LocationsPage(QWidget *parent) : QTabWidget(parent)
 
 	addTab(newHomeArea, QIcon(QStringLiteral(":menu-asgore")), Str_Castle);
 
-	QScrollArea *trueLabArea = new QScrollArea();
+	auto *trueLabArea = new QScrollArea();
 	trueLabArea->setWidgetResizable(true);
-	QWidget *trueLabWidget = new QWidget();
-	QVBoxLayout *trueLabLayout = new QVBoxLayout();
+	auto *trueLabWidget = new QWidget();
+	auto *trueLabLayout = new QVBoxLayout();
 	trueLabLayout->addWidget(new CustomCheckBox(510, QStringLiteral("Entered True Lab lobby")));
 	trueLabLayout->addWidget(new CustomSpinBox(526, new QLabel(QStringLiteral("Potato Chisps bought")))); // This is misspelled in purpose, just like in the game
 	trueLabLayout->addWidget(new CustomComboBox(512, new QLabel(QStringLiteral("Interaction with Red switch"))));
@@ -728,13 +728,13 @@ DebugPage::DebugPage(QWidget *parent) : QScrollArea(parent)
 {
 	setWidgetResizable(true);
 
-	QVBoxLayout *mainLayout = new QVBoxLayout();
+	auto *mainLayout = new QVBoxLayout();
 	mainLayout->addWidget(new CustomCheckBox(35, QStringLiteral("Bypass kill counters")));
 	mainLayout->addWidget(new CustomSpinBox(57, new QLabel(QStringLiteral("Murder level override"))));
 	mainLayout->addWidget(new CustomCheckBox(59, QStringLiteral("Debug text skip")));
 	mainLayout->addStretch();
 
-	QWidget *window = new QWidget();
+	auto *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }
@@ -743,7 +743,7 @@ ShrinePage::ShrinePage(QWidget *parent) : QScrollArea(parent)
 {
 	setWidgetResizable(true);
 
-	QVBoxLayout *mainLayout = new QVBoxLayout();
+	auto *mainLayout = new QVBoxLayout();
 	mainLayout->addWidget(new CustomCheckBox(327, QStringLiteral("Tried to use the donation box")));
 	mainLayout->addWidget(new CustomSpinBox(323, new QLabel(QStringLiteral("Gold donated"))));
 	mainLayout->addWidget(new CustomSpinBox(324, new QLabel(QStringLiteral("Donation goal"))));
@@ -751,7 +751,7 @@ ShrinePage::ShrinePage(QWidget *parent) : QScrollArea(parent)
 	mainLayout->addWidget(new CustomSpinBox(326, new QLabel(QStringLiteral("Dog Shrine upgrades"))));
 	mainLayout->addStretch();
 
-	QWidget *window = new QWidget();
+	auto *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }
@@ -760,10 +760,10 @@ IniPage::IniPage(QWidget *parent) : QScrollArea(parent)
 {
 	setWidgetResizable(true);
 
-	QVBoxLayout *mainLayout = new QVBoxLayout();
+	auto *mainLayout = new QVBoxLayout();
 
-	QGroupBox *generalGroup = new QGroupBox(QStringLiteral("General"));
-	QVBoxLayout *generalLayout = new QVBoxLayout();
+	auto *generalGroup = new QGroupBox(QStringLiteral("General"));
+	auto *generalLayout = new QVBoxLayout();
 	generalLayout->addWidget(new IniSpinBox(QStringLiteral("BC"), new QLabel(QStringLiteral("BC"))));
 	generalLayout->addWidget(new IniCheckBox("BH", QStringLiteral("BH")));
 	generalLayout->addWidget(new IniCheckBox("BP", QStringLiteral("BP")));
@@ -783,8 +783,8 @@ IniPage::IniPage(QWidget *parent) : QScrollArea(parent)
 	generalGroup->setLayout(generalLayout);
 	mainLayout->addWidget(generalGroup);
 
-	QGroupBox *floweyGroup = new QGroupBox(QStringLiteral("Flowey"));
-	QVBoxLayout *floweyLayout = new QVBoxLayout();
+	auto *floweyGroup = new QGroupBox(QStringLiteral("Flowey"));
+	auto *floweyLayout = new QVBoxLayout();
 	floweyLayout->addWidget(new IniCheckBox("Flowey/AF", QStringLiteral("AF")));
 	floweyLayout->addWidget(new IniCheckBox("Flowey/AK", QStringLiteral("AK")));
 	floweyLayout->addWidget(new IniCheckBox("Flowey/Alter", QStringLiteral("Alter")));
@@ -803,16 +803,16 @@ IniPage::IniPage(QWidget *parent) : QScrollArea(parent)
 	floweyGroup->setLayout(floweyLayout);
 	mainLayout->addWidget(floweyGroup);
 
-	QGroupBox *torielGroup = new QGroupBox(QStringLiteral("Toriel"));
-	QVBoxLayout *torielLayout = new QVBoxLayout();
+	auto *torielGroup = new QGroupBox(QStringLiteral("Toriel"));
+	auto *torielLayout = new QVBoxLayout();
 	torielLayout->addWidget(new IniSpinBox("Toriel/Bscotch", new QLabel(QStringLiteral("Bscotch"))));
 	torielLayout->addWidget(new IniSpinBox("Toriel/TK", new QLabel(QStringLiteral("TK"))));
 	torielLayout->addWidget(new IniSpinBox("Toriel/TS", new QLabel(QStringLiteral("TS"))));
 	torielGroup->setLayout(torielLayout);
 	mainLayout->addWidget(torielGroup);
 
-	QGroupBox *sansGroup = new QGroupBox(QStringLiteral("Sans"));
-	QVBoxLayout *sansLayout = new QVBoxLayout();
+	auto *sansGroup = new QGroupBox(QStringLiteral("Sans"));
+	auto *sansLayout = new QVBoxLayout();
 	sansLayout->addWidget(new IniCheckBox("Sans/EndMet", QStringLiteral("EndMet")));
 	sansLayout->addWidget(new IniSpinBox("Sans/F", new QLabel(QStringLiteral("F"))));
 	sansLayout->addWidget(new IniSpinBox("Sans/Intro", new QLabel(QStringLiteral("Intro"))));
@@ -828,8 +828,8 @@ IniPage::IniPage(QWidget *parent) : QScrollArea(parent)
 	sansGroup->setLayout(sansLayout);
 	mainLayout->addWidget(sansGroup);
 
-	QGroupBox *papyrusGroup = new QGroupBox(QStringLiteral("Papyrus"));
-	QVBoxLayout *papyrusLayout = new QVBoxLayout();
+	auto *papyrusGroup = new QGroupBox(QStringLiteral("Papyrus"));
+	auto *papyrusLayout = new QVBoxLayout();
 	papyrusLayout->addWidget(new IniSpinBox("Papyrus/M1", new QLabel(QStringLiteral("M1"))));
 	papyrusLayout->addWidget(new IniSpinBox("Papyrus/PD", new QLabel(QStringLiteral("PD"))));
 	papyrusLayout->addWidget(new IniSpinBox("Papyrus/PK", new QLabel(QStringLiteral("PK"))));
@@ -837,44 +837,44 @@ IniPage::IniPage(QWidget *parent) : QScrollArea(parent)
 	papyrusGroup->setLayout(papyrusLayout);
 	mainLayout->addWidget(papyrusGroup);
 
-	QGroupBox *undyneGroup = new QGroupBox(QStringLiteral("Undyne"));
-	QVBoxLayout *undyneLayout = new QVBoxLayout();
+	auto *undyneGroup = new QGroupBox(QStringLiteral("Undyne"));
+	auto *undyneLayout = new QVBoxLayout();
 	undyneLayout->addWidget(new IniSpinBox("Undyne/UD", new QLabel(QStringLiteral("UD"))));
 	undyneGroup->setLayout(undyneLayout);
 	mainLayout->addWidget(undyneGroup);
 
-	QGroupBox *alphysGroup = new QGroupBox(QStringLiteral("Alphys"));
-	QVBoxLayout *alphysLayout = new QVBoxLayout();
+	auto *alphysGroup = new QGroupBox(QStringLiteral("Alphys"));
+	auto *alphysLayout = new QVBoxLayout();
 	alphysLayout->addWidget(new IniSpinBox("Alphys/AD", new QLabel(QStringLiteral("AD"))));
 	alphysGroup->setLayout(alphysLayout);
 	mainLayout->addWidget(alphysGroup);
 
-	QGroupBox *mttGroup = new QGroupBox(QStringLiteral("MTT"));
-	QVBoxLayout *mttLayout = new QVBoxLayout();
+	auto *mttGroup = new QGroupBox(QStringLiteral("MTT"));
+	auto *mttLayout = new QVBoxLayout();
 	mttLayout->addWidget(new IniSpinBox("MTT/EssayNo", new QLabel(QStringLiteral("EssayNo"))));
 	mttGroup->setLayout(mttLayout);
 	mainLayout->addWidget(mttGroup);
 
-	QGroupBox *mettGroup = new QGroupBox(QStringLiteral("Mett"));
-	QVBoxLayout *mettLayout = new QVBoxLayout();
+	auto *mettGroup = new QGroupBox(QStringLiteral("Mett"));
+	auto *mettLayout = new QVBoxLayout();
 	mettLayout->addWidget(new IniCheckBox("Mett/O", QStringLiteral("O")));
 	mettGroup->setLayout(mettLayout);
 	mainLayout->addWidget(mettGroup);
 
-	QGroupBox *mettatonGroup = new QGroupBox(QStringLiteral("Mettaton"));
-	QVBoxLayout *mettatonLayout = new QVBoxLayout();
+	auto *mettatonGroup = new QGroupBox(QStringLiteral("Mettaton"));
+	auto *mettatonLayout = new QVBoxLayout();
 	mettatonLayout->addWidget(new IniCheckBox("Mettaton/BossMet", QStringLiteral("BossMet")));
 	mettatonGroup->setLayout(mettatonLayout);
 	mainLayout->addWidget(mettatonGroup);
 
-	QGroupBox *asgoreGroup = new QGroupBox(QStringLiteral("General"));
-	QVBoxLayout *asgoreLayout = new QVBoxLayout();
+	auto *asgoreGroup = new QGroupBox(QStringLiteral("General"));
+	auto *asgoreLayout = new QVBoxLayout();
 	asgoreLayout->addWidget(new IniSpinBox("Asgore/KillYou", new QLabel(QStringLiteral("KillYou"))));
 	asgoreGroup->setLayout(asgoreLayout);
 	mainLayout->addWidget(asgoreGroup);
 
-	QGroupBox *fffffGroup = new QGroupBox(QStringLiteral("FFFFF"));
-	QVBoxLayout *fffffLayout = new QVBoxLayout();
+	auto *fffffGroup = new QGroupBox(QStringLiteral("FFFFF"));
+	auto *fffffLayout = new QVBoxLayout();
 	fffffLayout->addWidget(new IniSpinBox("FFFFF/D", new QLabel(QStringLiteral("D"))));
 	fffffLayout->addWidget(new IniSpinBox("FFFFF/E", new QLabel(QStringLiteral("E"))));
 	fffffLayout->addWidget(new IniSpinBox("FFFFF/F", new QLabel(QStringLiteral("F"))));
@@ -882,26 +882,26 @@ IniPage::IniPage(QWidget *parent) : QScrollArea(parent)
 	fffffGroup->setLayout(fffffLayout);
 	mainLayout->addWidget(fffffGroup);
 
-	QGroupBox *endFGroup = new QGroupBox(QStringLiteral("EndF"));
-	QVBoxLayout *endFLayout = new QVBoxLayout();
+	auto *endFGroup = new QGroupBox(QStringLiteral("EndF"));
+	auto *endFLayout = new QVBoxLayout();
 	endFLayout->addWidget(new IniSpinBox("EndF/EndF", new QLabel(QStringLiteral("EndF"))));
 	endFGroup->setLayout(endFLayout);
 	mainLayout->addWidget(endFGroup);
 
-	QGroupBox *f7Group = new QGroupBox(QStringLiteral("F7"));
-	QVBoxLayout *f7Layout = new QVBoxLayout();
+	auto *f7Group = new QGroupBox(QStringLiteral("F7"));
+	auto *f7Layout = new QVBoxLayout();
 	f7Layout->addWidget(new IniCheckBox("F7/F7", QStringLiteral("F7")));
 	f7Group->setLayout(f7Layout);
 	mainLayout->addWidget(f7Group);
 
-	QGroupBox *resetGroup = new QGroupBox(QStringLiteral("reset"));
-	QVBoxLayout *resetLayout = new QVBoxLayout();
+	auto *resetGroup = new QGroupBox(QStringLiteral("reset"));
+	auto *resetLayout = new QVBoxLayout();
 	resetLayout->addWidget(new IniCheckBox("reset/reset", QStringLiteral("reset")));
 	resetLayout->addWidget(new IniCheckBox("reset/s_key", QStringLiteral("s_key")));
 	resetGroup->setLayout(resetLayout);
 	mainLayout->addWidget(resetGroup);
 
-	QWidget *window = new QWidget();
+	auto *window = new QWidget();
 	window->setLayout(mainLayout);
 	setWidget(window);
 }

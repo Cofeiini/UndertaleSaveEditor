@@ -97,12 +97,12 @@ namespace
 
 // ##### Functions #####
 template<typename T>
-void bitChange(T &var, const quint64 value, const quint64 bit)
+constexpr void bitChange(T &var, const T value, const T bit)
 {
-	const quint64 sz = sizeof(var) * 8;
-	for (quint64 i = 0; i < sz; i++)
+	const T sz = sizeof(var) * 8;
+	for (T i = 0; i < sz; ++i)
 	{
-		if ((1UL << i) > bit)
+		if ((1 << i) > bit)
 		{
 			break;
 		}
@@ -111,10 +111,9 @@ void bitChange(T &var, const quint64 value, const quint64 bit)
 	}
 }
 
-template<typename T>
-bool bitCheck(const T var, const quint64 bit)
+constexpr auto bitCheck(const auto var, const quint64 bit) -> bool
 {
-	return (var & bit) > 0UL;
+	return (var & bit) > 0;
 }
 
 }

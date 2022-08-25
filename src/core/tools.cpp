@@ -11,7 +11,7 @@ CustomEditor::CustomEditor(const int identifier, T **editorWidget, QWidget *budd
 	*editorWidget = qobject_cast<T *>(editor); // Have to do some evil pointer hack to get this working
 
 	setObjectName(QString::number(id));
-	QHBoxLayout *hLayout = new QHBoxLayout();
+	auto *hLayout = new QHBoxLayout();
 	if (buddy)
 	{
 		hLayout->addWidget(buddy);
@@ -44,7 +44,7 @@ CustomEditor::~CustomEditor()
 	}
 }
 
-void CustomEditor::addHintText(const QString text)
+void CustomEditor::addHintText(const QString &text)
 {
 	label = new QLabel(text);
 	label->setStyleSheet(QStringLiteral("color: gray; font-size: 8pt;"));
@@ -91,7 +91,7 @@ CustomLineEdit::CustomLineEdit(const int id, QWidget *buddyWidget) : CustomEdito
 	connect(editor, &QLineEdit::textEdited, this, &CustomLineEdit::updateSave);
 }
 
-void CustomLineEdit::updateSave(const QString data)
+void CustomLineEdit::updateSave(const QString &data)
 {
 	MainWindow::saveData.replace(id, data);
 	CustomEditor::updateSave(data != MainWindow::originalFile.at(id));
@@ -1069,7 +1069,7 @@ CustomSpinBox::CustomSpinBox(int id, QWidget *buddyWidget) : CustomEditor(id, &e
 			addHintText(hintTitle);
 
 			callback = [this, hintTitle]() -> void {
-				const int value = editor->value();
+				const double value = editor->value();
 				QString hintText = QStringLiteral("No event");
 
 				if ((value >= 2) && (value <= 39)) { hintText = QStringLiteral("Wrong Number Song"); }
@@ -1230,7 +1230,7 @@ void CustomSpinBox::updateData()
 	callback();
 }
 
-CustomCheckBox::CustomCheckBox(int id, const QString text, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+CustomCheckBox::CustomCheckBox(int id, const QString &text, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
 {
 	editor->setText(text);
 
@@ -1483,7 +1483,7 @@ void CustomCheckBox::updateData()
 	callback();
 }
 
-CustomRadioButton::CustomRadioButton(int id, QString text, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+CustomRadioButton::CustomRadioButton(int id, const QString &text, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
 {
 	editor->setText(text);
 
@@ -2080,10 +2080,10 @@ TimeEdit::TimeEdit(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, bud
 	addHintText(QStringLiteral("00:00:00"));
 	callback = [this] () {
 		const double data = editor->value();
-		const quint64 h = static_cast<quint64>(data * 0.000009259); // 1800 * 60 = 108000 frames
-		const quint8 m = static_cast<quint64>(data * 0.000555555) % 60; // 30 * 60 = 1800 frames
-		const quint8 s = static_cast<quint64>(data * 0.033333333) % 60; // 30 frames
-		label->setText(QStringLiteral("Your estimated play time is **%1:%2:%3**.<br />This is calculated from in-game frames").arg(h, 2, 'f', 0, '0').arg(m, 2, 'f', 0, '0').arg(s, 2, 'f', 0, '0'));
+		const auto h = static_cast<quint64>(data * 0.000009259); // 1800 * 60 = 108000 frames
+		const auto m = static_cast<quint8>(static_cast<quint64>(data * 0.000555555) % 60); // 30 * 60 = 1800 frames
+		const auto s = static_cast<quint8>(static_cast<quint64>(data * 0.033333333) % 60); // 30 frames
+		label->setText(QStringLiteral("Your estimated play time is **%1:%2:%3**.<br />This is calculated from in-game frames").arg(h, 2, 10, QChar('0')).arg(m, 2, 10, QChar('0')).arg(s, 2, 10, QChar('0')));
 	};
 
 	connect(editor, &QDoubleSpinBox::valueChanged, this, &TimeEdit::updateSave);
@@ -2100,7 +2100,7 @@ void TimeEdit::updateData()
 {
 	QSignalBlocker blocker(editor);
 
-	const quint64 data = MainWindow::saveData.at(id).toULongLong();
+	const double data = MainWindow::saveData.at(id).toDouble();
 	editor->setValue(data);
 	updateStyle(false);
 	callback();
@@ -2251,7 +2251,7 @@ void PlotEdit::updateData()
 	callback();
 }
 
-YellowCheckBox::YellowCheckBox(int id, const QString text, QWidget *buddyWidget) : CustomCheckBox(id, text, buddyWidget)
+YellowCheckBox::YellowCheckBox(int id, const QString &text, QWidget *buddyWidget) : CustomCheckBox(id, text, buddyWidget)
 {
 	switch (id) {
 		case 67:

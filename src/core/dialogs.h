@@ -7,18 +7,18 @@
 
 class AboutDialog : public QDialog
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	explicit AboutDialog(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
 private:
-	QString GetCredits();
+	auto GetCredits() -> QString;
 };
 
 class YellowNamesDialog : public QDialog
 {
-	Q_OBJECT
+	Q_OBJECT // NOLINT
 
 public:
 	explicit YellowNamesDialog(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());

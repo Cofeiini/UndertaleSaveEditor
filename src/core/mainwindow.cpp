@@ -26,10 +26,8 @@
 #include "src/helpers.h"
 #include "src/filedownloader.h"
 
-// icon (64) + left padding (20) + right padding (20)
-#define ICONS_WIDTH 104
-// widget (104) + scroll bar (16)
-#define ICONS_SCROLL 120
+// icon (64) + left padding (20) + right padding (20) + scroll bar (16)
+#define ICONS_WIDTH 120
 
 #define SAVELEN 549
 
@@ -86,7 +84,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 			fetchTime = updateJson.value(QStringLiteral("time")).toInteger(QDateTime::currentSecsSinceEpoch());
 			fetchVersion = updateJson.value(QStringLiteral("version")).toString(QStringLiteral("0.0.0.0"));
 			fetchMessage = updateJson.value(QStringLiteral("message")).toString(QStringLiteral("No details for this update were found"));
-			toggleOptions = optionsJson.value(QStringLiteral("toggles")).toInt(TOGGLE_DARKMODE);
+
+			toggleOptions.data = static_cast<quint32>(optionsJson.value(QStringLiteral("toggles")).toInt(TOGGLE_DARKMODE));
 		}
 	}
 
@@ -134,22 +133,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	saveData.replace(331, QStringLiteral("14")); // Box slot 1 (Set to "Tough Glove")
 
 	// File menu actions
-	QAction *openFileAction = new QAction(QStringLiteral("Open file"), this);
-	QAction *openIniAction = new QAction(QStringLiteral("Open ini"), this);
-	QAction *saveAction = new QAction(QStringLiteral("Save"), this);
-	QAction *saveAsAction = new QAction(QStringLiteral("Save As..."), this);
-	QAction *exitAction = new QAction(QStringLiteral("Exit"), this);
+	auto *openFileAction = new QAction(QStringLiteral("Open file"), this);
+	auto *openIniAction = new QAction(QStringLiteral("Open ini"), this);
+	auto *saveAction = new QAction(QStringLiteral("Save"), this);
+	auto *saveAsAction = new QAction(QStringLiteral("Save As..."), this);
+	auto *exitAction = new QAction(QStringLiteral("Exit"), this);
 	// Options actions
-	QAction *showDebugAction = new QAction(QStringLiteral("Show Debug"), this);
-	QAction *showShrineAction = new QAction(QStringLiteral("Show Dog Shrine"), this);
-	QAction *toggleDarkTheme = new QAction(QStringLiteral("Use Dark Theme"), this);
-	QAction *fetchDaily = new QAction(QStringLiteral("Check Daily"));
-	QAction *fetchWeekly = new QAction(QStringLiteral("Check Weekly"));
-	QAction *fetchMonthly = new QAction(QStringLiteral("Check Monthly"));
+	auto *showDebugAction = new QAction(QStringLiteral("Show Debug"), this);
+	auto *showShrineAction = new QAction(QStringLiteral("Show Dog Shrine"), this);
+	auto *toggleDarkTheme = new QAction(QStringLiteral("Use Dark Theme"), this);
+	auto *fetchDaily = new QAction(QStringLiteral("Check Daily"));
+	auto *fetchWeekly = new QAction(QStringLiteral("Check Weekly"));
+	auto *fetchMonthly = new QAction(QStringLiteral("Check Monthly"));
 	// About menu actions
-	QAction *showAboutAction = new QAction(QStringLiteral("About"), this);
+	auto *showAboutAction = new QAction(QStringLiteral("About"), this);
 	// Tool actions
-	QAction *yellowNamesAction = new QAction(QStringLiteral("Set monster names yellow"), this);
+	auto *yellowNamesAction = new QAction(QStringLiteral("Set monster names yellow"), this);
 
 	// Create menus for the menu bar
 	QMenu *fileMenu = menuBar()->addMenu(QStringLiteral("File"));
@@ -177,9 +176,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	icons->setViewMode(QListWidget::IconMode);
 	icons->setIconSize(QSize(64, 64));
 	icons->setSpacing(0);
-	icons->setFixedWidth(ICONS_SCROLL);
+	icons->setMaximumWidth(ICONS_WIDTH);
 	icons->setMovement(QListView::Static);
-	icons->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
 	icons->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
 	// Give the main list fancy icons
@@ -196,8 +194,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 		item->setTextAlignment(Qt::AlignHCenter);
 		item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 	}
-	buttons.at(4)->setHidden((toggleOptions & TOGGLE_SHOWDEBUG) == 0);
-	buttons.at(5)->setHidden((toggleOptions & TOGGLE_SHOWSHRINE) == 0);
+	icons->setRowHidden(4, !toggleOptions.option.showDebug);
+	icons->setRowHidden(5, !toggleOptions.option.showShrine);
 
 	// Create pages
 	pages = new QStackedWidget();
@@ -213,8 +211,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	tabs->tabBar()->setDocumentMode(true);
 	tabs->tabBar()->setExpanding(true);
 
-	QWidget *fileWidget = new QWidget();
-	QHBoxLayout *fileLayout = new QHBoxLayout();
+	auto *fileWidget = new QWidget();
+	auto *fileLayout = new QHBoxLayout();
 	fileLayout->addWidget(icons);
 	fileLayout->addWidget(pages);
 	fileWidget->setLayout(fileLayout);
@@ -222,9 +220,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	tabs->setTabIcon(INDEX_FILE, floppy.at(0));
 	tabs->setTabEnabled(INDEX_FILE, false); // Disable file tab by default. This will be enabled when a file is loaded
 
-	QHBoxLayout *iniLayout = new QHBoxLayout();
+	auto *iniLayout = new QHBoxLayout();
 	iniLayout->addWidget(new IniPage());
-	QWidget *iniWidget = new QWidget();
+	auto *iniWidget = new QWidget();
 	iniWidget->setLayout(iniLayout);
 	tabs->addTab(iniWidget, QStringLiteral("undertale.ini"));
 	tabs->setTabIcon(INDEX_INI, floppy.at(0));
@@ -233,24 +231,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	// Connect actions to give them functionality
 	connect(openFileAction, &QAction::triggered, this, &MainWindow::openFile);
 	connect(openIniAction, &QAction::triggered, this, &MainWindow::openIni);
-	connect(this, &MainWindow::enableControls, saveAction, &QAction::setEnabled);
 	connect(saveAction, &QAction::triggered, this, &MainWindow::saveFile);
-	connect(this, &MainWindow::enableControls, saveAsAction, &QAction::setEnabled);
 	connect(saveAsAction, &QAction::triggered, this, &MainWindow::saveFileAs);
 	connect(exitAction, &QAction::triggered, this, &MainWindow::close);
+
+	connect(this, &MainWindow::enableControls, saveAction, &QAction::setEnabled);
+	connect(this, &MainWindow::enableControls, saveAsAction, &QAction::setEnabled);
+
 	connect(showDebugAction, &QAction::toggled, this, [this] (const bool checked) -> void {
-		buttons.at(4)->setHidden(!checked);
-		bitChange(toggleOptions, checked, TOGGLE_SHOWDEBUG);
-		QTimer::singleShot(1, this, &MainWindow::updateIconScroll); // 1 ms delay should be enough to resize the widget
+		icons->setRowHidden(4, !checked);
+		toggleOptions.option.showDebug = checked;
 	});
 	connect(showShrineAction, &QAction::toggled, this, [this] (const bool checked) -> void {
-		buttons.at(5)->setHidden(!checked);
-		bitChange(toggleOptions, checked, TOGGLE_SHOWSHRINE);
-		QTimer::singleShot(1, this, &MainWindow::updateIconScroll); // 1 ms delay should be enough to resize the widget
+		icons->setRowHidden(5, !checked);
+		toggleOptions.option.showShrine = checked;
 	});
 	connect(toggleDarkTheme, &QAction::toggled, this, [this] (const bool checked) -> void {
 		QApplication::setPalette(checked ? darkPalette : lightPalette);
-		bitChange(toggleOptions, checked, TOGGLE_DARKMODE);
+		toggleOptions.option.darkMode = checked;
 		emit toggleDarkMode(checked);
 	});
 	connect(fetchDaily, &QAction::toggled, this, [this, fetchDaily, fetchWeekly, fetchMonthly] () -> void {
@@ -291,12 +289,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	});
 	connect(this, &MainWindow::enableTools, yellowNamesAction, &QAction::setEnabled);
 	connect(yellowNamesAction, &QAction::triggered, this, [this] () -> void {
-		YellowNamesDialog *yellowNamesDialog = new YellowNamesDialog(this, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+		auto *yellowNamesDialog = new YellowNamesDialog(this, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 		yellowNamesDialog->setAttribute(Qt::WA_DeleteOnClose, true); // This is important. It prevents multiple dialog windows from being stored in memory
 		yellowNamesDialog->show();
 	});
 	connect(showAboutAction, &QAction::triggered, this, [this] () -> void {
-		AboutDialog *about = new AboutDialog(this, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
+		auto *about = new AboutDialog(this, Qt::WindowSystemMenuHint | Qt::WindowTitleHint | Qt::WindowCloseButtonHint);
 		about->setAttribute(Qt::WA_DeleteOnClose, true); // This is important. It prevents multiple dialog windows from being stored in memory
 		about->show();
 	});
@@ -321,9 +319,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 	fetchDaily->setChecked(fetchDelay == FETCH_DAILY);
 	fetchWeekly->setChecked(fetchDelay == FETCH_WEEKLY);
 	fetchMonthly->setChecked(fetchDelay == FETCH_MONTHLY);
-	toggleDarkTheme->setChecked((toggleOptions & TOGGLE_DARKMODE) > 0);
-	showDebugAction->setChecked((toggleOptions & TOGGLE_SHOWDEBUG) > 0);
-	showShrineAction->setChecked((toggleOptions & TOGGLE_SHOWSHRINE) > 0);
+	toggleDarkTheme->setChecked(toggleOptions.option.darkMode);
+	showDebugAction->setChecked(toggleOptions.option.showDebug);
+	showShrineAction->setChecked(toggleOptions.option.showShrine);
 
 	setCentralWidget(tabs);
 	icons->setCurrentRow(0);
@@ -350,7 +348,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 	if (storage.open(QFile::Text | QFile::ReadWrite))
 	{
 		QJsonObject optionsJson = {
-			{ QStringLiteral("toggles"), toggleOptions }
+			{ QStringLiteral("toggles"), static_cast<qint32>(toggleOptions.data) }
 		};
 		QJsonObject updateJson = {
 			{ QStringLiteral("delay"), fetchDelay },
@@ -375,11 +373,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::showEvent(QShowEvent *event)
 {
 	QMainWindow::showEvent(event); // Add this just in case Qt changes the showEvent behavior in the future
-	updateIconScroll();
 
 	bool shouldFetch = false; // Assume we don't need to check for an update
 	const QDateTime fetched = QDateTime::fromSecsSinceEpoch(fetchTime);
-	const int daysPassed = fetched.daysTo(QDateTime::currentDateTime());
+	const qint64 daysPassed = fetched.daysTo(QDateTime::currentDateTime());
 	if (daysPassed > fetchDelay) // This is "close enough" to prevent the tool from checking during every start
 	{
 		shouldFetch = !isRemoteNewer(QApplication::applicationVersion(), fetchVersion); // If the "stored" version is newer, we can skip online check
@@ -407,23 +404,18 @@ void MainWindow::showEvent(QShowEvent *event)
 #else
 		const QUrl url(QStringLiteral("https://raw.githubusercontent.com/Cofeiini/UndertaleSaveEditor/master/version.json"));
 #endif
-		FileDownloader *downloader = new FileDownloader(url, this); // Downloader will handle deleting itself, so a pointer is fine here
+		auto *downloader = new FileDownloader(url, this); // Downloader will handle deleting itself, so a pointer is fine here
 		connect(downloader, &FileDownloader::downloaded, this, &MainWindow::readDownloadedData);
 	}
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
-	updateIconScroll();
 	QWidget::resizeEvent(event);
 }
 
 void MainWindow::changeEvent(QEvent *event)
 {
-	if (event->type() == QEvent::WindowStateChange)
-	{
-		QTimer::singleShot(1, this, &MainWindow::updateIconScroll); // With a short delay, we get enough time to resize the scroll bar properly
-	}
 	QWidget::changeEvent(event);
 }
 
@@ -452,8 +444,8 @@ void MainWindow::fileModified(const bool modified)
 		}
 	}
 
-	const int value = !changedEntries.isEmpty();
-	bitChange(isModified, value, SAVED_FILE);
+	const quint8 value = !changedEntries.isEmpty();
+	bitChange<quint8>(isModified, value, SAVED_FILE);
 	tabs->setTabIcon(INDEX_FILE, floppy.at(value));
 }
 
@@ -482,8 +474,8 @@ void MainWindow::iniModified(const bool changed)
 		}
 	}
 
-	const int value = !changedIniEntries.isEmpty();
-	bitChange(isModified, value, SAVED_INI);
+	const quint8 value = !changedIniEntries.isEmpty();
+	bitChange<quint8>(isModified, value, SAVED_INI);
 	tabs->setTabIcon(INDEX_INI, floppy.at(value));
 }
 
@@ -526,7 +518,7 @@ void MainWindow::openFile()
 #endif
 		QTextStream in(&file);
 		in.seek(0);
-		for (int i = 1; i < SAVELEN; i++)
+		for (int i = 1; i < SAVELEN; ++i)
 		{
 			saveData.replace(i, in.readLine().trimmed());
 		}
@@ -673,7 +665,7 @@ void MainWindow::showVersionPrompt()
 
 	prompt.show(); // Force the prompt to show in order to update its geometry
 
-	const QPoint center(prompt.geometry().width() * 0.5f, prompt.geometry().height() * 0.5f);
+	const QPoint center(qRound(static_cast<float>(prompt.geometry().width()) * 0.5f), qRound(static_cast<float>(prompt.geometry().height()) * 0.5f));
 	prompt.move(geometry().center() - center); // Move the prompt to the center of the main window for convenience
 
 	if (prompt.exec() == QMessageBox::Yes)
@@ -690,7 +682,7 @@ void MainWindow::showWriteError(const QString &path, const QString &error)
 	prompt.exec();
 }
 
-bool MainWindow::isRemoteNewer(const QString &local, const QString &remote)
+auto MainWindow::isRemoteNewer(const QString &local, const QString &remote) -> bool
 {
 	QVector<int> lVec;
 	lVec.reserve(4);
@@ -730,7 +722,7 @@ bool MainWindow::isRemoteNewer(const QString &local, const QString &remote)
 	return std::lexicographical_compare(lVec.begin(), lVec.end(), rVec.begin(), rVec.end());
 }
 
-bool MainWindow::isSaved(const quint8 modifiedBits)
+auto MainWindow::isSaved(const quint8 modifiedBits) -> bool
 {
 	if (!bitCheck(isModified, modifiedBits))
 	{
@@ -760,12 +752,6 @@ bool MainWindow::isSaved(const quint8 modifiedBits)
 	}
 }
 
-void MainWindow::updateIconScroll()
-{
-	const bool isScrollVisible = icons->verticalScrollBar()->isVisible();
-	icons->setFixedWidth(isScrollVisible ? ICONS_SCROLL : ICONS_WIDTH);
-}
-
 void MainWindow::writeFile()
 {
 	QFile file(filePath);
@@ -780,7 +766,7 @@ void MainWindow::writeFile()
 #endif
 	file.resize(0);
 	QTextStream out(&file);
-	for (int i = 1; i < SAVELEN; i++)
+	for (int i = 1; i < SAVELEN; ++i)
 	{
 		out << saveData.at(i) << '\n';
 	}

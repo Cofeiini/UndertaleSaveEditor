@@ -1,7 +1,7 @@
 #include "src/core/initools.h"
 #include "src/core/mainwindow.h"
 
-const QHash<QString, int> editorIds = {
+const QHash<QString, int> CustomIniEditor::editorIds = {
 	{ "BC", 0 },
 	{ "BH", 1 },
 	{ "BP", 2 },
@@ -74,7 +74,7 @@ CustomIniEditor::CustomIniEditor(const QString &identifier, T **editorWidget, QW
 	*editorWidget = qobject_cast<T *>(editor); // Have to do some evil pointer hack to get this working
 
 	setObjectName(id);
-	QHBoxLayout *hLayout = new QHBoxLayout();
+	auto *hLayout = new QHBoxLayout();
 	if (buddy)
 	{
 		hLayout->addWidget(buddy);
@@ -92,7 +92,7 @@ CustomIniEditor::CustomIniEditor(const QString &identifier, T **editorWidget, QW
 	connect(this, &CustomIniEditor::dataChanged, MainWindow::instance, &MainWindow::iniModified);
 }
 
-void CustomIniEditor::addHintText(const QString text)
+void CustomIniEditor::addHintText(const QString &text)
 {
 	label = new QLabel(text);
 	label->setStyleSheet(QStringLiteral("color: gray; font-size: 8pt;"));
@@ -114,11 +114,11 @@ void CustomIniEditor::updateSave(const bool hasChanged)
 	callback();
 }
 
-IniCheckBox::IniCheckBox(const QString &id, const QString text, QWidget *buddyWidget) : CustomIniEditor(id, &editor, buddyWidget)
+IniCheckBox::IniCheckBox(const QString &id, const QString &text, QWidget *buddyWidget) : CustomIniEditor(id, &editor, buddyWidget)
 {
 	editor->setText(text);
 
-	switch (editorIds.value(id))
+	switch (CustomIniEditor::editorIds.value(id))
 	{
 		case 1: // General/BH
 		{
@@ -260,7 +260,7 @@ void IniCheckBox::updateData()
 {
 	QSignalBlocker blocker(editor);
 
-	const int data = MainWindow::iniData.value(id).toDouble();
+	const int data = static_cast<int>(MainWindow::iniData.value(id).toDouble());
 	editor->setCheckState(states.value(data));
 	callback();
 }
@@ -269,7 +269,7 @@ IniLineEdit::IniLineEdit(const QString &id, QWidget *buddyWidget) : CustomIniEdi
 {
 	editor->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	switch (editorIds.value(id))
+	switch (CustomIniEditor::editorIds.value(id))
 	{
 		case 9: // General/Name
 		{
@@ -300,7 +300,7 @@ IniSpinBox::IniSpinBox(const QString &id, QWidget *buddyWidget) : CustomIniEdito
 	editor->setRange(0, __DBL_MAX__);
 	editor->setDecimals(0);
 
-	switch (editorIds.value(id))
+	switch (CustomIniEditor::editorIds.value(id))
 	{
 		case 0: // General/BC
 		{
