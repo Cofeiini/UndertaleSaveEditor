@@ -1276,6 +1276,11 @@ CustomCheckBox::CustomCheckBox(int id, const QString &text, QWidget *buddyWidget
 			addHintText(QStringLiteral("Changes dialog when interacting with the plants"));
 			break;
 		}
+		case 110:
+		{
+			values = { 0, 8, 8 };
+			break;
+		}
 		case 117:
 		{
 			addHintText(QStringLiteral("Music box starts playing"));

@@ -100,7 +100,7 @@ public slots:
 	void updateData() override;
 
 private:
-	const QVector<int> values = { 0, 1, 1 };
+	QVector<int> values = { 0, 1, 1 };
 	const QHash<int, Qt::CheckState> states = { { 0, Qt::Unchecked }, { 1, Qt::Checked } };
 };
 

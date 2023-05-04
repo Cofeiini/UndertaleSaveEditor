@@ -52,7 +52,14 @@ compile_commands.json
 *creator.user*
 *_qmlcache.qrc
 
+# WebStorm files
+/.idea
+
+# VS Code files
+/.vscode
+
 # Compiler files
 /release
 /debug
+/build
 *_plugin_import*

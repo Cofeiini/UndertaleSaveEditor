@@ -87,7 +87,7 @@ private:
 	QString fetchVersion = QStringLiteral("0.0.0.0");
 	QString fetchMessage = QStringLiteral("Improvements and bug fixes");
 	qint64 fetchTime = 0;
-	int fetchDelay = 7;
+    int fetchDelay = 30;
 	Options toggleOptions = { { true, false, false } };
 
 	QPalette lightPalette;
