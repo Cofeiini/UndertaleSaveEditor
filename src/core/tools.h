@@ -146,7 +146,7 @@ public slots:
 	void updateData() override;
 
 private:
-	const QHash<int, int> indexes = { { 201, 1 }, { 202, 2 }, { 203, 3 }, { 204, 4 }, { 205, 5 }, { 206, 6 }, { 210, 7 }, { 220, 8 }, { 221, 9 } };
+	const QHash<int, int> indexes = { { 0, 0 }, { 201, 1 }, { 202, 2 }, { 203, 3 }, { 204, 4 }, { 205, 5 }, { 206, 6 }, { 210, 7 }, { 220, 8 }, { 221, 9 } };
 };
 
 class WeaponComboBox : public CustomEditor

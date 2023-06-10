@@ -107,6 +107,10 @@ void CustomLineEdit::updateData()
 
 CustomComboBox::CustomComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
 {
+	editor->setEditable(true);
+	editor->lineEdit()->setFrame(false);
+	editor->lineEdit()->setReadOnly(true);
+
 	switch (id)
 	{
 		case 45:
@@ -1528,6 +1532,10 @@ void CustomRadioButton::updateData()
 
 ItemComboBox::ItemComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
 {
+	editor->setEditable(true);
+	editor->lineEdit()->setFrame(false);
+	editor->lineEdit()->setReadOnly(true);
+
 	editor->addItem(QStringLiteral("None"));
 	editor->addItem(QStringLiteral("Monster Candy"));
 	editor->addItem(QStringLiteral("Croquet Roll"));
@@ -1616,6 +1624,10 @@ void ItemComboBox::updateData()
 
 PhoneComboBox::PhoneComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
 {
+	editor->setEditable(true);
+	editor->lineEdit()->setFrame(false);
+	editor->lineEdit()->setReadOnly(true);
+
 	editor->addItem(QStringLiteral("None"));
 	editor->addItem(QStringLiteral("Say Hello"));
 	editor->addItem(QStringLiteral("Puzzle Help"));
@@ -1649,6 +1661,10 @@ void PhoneComboBox::updateData()
 
 WeaponComboBox::WeaponComboBox(int id, QWidget *buddyWidget, CustomSpinBox *weaponAT) : CustomEditor(id, &editor, buddyWidget), wat(weaponAT)
 {
+	editor->setEditable(true);
+	editor->lineEdit()->setFrame(false);
+	editor->lineEdit()->setReadOnly(true);
+
 	editor->addItem(QStringLiteral("Stick"));
 	editor->addItem(QStringLiteral("Toy Knife"));
 	editor->addItem(QStringLiteral("Tough Glove"));
@@ -1686,6 +1702,10 @@ void WeaponComboBox::updateData()
 
 ArmorComboBox::ArmorComboBox(int id, QWidget *buddyWidget, CustomSpinBox *armorDF) : CustomEditor(id, &editor, buddyWidget), adf(armorDF)
 {
+	editor->setEditable(true);
+	editor->lineEdit()->setFrame(false);
+	editor->lineEdit()->setReadOnly(true);
+
 	editor->addItem(QStringLiteral("Bandage"));
 	editor->addItem(QStringLiteral("Faded Ribbon"));
 	editor->addItem(QStringLiteral("Manly Bandanna"));
@@ -1724,6 +1744,10 @@ void ArmorComboBox::updateData()
 
 RoomComboBox::RoomComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
 {
+	editor->setEditable(true);
+	editor->lineEdit()->setFrame(false);
+	editor->lineEdit()->setReadOnly(true);
+
 	editor->addItem(QStringLiteral("Ruins - Entrance"));
 	editor->addItem(QStringLiteral("Ruins - Leaf Pile"));
 	editor->addItem(QStringLiteral("Ruins - Mouse Hole"));
@@ -2118,6 +2142,10 @@ void TimeEdit::updateData()
 
 PlotEdit::PlotEdit(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
 {
+	editor->setEditable(true);
+	editor->lineEdit()->setFrame(false);
+	editor->lineEdit()->setReadOnly(true);
+
 	editor->addItem(QStringLiteral("New Game"));
 	editor->addItem(QStringLiteral("Met %1").arg(Str_Flowey));
 	editor->addItem(QStringLiteral("%1 escorted you to the next room").arg(Str_Toriel));
