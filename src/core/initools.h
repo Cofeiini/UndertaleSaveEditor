@@ -15,7 +15,7 @@ class CustomIniEditor : public QFrame
 
 public:
 	template<typename T>
-	explicit CustomIniEditor(const QString &identifier, T **editorWidget, QWidget *buddyWidget = nullptr);
+	explicit CustomIniEditor(QString identifier, T **editorWidget, QWidget *buddyWidget = nullptr);
 
 	void addHintText(const QString &text);
 	std::function<void()> callback = [] () { /* Keep this empty. Otherwise we crash */ };

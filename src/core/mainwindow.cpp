@@ -27,20 +27,22 @@
 #include "src/filedownloader.h"
 
 // icon (64) + left padding (20) + right padding (20) + scroll bar (16)
-#define ICONS_WIDTH 120
+enum {
+    ICONS_WIDTH = 120,
+    SAVELEN = 549,
 
-#define SAVELEN 549
+    FETCH_DAILY = 1,
+    FETCH_WEEKLY = 7,
+    FETCH_MONTHLY = 30,
+    FETCH_BIANNUALLY = 180,
 
-#define FETCH_DAILY 1
-#define FETCH_WEEKLY 7
-#define FETCH_MONTHLY 30
-#define FETCH_BIANNUALLY 180
+    SAVED_FILE = 1U,
+    SAVED_INI = 2U,
 
-#define SAVED_FILE 1U
-#define SAVED_INI 2U
+    INDEX_FILE = 0,
+    INDEX_INI = 1,
+};
 
-#define INDEX_FILE 0
-#define INDEX_INI 1
 
 MainWindow* MainWindow::instance = nullptr;
 bool MainWindow::exists = true;
@@ -407,16 +409,6 @@ void MainWindow::showEvent(QShowEvent *event)
 		auto *downloader = new FileDownloader(url, this); // Downloader will handle deleting itself, so a pointer is fine here
 		connect(downloader, &FileDownloader::downloaded, this, &MainWindow::readDownloadedData);
 	}
-}
-
-void MainWindow::resizeEvent(QResizeEvent *event)
-{
-	QWidget::resizeEvent(event);
-}
-
-void MainWindow::changeEvent(QEvent *event)
-{
-	QWidget::changeEvent(event);
 }
 
 void MainWindow::fileModified(const bool modified)

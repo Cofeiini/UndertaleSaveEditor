@@ -33,12 +33,14 @@ namespace
 #define Str_Monster_Kid				QStringLiteral("Monster Kid")
 #define Str_Annoying_Dog			QStringLiteral("The Annoying Dog")
 #define Str_Temmie					QStringLiteral("Temmie")
+// NOTE: Might be unused
 #define Str_River_Person			QStringLiteral("River Person")
 #define Str_Onionsan				QStringLiteral("Onionsan")
 #define Str_Gerson					QStringLiteral("Gerson")
 #define Str_So_Sorry				QStringLiteral("So Sorry")
 #define Str_Muffet					QStringLiteral("Muffet")
 #define Str_Burger_Pants			QStringLiteral("Burger Pants")
+// NOTE: Might be unused
 #define Str_Bratty					QStringLiteral("Bratty")
 #define Str_Bratty_and_Catty		QStringLiteral("Bratty and Catty")
 #define Str_Catty					QStringLiteral("Catty")

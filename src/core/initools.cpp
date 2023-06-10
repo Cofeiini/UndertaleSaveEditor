@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "src/core/initools.h"
 #include "src/core/mainwindow.h"
 
@@ -69,7 +71,7 @@ const QHash<QString, int> CustomIniEditor::editorIds = {
 };
 
 template<typename T>
-CustomIniEditor::CustomIniEditor(const QString &identifier, T **editorWidget, QWidget *buddyWidget) : editor(new T()), id(identifier), buddy(buddyWidget)
+CustomIniEditor::CustomIniEditor(QString identifier, T **editorWidget, QWidget *buddyWidget) : editor(new T()), id(std::move(identifier)), buddy(buddyWidget)
 {
 	*editorWidget = qobject_cast<T *>(editor); // Have to do some evil pointer hack to get this working
 

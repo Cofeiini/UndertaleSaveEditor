@@ -43,8 +43,6 @@ public slots:
 protected:
 	void closeEvent(QCloseEvent *event) override;
 	void showEvent(QShowEvent *event) override;
-	void resizeEvent(QResizeEvent *event) override;
-	void changeEvent(QEvent *event) override;
 
 signals:
 	void updateWidgets();

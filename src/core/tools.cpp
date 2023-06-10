@@ -21,7 +21,6 @@ CustomEditor::CustomEditor(const int identifier, T **editorWidget, QWidget *budd
 	vLayout->setSpacing(0);
 	setLayout(vLayout);
 
-
 	connect(MainWindow::instance, &MainWindow::updateWidgets, this, &CustomEditor::updateData);
 	connect(MainWindow::instance, &MainWindow::toggleDarkMode, this, [this] (const bool isDarkMode) -> void {
 		const QString fontColor = isDarkMode ? QStringLiteral("white") : QStringLiteral("black");
@@ -1261,6 +1260,12 @@ CustomCheckBox::CustomCheckBox(int id, const QString &text, QWidget *buddyWidget
 			addHintText(QStringLiteral("Hold down C to instantly skip text"));
 			break;
 		}
+		case 67:
+		case 112: {
+			values = { 0, 0, 2 };
+			states = { { 0, Qt::Unchecked }, { 1, Qt::Unchecked }, { 2, Qt::Checked } };
+			break;
+		}
 		case 72:
 		{
 			addHintText(QStringLiteral("%1 tells %2 about this in True Pacifist ending").arg(Str_Toriel, Str_sans));
@@ -2252,64 +2257,6 @@ void PlotEdit::updateData()
 
 	const int data = indexes.value(MainWindow::saveData.at(id).toInt());
 	editor->setCurrentIndex(data);
-	updateStyle(false);
-	callback();
-}
-
-YellowCheckBox::YellowCheckBox(int id, const QString &text, QWidget *buddyWidget) : CustomCheckBox(id, text, buddyWidget)
-{
-	switch (id) {
-		case 67:
-		{
-			editor->setTristate(true);
-			values = { 0, 1, 2 };
-			states = { { 0, Qt::Unchecked }, { 1, Qt::PartiallyChecked }, { 2, Qt::Checked } };
-
-			addHintText(QStringLiteral(""));
-			callback = [this] () {
-				switch (editor->checkState())
-				{
-					case Qt::Unchecked:
-					{
-						label->setText(QStringLiteral("Blocking the path in %1").arg(Str_Ruins));
-						break;
-					}
-					case Qt::PartiallyChecked:
-					{
-						label->setText(QStringLiteral("Moved into a pit in %1").arg(Str_Ruins));
-						break;
-					}
-					case Qt::Checked:
-					{
-						label->setText(QStringLiteral("Talked to while in a pit"));
-						break;
-					}
-				}
-			};
-			break;
-		}
-		case 112:
-		{
-			values = { 0, 0, 2 };
-			states = { { 0, Qt::Unchecked }, { 1, Qt::Unchecked }, { 2, Qt::Checked } };
-			break;
-		}
-	}
-}
-
-void YellowCheckBox::updateSave(const int data)
-{
-	const QString saved = QString::number(values.at(data));
-	MainWindow::saveData.replace(id, saved);
-	CustomEditor::updateSave(saved != MainWindow::originalFile.at(id));
-}
-
-void YellowCheckBox::updateData()
-{
-	QSignalBlocker blocker(editor);
-
-	const int data = MainWindow::saveData.at(id).toInt();
-	editor->setCheckState(states.value(data));
 	updateStyle(false);
 	callback();
 }

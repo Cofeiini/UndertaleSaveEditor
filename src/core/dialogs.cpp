@@ -60,7 +60,7 @@ auto AboutDialog::GetCredits() -> QString
 	QStringList names = Project_Credits.split(',');
 	for (QString &n : names)
 	{
-		n = QStringLiteral("**%1**").arg(n);
+		n = QStringLiteral("**%1**").arg(n); // Just for making the entry bold
 	}
 
 	return names.join(QStringLiteral("  \n"));
@@ -70,7 +70,7 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 {
 	setModal(true);
 	setWindowTitle(QStringLiteral("Yellow monster names for the credits"));
-	setMinimumWidth(320);
+	setMinimumWidth(420);
 
 	auto *checkAllButton = new QPushButton(QStringLiteral("Check All"));
 	auto *uncheckAllButton = new QPushButton(QStringLiteral("Uncheck All"));
@@ -90,7 +90,7 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 		new CustomCheckBox(164, Str_Loox),
 		new CustomCheckBox(165, Str_Vegetoid),
 		new CustomCheckBox(166, Str_Migosp),
-		new YellowCheckBox(67, Str_Napstablook),
+		new CustomCheckBox(67, Str_Napstablook),
 		new CustomCheckBox(167, Str_Snowdrake),
 		new CustomCheckBox(168, Str_Ice_Cap),
 		new CustomCheckBox(169, Str_Gyftrot),
@@ -103,7 +103,7 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 		new CustomCheckBox(176, Str_Woshua),
 		new CustomCheckBox(177, Str_Temmie),
 		new CustomCheckBox(178, Str_Mad_Dummy),
-		new YellowCheckBox(112, Str_Shyren),
+		new CustomCheckBox(112, Str_Shyren),
 		new CustomCheckBox(179, Str_Vulkin),
 		new CustomCheckBox(180, Str_Tsunderplane),
 		new CustomCheckBox(181, Str_Pyrope),
