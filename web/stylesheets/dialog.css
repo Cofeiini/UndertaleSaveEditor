@@ -1,0 +1,139 @@
+.dialog {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    background-color: var(--complement-color);
+    border: 1px solid white;
+    width: 420px;
+    z-index: 1;
+}
+
+.dialogHeader {
+    display: flex;
+    background-color: var(--base-color);
+    width: 100%;
+    height: 32px;
+}
+
+.dialogHeader > img {
+    display: flex;
+    width: 16px;
+    height: 16px;
+    padding: 8px;
+}
+
+.dialogHeader > div {
+    display: flex;
+    width: 100%;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialogHeader > button {
+    display: flex;
+    cursor: pointer;
+    background-color: red;
+    color: black;
+    border: 1px solid black;
+    font-size: larger;
+    font-weight: bold;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialogHeader > button:hover {
+    color: white;
+}
+
+.dialogContainer {
+    display: flex;
+    flex-direction: column;
+    color: inherit;
+    padding: 10px;
+    height: 100%;
+}
+
+.dialogContainer > #toolButtons {
+    display: flex;
+}
+
+.dialogContainer > #aboutName {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.dialogContainer > #aboutDetails {
+    margin: 0;
+}
+
+.dialogContainer > #aboutThanks {
+    display: flex;
+    justify-content: center;
+    text-decoration: underline;
+}
+
+.dialogContainer > #aboutCredits {
+    display: flex;
+    border: 1px solid black;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    height: 5em;
+    margin: 5px 0;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.dialogScrollView {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    height: 20em;
+    padding: 1px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.dialogButton {
+    display: flex;
+    cursor: pointer;
+    background-image: linear-gradient(to bottom, var(--complement-color), var(--base-color));
+    color: inherit;
+    border: 1px solid black;
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.dialogButton:hover {
+    filter: brightness(110%);
+    border-color: blue;
+}
+
+.dialogSpacer {
+    display: flex;
+    width: 100%;
+}
+
+.dialogFooter {
+    display: flex;
+    align-items: center;
+}
+
+.dialogFooter > div {
+    display: flex;
+    width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+    .dialog {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}

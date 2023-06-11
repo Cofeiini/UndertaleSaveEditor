@@ -1,0 +1,400 @@
+:root {
+    margin: 0;
+
+    --base-color: #FFF5FF;
+    --complement-color: #FFE8F7;
+    --disabled-color: #4C555C;
+    --highlight-color: #FF9E54;
+    --text-color: black;
+    --link-color: #A881FF;
+    --outline-color: black;
+
+    --window-width: 768px;
+    --window-height: 576px;
+}
+
+:root.dark {
+    --base-color: #1C2021;
+    --complement-color: #262E30;
+    --highlight-color: #FF9700;
+    --text-color: white;
+    --outline-color: white;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 6px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    -webkit-box-shadow: inset 0 0 6px rgba(128, 128, 128, 0.5);
+}
+
+body {
+    color: var(--text-color);
+    margin: 0;
+    font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+body.dark {
+    background: #121212;
+    color: var(--text-color);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+a:hover {
+    filter: brightness(80%);
+    text-decoration: underline;
+}
+
+button, select, input, label {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+button.disabled, select.disabled, input.disabled, label.disabled {
+    background-color: inherit !important;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.disabled {
+    filter: brightness(80%) !important;
+    cursor: not-allowed !important;
+    pointer-events: none;
+}
+
+.log {
+    display: flex;
+    text-shadow: 0 0 1px black;
+    padding: 2px 0;
+}
+
+.log:before {
+    display: flex;
+    font-family: monospace;
+    color: var(--highlight-color);
+    text-shadow: 0 0 1px black;
+    content: attr(data-time);
+    padding: 0 5px;
+    align-items: center;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--base-color);
+    position: relative;
+    min-width: var(--window-width);
+    padding: 5px;
+}
+
+#editorContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#statusLog {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--complement-color);
+    border: 5px solid var(--base-color);
+    border-top: none;
+    padding: 0;
+    margin: 0;
+    min-width: var(--window-width);
+    height: 12em;
+    overflow: hidden;
+    overflow-y: scroll;
+    position: relative;
+    list-style: none;
+}
+
+#menuBar {
+    display: flex;
+    background-color: var(--base-color);
+    width: 100%;
+    height: 32px;
+    padding: 0;
+    margin: 0;
+}
+
+#menuBar > button {
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 5px;
+    margin: 1px;
+}
+
+#menuBar > button:hover {
+    background-color: var(--highlight-color);
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border: 1px solid white;
+    position: absolute;
+    margin-left: -5px;
+    gap: 1px;
+    z-index: 2;
+}
+
+.menu > div {
+    display: flex;
+    background-color: var(--complement-color);
+    align-items: center;
+}
+
+.menu > div:hover {
+    background-color: var(--highlight-color);
+}
+
+.menu > div > button, .menu > div > label {
+    display: flex;
+    flex: 1;
+    background-color: inherit;
+    color: inherit;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin: 1px;
+}
+
+.tabs {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overflow-x: scroll;
+}
+
+.tabs > button {
+    display: flex;
+    flex: 1;
+    align-items: start;
+    background-color: var(--complement-color);
+    filter: brightness(80%);
+    color: inherit;
+    border: none;
+    outline: 1px solid var(--base-color);
+    border-radius: 8px 8px 0 0;
+    border-bottom: 0;
+    cursor: pointer;
+    padding: 3px 0 7px 0;
+    margin: 4px 0 0 0;
+}
+
+.tabs > button:hover {
+    filter: brightness(120%);
+    align-items: center;
+    padding: 7px 0;
+    margin: 0;
+}
+
+.tabs > button.active {
+    filter: brightness(100%);
+    align-items: center !important;
+    padding: 5px 0 7px 0 !important;
+    margin: 2px 0 0 0 !important;
+}
+
+.tabs > button:disabled {
+    align-items: start;
+    margin: 4px 0 0 0;
+}
+
+.tabs > button > img {
+    width: 16px;
+    height: 16px;
+    padding: 0 5px 0 10px;
+}
+
+.tabs > button > div {
+    display: flex;
+    justify-content: center;
+    white-space: nowrap;
+    flex: 1;
+    padding: 0 10px 0 5px;
+}
+
+.mainEditor {
+    display: flex;
+    height: 50vh;
+    min-height: 32em;
+}
+
+#mainList {
+    background-color: var(--complement-color);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+#mainList li {
+    outline: 1px solid var(--base-color);
+    border-radius: 4px;
+    width: 100px;
+    aspect-ratio: 1/1;
+    margin: 5px;
+}
+
+#mainList button {
+    display: flex;
+    flex-direction: column;
+    background-color: inherit;
+    filter: brightness(80%);
+    color: inherit;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#mainList button:hover {
+    background-color: var(--highlight-color);
+    border-radius: 4px;
+    text-shadow: 0 0 3px black;
+}
+
+#mainList button.active {
+    background-color: var(--highlight-color);
+    border-radius: 4px;
+    text-shadow: 0 0 3px black;
+    filter: brightness(100%);
+}
+
+#mainList button > p {
+    padding: 0;
+    margin: 0;
+}
+
+#fileContents, #iniContents {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 5px 5px 0;
+    width: 0; /* Important for making the tabs ribbon overflow properly */
+}
+
+.filePage, .iniPage {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+.pageContent, .iniContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border: 1px solid black;
+    padding: 5px;
+    overflow: hidden;
+    overflow-y: scroll;
+    gap: 10px;
+}
+
+.groupBox {
+    padding: 0;
+    margin: 0;
+}
+
+.groupBox > fieldset {
+    border: 1px solid gray;
+    border-radius: 4px;
+}
+
+.editor {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.editor:hover {
+    outline: 1px solid var(--outline-color);
+}
+
+.editor.edited {
+    font-weight: bold;
+}
+
+.editor label {
+    flex: 1;
+}
+
+.editor input, .editor select {
+    display: flex;
+    flex: 1;
+    background-color: var(--complement-color);
+    color: inherit;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 5px;
+    width: 100%;
+    font-weight: inherit;
+}
+
+.editor input[type="checkbox"], .editor input[type="radio"] {
+    margin: 0 5px 0 0;
+    width: unset;
+    flex: unset;
+}
+
+.editorLayout {
+    display: flex;
+    flex-direction: row;
+}
+
+.hintLabel {
+    display: block;
+    color: gray;
+    font-size: x-small;
+}
+
+@media screen and (min-height: 800px) {
+    :root {
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+}
+
+@media screen and (min-width: 790px) {
+    :root {
+        margin-left: 25%;
+        margin-right: 25%;
+    }
+
+    #root {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    #statusLog {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

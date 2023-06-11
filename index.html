@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Save Editor" />
+    <meta name="description" content="Simple Save Editor for Undertale" />
+    <link rel="icon" type="image/x-icon" href="images/icon.ico" />
+    <link rel="stylesheet" type="text/css" href="web/stylesheets/index.css" />
+    <link rel="stylesheet" type="text/css" href="web/stylesheets/dialog.css" />
     <title>Undertale Save Editor (Web Edition)</title>
-  </head>
-  <body>
+</head>
+<body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+
     <div id="root">
-      <p>Don't mind me. Still under construction.</p>
+        <div id="menuBar"></div>
+
+        <div id="editorContainer">
+            <div id="menuTabs" class="tabs"></div>
+
+            <div id="fileEditor" class="mainEditor">
+                <ul id="mainList"></ul>
+                <div id="fileContents"></div>
+            </div>
+
+            <div id="iniEditor" class="mainEditor hidden">
+                <div id="iniContents"></div>
+            </div>
+        </div>
+
+        <div id="aboutDialog" class="hidden"></div>
+        <div id="yellowNameTool" class="hidden"></div>
     </div>
-  </body>
+    <ul id="statusLog"></ul>
+
+    <script type="text/javascript" src="web/helpers.js"></script>
+    <script type="text/javascript" src="web/core/common.js"></script>
+    <script type="module" src="web/index.js"></script>
+</body>
 </html>
