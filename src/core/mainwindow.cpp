@@ -49,6 +49,7 @@ bool MainWindow::exists = true;
 QMultiHash<int, CustomEditor *> MainWindow::editors;
 QStringList MainWindow::saveData;
 QStringList MainWindow::originalFile;
+QStringList MainWindow::fileErrors;
 QMultiHash<QString, CustomEditor *> MainWindow::iniEditors;
 QHash<QString, QVariant> MainWindow::iniData;
 QHash<QString, QVariant> MainWindow::originalIni;
@@ -516,6 +517,7 @@ void MainWindow::openFile()
 		}
 		saveData.replace(SAVELEN, QString::number(static_cast<quint64>(in.readLine().trimmed().toDouble())));
 		originalFile = saveData; // Make a copy for the "data changed" indicators
+		fileErrors.clear();
 #ifndef QT_NO_CURSOR
 		QApplication::restoreOverrideCursor();
 #endif
@@ -528,6 +530,21 @@ void MainWindow::openFile()
 		emit updateWidgets();
 		emit enableControls(true);
 		emit enableTools(true);
+
+		if (!fileErrors.empty())
+		{
+			const auto position = fileErrors.at(0).indexOf(' ') + 1;
+			std::sort(fileErrors.begin(), fileErrors.end(), [position] (const QStringView &left, const QStringView &right) {
+				return left.mid(position, 3).toFloat() < right.mid(position, 3).toFloat();
+			});
+
+			QMessageBox prompt(this);
+			prompt.setWindowTitle(QApplication::applicationName());
+			prompt.setText(QStringLiteral("There were some errors detected in %1 while parsing.\nCheck the details from more information.").arg(QDir::toNativeSeparators(filePath)));
+			prompt.setDetailedText(QStringLiteral("%1").arg(fileErrors.join('\n')));
+			prompt.setIcon(QMessageBox::Warning);
+			prompt.exec();
+		}
 	}
 }
 

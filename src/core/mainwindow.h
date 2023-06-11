@@ -32,6 +32,7 @@ public:
 	static QMultiHash<int, CustomEditor *> editors;
 	static QStringList saveData;
 	static QStringList originalFile;
+	static QStringList fileErrors;
 	static QMultiHash<QString, CustomEditor *> iniEditors;
 	static QHash<QString, QVariant> iniData;
 	static QHash<QString, QVariant> originalIni;

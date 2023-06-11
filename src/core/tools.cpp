@@ -4,6 +4,8 @@
 #include "src/core/tools.h"
 #include "src/helpers.h"
 
+QRegularExpression lastCommaRegex("(.+),(.+)$");
+
 template<typename T>
 CustomEditor::CustomEditor(const int identifier, T **editorWidget, QWidget *buddyWidget) : editor(new T()), id(identifier), buddy(buddyWidget)
 {
@@ -1017,9 +1019,24 @@ void CustomComboBox::updateData()
 {
 	QSignalBlocker blocker(editor);
 
-	const int data = indexes.value(MainWindow::saveData.at(id).toInt());
+	const auto &saveData = MainWindow::saveData.at(id);
+	int data = indexes.value(saveData.toInt(), -1);
+	bool hasChanged = false;
+	if (data < 0)
+	{
+		data = 0;
+		hasChanged = true;
+
+		QStringList expected;
+		for (auto iterator = indexes.begin(); iterator != indexes.end(); ++iterator)
+		{
+			expected.append(QString::number(iterator.key()));
+		}
+		std::sort(expected.begin(), expected.end(), [] (const QString &left, const QString &right) { return left.toFloat() < right.toFloat(); });
+		MainWindow::fileErrors.append(QStringLiteral("Line %1: Was %2, but expected %3").arg(id, 3, 10, QChar(' ')).arg(saveData, expected.join(", ").replace(lastCommaRegex, QStringLiteral("\\1 or\\2"))));
+	}
 	editor->setCurrentIndex(data);
-	updateStyle(false);
+	updateStyle(hasChanged);
 	callback();
 }
 
@@ -1653,9 +1670,24 @@ void PhoneComboBox::updateData()
 {
 	QSignalBlocker blocker(editor);
 
-	const int data = indexes.value(MainWindow::saveData.at(id).toInt());
+	const auto &saveData = MainWindow::saveData.at(id);
+	int data = indexes.value(saveData.toInt(), -1);
+	bool hasChanged = false;
+	if (data < 0)
+	{
+		data = 0;
+		hasChanged = true;
+
+		QStringList expected;
+		for (auto iterator = indexes.begin(); iterator != indexes.end(); ++iterator)
+		{
+			expected.append(QString::number(iterator.key()));
+		}
+		std::sort(expected.begin(), expected.end(), [] (const QString &left, const QString &right) { return left.toFloat() < right.toFloat(); });
+		MainWindow::fileErrors.append(QStringLiteral("Line %1: Was %2, but expected %3").arg(id, 3, 10, QChar(' ')).arg(saveData, expected.join(", ").replace(lastCommaRegex, QStringLiteral("\\1 or\\2"))));
+	}
 	editor->setCurrentIndex(data);
-	updateStyle(false);
+	updateStyle(hasChanged);
 	callback();
 }
 
@@ -1694,9 +1726,24 @@ void WeaponComboBox::updateData()
 {
 	QSignalBlocker blocker(editor);
 
-	const int data = indexes.value(MainWindow::saveData.at(id).toInt());
+	const auto &saveData = MainWindow::saveData.at(id);
+	int data = indexes.value(saveData.toInt(), -1);
+	bool hasChanged = false;
+	if (data < 0)
+	{
+		data = 0;
+		hasChanged = true;
+
+		QStringList expected;
+		for (auto iterator = indexes.begin(); iterator != indexes.end(); ++iterator)
+		{
+			expected.append(QString::number(iterator.key()));
+		}
+		std::sort(expected.begin(), expected.end(), [] (const QString &left, const QString &right) { return left.toFloat() < right.toFloat(); });
+		MainWindow::fileErrors.append(QStringLiteral("Line %1: Was %2, but expected %3").arg(id, 3, 10, QChar(' ')).arg(saveData, expected.join(", ").replace(lastCommaRegex, QStringLiteral("\\1 or\\2"))));
+	}
 	editor->setCurrentIndex(data);
-	updateStyle(false);
+	updateStyle(hasChanged);
 	callback();
 }
 
@@ -1736,9 +1783,24 @@ void ArmorComboBox::updateData()
 {
 	QSignalBlocker blocker(editor);
 
-	const int data = indexes.value(MainWindow::saveData.at(id).toInt());
+	const auto &saveData = MainWindow::saveData.at(id);
+	int data = indexes.value(saveData.toInt(), -1);
+	bool hasChanged = false;
+	if (data < 0)
+	{
+		data = 0;
+		hasChanged = true;
+
+		QStringList expected;
+		for (auto iterator = indexes.begin(); iterator != indexes.end(); ++iterator)
+		{
+			expected.append(QString::number(iterator.key()));
+		}
+		std::sort(expected.begin(), expected.end(), [] (const QString &left, const QString &right) { return left.toFloat() < right.toFloat(); });
+		MainWindow::fileErrors.append(QStringLiteral("Line %1: Was %2, but expected %3").arg(id, 3, 10, QChar(' ')).arg(saveData, expected.join(", ").replace(lastCommaRegex, QStringLiteral("\\1 or\\2"))));
+	}
 	editor->setCurrentIndex(data);
-	updateStyle(false);
+	updateStyle(hasChanged);
 	callback();
 }
 
@@ -2100,9 +2162,24 @@ void RoomComboBox::updateData()
 {
 	QSignalBlocker blocker(editor);
 
-	const int data = indexes.value(MainWindow::saveData.at(id).toInt());
+	const auto &saveData = MainWindow::saveData.at(id);
+	int data = indexes.value(saveData.toInt(), -1);
+	bool hasChanged = false;
+	if (data < 0)
+	{
+		data = 0;
+		hasChanged = true;
+
+		QStringList expected;
+		for (auto iterator = indexes.begin(); iterator != indexes.end(); ++iterator)
+		{
+			expected.append(QString::number(iterator.key()));
+		}
+		std::sort(expected.begin(), expected.end(), [] (const QString &left, const QString &right) { return left.toFloat() < right.toFloat(); });
+		MainWindow::fileErrors.append(QStringLiteral("Line %1: Was %2, but expected %3").arg(id, 3, 10, QChar(' ')).arg(saveData, expected.join(", ").replace(lastCommaRegex, QStringLiteral("\\1 or\\2"))));
+	}
 	editor->setCurrentIndex(data);
-	updateStyle(false);
+	updateStyle(hasChanged);
 	callback();
 }
 
@@ -2283,8 +2360,23 @@ void PlotEdit::updateData()
 {
 	QSignalBlocker blocker(editor);
 
-	const int data = indexes.value(MainWindow::saveData.at(id).toInt());
+	const auto &saveData = MainWindow::saveData.at(id);
+	int data = indexes.value(saveData.toInt(), -1);
+	bool hasChanged = false;
+	if (data < 0)
+	{
+		data = 0;
+		hasChanged = true;
+
+		QStringList expected;
+		for (auto iterator = indexes.begin(); iterator != indexes.end(); ++iterator)
+		{
+			expected.append(QString::number(iterator.key()));
+		}
+		std::sort(expected.begin(), expected.end(), [] (const QString &left, const QString &right) { return left.toFloat() < right.toFloat(); });
+		MainWindow::fileErrors.append(QStringLiteral("Line %1: Was %2, but expected %3").arg(id, 3, 10, QChar(' ')).arg(saveData, expected.join(", ").replace(lastCommaRegex, QStringLiteral("\\1 or\\2"))));
+	}
 	editor->setCurrentIndex(data);
-	updateStyle(false);
+	updateStyle(hasChanged);
 	callback();
 }
