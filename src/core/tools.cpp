@@ -1042,7 +1042,7 @@ void CustomComboBox::updateData()
 
 CustomSpinBox::CustomSpinBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
 {
-	editor->setRange(0, __DBL_MAX__);
+	editor->setRange(0, std::numeric_limits<double>::max());
 	editor->setDecimals(0);
 
 	switch (id)

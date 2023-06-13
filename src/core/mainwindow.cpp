@@ -415,7 +415,7 @@ void MainWindow::showEvent(QShowEvent *event)
 void MainWindow::fileModified(const bool modified)
 {
 	const QString obj = sender() ? sender()->objectName() : objectName();
-	const int opt = (modified << 1) | changedEntries.contains(obj);
+	const int opt = (modified << 1) | static_cast<int>(changedEntries.contains(obj));
 	switch (opt)
 	{
 		// case 0b00: // Not modified and not found. Usually this is reset
@@ -445,7 +445,7 @@ void MainWindow::fileModified(const bool modified)
 void MainWindow::iniModified(const bool changed)
 {
 	const QString obj = sender() ? sender()->objectName() : objectName();
-	const int opt = (changed << 1) | changedIniEntries.contains(obj);
+	const int opt = (changed << 1) | static_cast<int>(changedEntries.contains(obj));
 	switch (opt)
 	{
 		// case 0b00: // Not modified and not found. Usually this is reset
