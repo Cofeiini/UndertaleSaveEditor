@@ -18,6 +18,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(BUILD_SHARED_LIBS OFF)
 
+if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	enable_language("RC")
+	set (WIN32_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/icon.rc)
+endif()
+
 qt_standard_project_setup()
 
 qt6_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
@@ -34,6 +39,7 @@ qt6_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
 	src/filedownloader.h
 	src/helpers.h
 	src/main.cpp
+	${WIN32_RESOURCES}
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
