@@ -5,7 +5,7 @@ include(CheckIPOSupported)
 check_ipo_supported(RESULT supported OUTPUT error)
 
 if(!supported)
-	message(FATAL_ERROR "Interprocedural Optimization is not supported: ${output}")
+	message(FATAL_ERROR "Interprocedural Optimization is not supported: ${error}")
 endif()
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core)
@@ -20,7 +20,14 @@ set(BUILD_SHARED_LIBS OFF)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	enable_language("RC")
-	set (WIN32_RESOURCES ${CMAKE_CURRENT_SOURCE_DIR}/icon.rc)
+	set(WIN32_ICON ${CMAKE_CURRENT_SOURCE_DIR}/icon.rc)
+endif()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	set(MACOSX_BUNDLE_GUI_IDENTIFIER fi.cofeiini.${PROJECT_NAME})
+	set(MACOSX_BUNDLE_ICON_FILE icon.icns)
+	set(MACOSX_ICON ${CMAKE_CURRENT_SOURCE_DIR}/images/icon.icns)
+	set_source_files_properties(${MACOSX_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 endif()
 
 qt_standard_project_setup()
@@ -39,7 +46,8 @@ qt6_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
 	src/filedownloader.h
 	src/helpers.h
 	src/main.cpp
-	${WIN32_RESOURCES}
+	${MACOSX_ICON}
+	${WIN32_ICON}
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
@@ -63,19 +71,19 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 # Resources:
 set_source_files_properties("fonts/Vegur-Regular.otf"
-    PROPERTIES QT_RESOURCE_ALIAS "common-font"
+	PROPERTIES QT_RESOURCE_ALIAS "common-font"
 )
 set_source_files_properties("images/ico_debug.png"
-    PROPERTIES QT_RESOURCE_ALIAS "menu-debug"
+	PROPERTIES QT_RESOURCE_ALIAS "menu-debug"
 )
 set_source_files_properties("images/ico_dogshrine.png"
-    PROPERTIES QT_RESOURCE_ALIAS "menu-shrine"
+	PROPERTIES QT_RESOURCE_ALIAS "menu-shrine"
 )
 set_source_files_properties("images/ico_floppy.png"
-    PROPERTIES QT_RESOURCE_ALIAS "saved"
+	PROPERTIES QT_RESOURCE_ALIAS "saved"
 )
 set_source_files_properties("images/ico_floppy_red.png"
-    PROPERTIES QT_RESOURCE_ALIAS "unsaved"
+	PROPERTIES QT_RESOURCE_ALIAS "unsaved"
 )
 set_source_files_properties("images/ico_froggit.png"
 	PROPERTIES QT_RESOURCE_ALIAS "menu-froggit"
@@ -93,7 +101,7 @@ set_source_files_properties("images/ico_riverperson.png"
 	PROPERTIES QT_RESOURCE_ALIAS "menu-riverperson"
 )
 set_source_files_properties("images/ico_player.png"
-    PROPERTIES QT_RESOURCE_ALIAS "menu-player"
+	PROPERTIES QT_RESOURCE_ALIAS "menu-player"
 )
 set_source_files_properties("images/ico_ribbon.png"
 	PROPERTIES QT_RESOURCE_ALIAS "menu-ribbon"
@@ -105,7 +113,7 @@ set_source_files_properties("images/ico_spaghetti.png"
 	PROPERTIES QT_RESOURCE_ALIAS "menu-spaghetti"
 )
 set_source_files_properties("images/ico_savepoint.png"
-    PROPERTIES QT_RESOURCE_ALIAS "menu-locations"
+	PROPERTIES QT_RESOURCE_ALIAS "menu-locations"
 )
 set_source_files_properties("images/ico_flowey.png"
 	PROPERTIES QT_RESOURCE_ALIAS "menu-flowey"
@@ -135,14 +143,14 @@ set_source_files_properties("images/ico_asriel.png"
 	PROPERTIES QT_RESOURCE_ALIAS "menu-asriel"
 )
 set_source_files_properties("images/icon.png"
-    PROPERTIES QT_RESOURCE_ALIAS "icon"
+	PROPERTIES QT_RESOURCE_ALIAS "icon"
 )
 set(assets_resource_files
-    "fonts/Vegur-Regular.otf"
-    "images/ico_debug.png"
-    "images/ico_dogshrine.png"
-    "images/ico_floppy.png"
-    "images/ico_floppy_red.png"
+	"fonts/Vegur-Regular.otf"
+	"images/ico_debug.png"
+	"images/ico_dogshrine.png"
+	"images/ico_floppy.png"
+	"images/ico_floppy_red.png"
 	"images/ico_froggit.png"
 	"images/ico_napstablook.png"
 	"images/ico_temmie.png"
@@ -152,7 +160,7 @@ set(assets_resource_files
 	"images/ico_ribbon.png"
 	"images/ico_fight.png"
 	"images/ico_spaghetti.png"
-    "images/ico_savepoint.png"
+	"images/ico_savepoint.png"
 	"images/ico_flowey.png"
 	"images/ico_toriel.png"
 	"images/ico_sans.png"
@@ -162,7 +170,7 @@ set(assets_resource_files
 	"images/ico_mettaton.png"
 	"images/ico_asgore.png"
 	"images/ico_asriel.png"
-    "images/icon.png"
+	"images/icon.png"
 )
 
 qt6_add_resources(${PROJECT_NAME} "assets"
