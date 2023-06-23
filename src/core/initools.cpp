@@ -3,7 +3,8 @@
 #include "src/core/initools.h"
 #include "src/core/mainwindow.h"
 
-const QHash<QString, int> CustomIniEditor::editorIds = {
+// NOLINTNEXTLINE
+const QHash<QString, int> iniData::idMap = {
 	{ "BC", 0 },
 	{ "BH", 1 },
 	{ "BP", 2 },
@@ -108,7 +109,7 @@ void CustomIniEditor::updateSave(const bool hasChanged)
 {
 	const QString style = hasChanged ? QStringLiteral("font-weight: bold;") : QStringLiteral("font-weight: normal;");
 	editor->setStyleSheet(style);
-	if (buddy)
+	if (buddy != nullptr)
 	{
 		buddy->setStyleSheet(style);
 	}
@@ -116,11 +117,12 @@ void CustomIniEditor::updateSave(const bool hasChanged)
 	callback();
 }
 
-IniCheckBox::IniCheckBox(const QString &id, const QString &text, QWidget *buddyWidget) : CustomIniEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+IniCheckBox::IniCheckBox(const QString &editorId, const QString &text, QWidget *buddyWidget) : CustomIniEditor(editorId, &editor, buddyWidget)
 {
 	editor->setText(text);
 
-	switch (CustomIniEditor::editorIds.value(id))
+	switch (iniData::idMap.value(editorId))
 	{
 		case 1: // General/BH
 		{
@@ -208,10 +210,6 @@ IniCheckBox::IniCheckBox(const QString &id, const QString &text, QWidget *buddyW
 			break;
 		}
 		case 29: // Flowey/alter2
-		{
-			addHintText(QStringLiteral("Reached the end of Ruins while killing everything (Ruins genocide)"));
-			break;
-		}
 		case 30: // Flowey/truename
 		{
 			addHintText(QStringLiteral("Reached the end of Ruins while killing everything (Ruins genocide)"));
@@ -260,18 +258,19 @@ void IniCheckBox::updateSave(const int data)
 
 void IniCheckBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const int data = static_cast<int>(MainWindow::iniData.value(id).toDouble());
 	editor->setCheckState(states.value(data));
 	callback();
 }
 
-IniLineEdit::IniLineEdit(const QString &id, QWidget *buddyWidget) : CustomIniEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+IniLineEdit::IniLineEdit(const QString &editorId, QWidget *buddyWidget) : CustomIniEditor(editorId, &editor, buddyWidget)
 {
 	editor->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	switch (CustomIniEditor::editorIds.value(id))
+	switch (iniData::idMap.value(editorId))
 	{
 		case 9: // General/Name
 		{
@@ -291,18 +290,19 @@ void IniLineEdit::updateSave(const QString &data)
 
 void IniLineEdit::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	editor->setText(MainWindow::iniData.value(id).toString());
 	callback();
 }
 
-IniSpinBox::IniSpinBox(const QString &id, QWidget *buddyWidget) : CustomIniEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+IniSpinBox::IniSpinBox(const QString &editorId, QWidget *buddyWidget) : CustomIniEditor(editorId, &editor, buddyWidget)
 {
 	editor->setRange(0, std::numeric_limits<double>::max());
 	editor->setDecimals(0);
 
-	switch (CustomIniEditor::editorIds.value(id))
+	switch (iniData::idMap.value(editorId))
 	{
 		case 0: // General/BC
 		{
@@ -507,7 +507,7 @@ void IniSpinBox::updateSave(const double data)
 
 void IniSpinBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	editor->setValue(MainWindow::iniData.value(id).toDouble());
 	callback();

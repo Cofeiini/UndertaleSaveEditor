@@ -7,23 +7,23 @@
 
 auto main(int argc, char *argv[]) -> int
 {
-	QApplication a(argc, argv);
-	a.setOrganizationName(Project_Author);
-	a.setApplicationName(QStringLiteral("Undertale Save Editor"));
-	a.setApplicationVersion(APP_VERSION);
-	a.setWindowIcon(QIcon(QStringLiteral(":/icon")));
-	a.setStyle(QStyleFactory::create("Fusion")); // Force "Fusion" theme to apply the dark palette properly
+	const QApplication application(argc, argv);
+	QApplication::setOrganizationName(Project_Author);
+	QApplication::setApplicationName(QStringLiteral("Undertale Save Editor"));
+	QApplication::setApplicationVersion(APP_VERSION);
+	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icon")));
+	QApplication::setStyle(QStyleFactory::create("Fusion")); // Force "Fusion" theme to apply the dark palette properly
 
 	const int fontId = QFontDatabase::addApplicationFont(QStringLiteral(":/common-font"));
 	if(fontId > -1)
 	{
 		QFont font = QFont(QFontDatabase::applicationFontFamilies(fontId).at(0));
 		font.setPixelSize(12);
-		a.setFont(font);
+		QApplication::setFont(font);
 	}
 
-    MainWindow w;
-	w.show();
+	MainWindow window;
+	window.show();
 
-	return a.exec();
+	return application.exec(); // NOLINT
 }

@@ -1,10 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#define TOGGLE_DARKMODE 1U
-#define TOGGLE_SHOWDEBUG 2U
-#define TOGGLE_SHOWSHRINE 4U
-
 #include <QListWidget>
 #include <QMainWindow>
 #include <QStackedWidget>
@@ -18,6 +14,11 @@ union Options {
 		bool showShrine : 1;
 	} option;
 	quint32 data;
+};
+
+struct ErrorInfo {
+	QString path;
+	QString message;
 };
 
 class MainWindow : public QMainWindow
@@ -37,9 +38,9 @@ public:
 	static QHash<QString, QVariant> iniData;
 	static QHash<QString, QVariant> originalIni;
 
-public slots:
-	void fileModified(const bool modified);
-	void iniModified(const bool changed);
+public slots: // NOLINT
+	void fileModified(bool modified);
+	void iniModified(bool modified);
 
 protected:
 	void closeEvent(QCloseEvent *event) override;
@@ -48,9 +49,9 @@ protected:
 signals:
 	void updateWidgets();
 	void updateIniWidgets();
-	void enableControls(const bool);
-	void enableTools(const bool);
-	void toggleDarkMode(const bool);
+	void enableControls(bool);
+	void enableTools(bool);
+	void toggleDarkMode(bool);
 
 private slots:
 	// File system stuff
@@ -61,11 +62,11 @@ private slots:
 	// Downloader stuff
 	void readDownloadedData(const QByteArray &data);
 
-private:
+private: // NOLINT
 	void showVersionPrompt();
-	void showWriteError(const QString &path, const QString &error);
-	[[nodiscard("Value must be used.")]] auto isRemoteNewer(const QString &local, const QString &remote) -> bool;
-	[[nodiscard("Value must be used.")]] auto isSaved(const quint8 modifiedBits) -> bool;
+	void showWriteError(const ErrorInfo &info);
+	[[nodiscard("Value must be used.")]] static auto isRemoteNewer(const QString &local, const QString &remote) -> bool;
+	[[nodiscard("Value must be used.")]] auto isSaved(quint8 modifiedBits) -> bool;
 	void writeFile();
 	void writeIni();
 

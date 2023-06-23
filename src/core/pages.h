@@ -11,7 +11,7 @@ class PlayerPage : public QTabWidget
 	Q_OBJECT // NOLINT
 
 public:
-	PlayerPage(QWidget *parent = nullptr);
+	explicit PlayerPage(QWidget *parent = nullptr);
 };
 
 class BossesPage : public QTabWidget
@@ -19,7 +19,7 @@ class BossesPage : public QTabWidget
 	Q_OBJECT // NOLINT
 
 public:
-	BossesPage(QWidget *parent = nullptr);
+	explicit BossesPage(QWidget *parent = nullptr);
 };
 
 class MonstersPage : public QTabWidget
@@ -27,7 +27,7 @@ class MonstersPage : public QTabWidget
 	Q_OBJECT // NOLINT
 
 public:
-	MonstersPage(QWidget *parent = nullptr);
+	explicit MonstersPage(QWidget *parent = nullptr);
 };
 
 class LocationsPage : public QTabWidget
@@ -35,7 +35,7 @@ class LocationsPage : public QTabWidget
 	Q_OBJECT // NOLINT
 
 public:
-	LocationsPage(QWidget *parent = nullptr);
+	explicit LocationsPage(QWidget *parent = nullptr);
 };
 
 class DebugPage : public QScrollArea
@@ -43,7 +43,7 @@ class DebugPage : public QScrollArea
 	Q_OBJECT // NOLINT
 
 public:
-	DebugPage(QWidget *parent = nullptr);
+	explicit DebugPage(QWidget *parent = nullptr);
 };
 
 class ShrinePage : public QScrollArea
@@ -51,7 +51,7 @@ class ShrinePage : public QScrollArea
 	Q_OBJECT // NOLINT
 
 public:
-	ShrinePage(QWidget *parent = nullptr);
+	explicit ShrinePage(QWidget *parent = nullptr);
 };
 
 class IniPage : public QScrollArea
@@ -59,7 +59,7 @@ class IniPage : public QScrollArea
 	Q_OBJECT // NOLINT
 
 public:
-	IniPage(QWidget *parent = nullptr);
+	explicit IniPage(QWidget *parent = nullptr);
 };
 
 #endif // PAGES_H

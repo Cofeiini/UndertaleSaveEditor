@@ -13,7 +13,7 @@ public:
 	explicit AboutDialog(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
 private:
-	auto GetCredits() -> QString;
+	static auto GetCredits() -> QString;
 };
 
 class YellowNamesDialog : public QDialog

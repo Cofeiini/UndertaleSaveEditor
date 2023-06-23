@@ -4,10 +4,10 @@
 #include <QBoxLayout>
 #include <QCheckBox>
 #include <QComboBox>
+#include <QDoubleSpinBox>
 #include <QLabel>
 #include <QLineEdit>
 #include <QRadioButton>
-#include <QDoubleSpinBox>
 
 class MainWindow;
 
@@ -17,24 +17,30 @@ class CustomEditor : public QFrame
 
 public:
 	template<typename T>
-	explicit CustomEditor(const int identifier, T **editorWidget, QWidget *buddyWidget = nullptr);
+	explicit CustomEditor(int identifier, T **editorWidget, QWidget *buddyWidget = nullptr);
+
+	CustomEditor(const CustomEditor&) = delete;
+	auto operator=(const CustomEditor&) -> CustomEditor& = delete;
+	CustomEditor(CustomEditor&&) = delete;
+	auto operator=(CustomEditor&&) -> CustomEditor& = delete;
+
 	~CustomEditor() override;
 
 	void addHintText(const QString &text);
 	std::function<void()> callback = [] () { /* Keep this empty. Otherwise we crash */ };
 
 	QVBoxLayout *vLayout = new QVBoxLayout();
-	QWidget *editor = nullptr;
+	QWidget *editor;
 	QLabel *label = nullptr;
 
 	int id;
 
 signals:
-	void dataChanged(const bool changed);
+	void dataChanged(bool changed);
 
 public slots:
-	void updateSave(const bool hasChanged);
-	void updateStyle(const bool hasChanged);
+	void updateSave(bool hasChanged);
+	void updateStyle(bool hasChanged);
 	virtual void updateData() { qDebug() << "Non-overloaded \"updateData\" was called!"; }
 
 private:
@@ -46,11 +52,11 @@ class CustomLineEdit : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit CustomLineEdit(const int id, QWidget *buddyWidget = nullptr);
+	explicit CustomLineEdit(int editorId, QWidget *buddyWidget = nullptr);
 
 	QLineEdit *editor;
 
-public slots:
+public slots: // NOLINT
 	void updateSave(const QString &data);
 	void updateData() override;
 };
@@ -60,12 +66,12 @@ class CustomComboBox : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit CustomComboBox(int id, QWidget *buddyWidget = nullptr);
+	explicit CustomComboBox(int editorId, QWidget *buddyWidget = nullptr);
 
 	QComboBox *editor;
 
-public slots:
-	void updateSave(const int data);
+public slots: // NOLINT
+	void updateSave(int data);
 	void updateData() override;
 
 private:
@@ -77,12 +83,12 @@ class CustomSpinBox : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit CustomSpinBox(int id, QWidget *buddyWidget = nullptr);
+	explicit CustomSpinBox(int editorId, QWidget *buddyWidget = nullptr);
 
 	QDoubleSpinBox *editor;
 
-public slots:
-	void updateSave(const double data);
+public slots: // NOLINT
+	void updateSave(double data);
 	void updateData() override;
 };
 
@@ -91,12 +97,12 @@ class CustomCheckBox : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit CustomCheckBox(int id, const QString &text = "", QWidget *buddyWidget = nullptr);
+	explicit CustomCheckBox(int editorId, const QString &text = "", QWidget *buddyWidget = nullptr);
 
 	QCheckBox *editor;
 
-public slots:
-	virtual void updateSave(const int data);
+public slots: // NOLINT
+	virtual void updateSave(int data);
 	void updateData() override;
 
 private:
@@ -109,12 +115,12 @@ class CustomRadioButton : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit CustomRadioButton(int id, const QString &text, QWidget *buddyWidget = nullptr);
+	explicit CustomRadioButton(int editorId, const QString &text, QWidget *buddyWidget = nullptr);
 
 	QRadioButton *editor;
 
-public slots:
-	void updateSave(const bool data);
+public slots: // NOLINT
+	void updateSave(bool data);
 	void updateData() override;
 };
 
@@ -123,12 +129,12 @@ class ItemComboBox : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit ItemComboBox(int id, QWidget *buddyWidget = nullptr);
+	explicit ItemComboBox(int editorId, QWidget *buddyWidget = nullptr);
 
 	QComboBox *editor;
 
-public slots:
-	void updateSave(const int data);
+public slots: // NOLINT
+	void updateSave(int data);
 	void updateData() override;
 };
 
@@ -137,12 +143,12 @@ class PhoneComboBox : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit PhoneComboBox(int id, QWidget *buddyWidget = nullptr);
+	explicit PhoneComboBox(int editorId, QWidget *buddyWidget = nullptr);
 
 	QComboBox *editor;
 
-public slots:
-	void updateSave(const int data);
+public slots: // NOLINT
+	void updateSave(int data);
 	void updateData() override;
 
 private:
@@ -154,13 +160,13 @@ class WeaponComboBox : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit WeaponComboBox(int id, QWidget *buddyWidget = nullptr, CustomSpinBox *weaponAT = nullptr);
+	explicit WeaponComboBox(int editorId, QWidget *buddyWidget = nullptr, CustomSpinBox *weaponAT = nullptr);
 
 	QComboBox *editor;
 	CustomSpinBox *wat = nullptr;
 
-public slots:
-	void updateSave(const int data);
+public slots: // NOLINT
+	void updateSave(int data);
 	void updateData() override;
 
 private:
@@ -173,13 +179,13 @@ class ArmorComboBox : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit ArmorComboBox(int id, QWidget *buddyWidget = nullptr, CustomSpinBox *armorDF = nullptr);
+	explicit ArmorComboBox(int editorId, QWidget *buddyWidget = nullptr, CustomSpinBox *armorDF = nullptr);
 
 	QComboBox *editor;
 	CustomSpinBox *adf = nullptr;
 
-public slots:
-	void updateSave(const int data);
+public slots: // NOLINT
+	void updateSave(int data);
 	void updateData() override;
 
 private:
@@ -192,12 +198,12 @@ class RoomComboBox : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit RoomComboBox(int id, QWidget *buddyWidget = nullptr);
+	explicit RoomComboBox(int editorId, QWidget *buddyWidget = nullptr);
 
 	QComboBox *editor;
 
-public slots:
-	void updateSave(const int data);
+public slots: // NOLINT
+	void updateSave(int data);
 	void updateData() override;
 
 private:
@@ -209,12 +215,12 @@ class TimeEdit : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit TimeEdit(int id, QWidget *buddyWidget = nullptr);
+	explicit TimeEdit(int editorId, QWidget *buddyWidget = nullptr);
 
 	QDoubleSpinBox *editor;
 
-public slots:
-	void updateSave(const int);
+public slots: // NOLINT
+	void updateSave();
 	void updateData() override;
 };
 
@@ -223,12 +229,12 @@ class PlotEdit : public CustomEditor
 	Q_OBJECT // NOLINT
 
 public:
-	explicit PlotEdit(int id, QWidget *buddyWidget = nullptr);
+	explicit PlotEdit(int editorId, QWidget *buddyWidget = nullptr);
 
 	QComboBox *editor;
 
-public slots:
-	void updateSave(const int data);
+public slots: // NOLINT
+	void updateSave(int data);
 	void updateData() override;
 
 private:

@@ -1,12 +1,12 @@
-﻿#include <QVBoxLayout>
-#include <QGroupBox>
+﻿#include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLineEdit>
+#include <QVBoxLayout>
 
+#include "src/core/initools.h"
 #include "src/core/pages.h"
 #include "src/core/tools.h"
-#include "src/core/initools.h"
 #include "src/helpers.h"
 
 PlayerPage::PlayerPage(QWidget *parent) : QTabWidget(parent)

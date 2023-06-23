@@ -5,8 +5,8 @@
 #include <QPushButton>
 #include <QScrollArea>
 
-#include "src/core/mainwindow.h"
 #include "src/core/dialogs.h"
+#include "src/core/mainwindow.h"
 #include "src/core/tools.h"
 #include "src/helpers.h"
 
@@ -58,9 +58,9 @@ AboutDialog::AboutDialog(QWidget *parent, Qt::WindowFlags flags) : QDialog(paren
 auto AboutDialog::GetCredits() -> QString
 {
 	QStringList names = Project_Credits.split(',');
-	for (QString &n : names)
+	for (QString &name : names)
 	{
-		n = QStringLiteral("**%1**").arg(n); // Just for making the entry bold
+		name = QStringLiteral("**%1**").arg(name); // Just for making the entry bold
 	}
 
 	return names.join(QStringLiteral("  \n"));
@@ -83,7 +83,7 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 	topLayout->addStretch();
 
 	// Turning the list into a shared pointer will allow it to be referenced inside other functions and clean it up after the dialog is destroyed
-	std::shared_ptr<QList<CustomCheckBox *>> widgetList = std::make_shared<QList<CustomCheckBox *>>(QList<CustomCheckBox *> {
+	const auto widgetList = std::make_shared<QList<CustomCheckBox *>>(QList<CustomCheckBox *> {
 		new CustomCheckBox(161, Str_Froggit),
 		new CustomCheckBox(162, Str_Whimsun),
 		new CustomCheckBox(163, Str_Moldsmal),
@@ -139,15 +139,15 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 	layout->addLayout(bottomLayout);
 
 	connect(checkAllButton, &QPushButton::clicked, this, [widgetList] () -> void {
-		for (CustomCheckBox *w : *widgetList)
+		for (CustomCheckBox *widget : *widgetList)
 		{
-			w->editor->setChecked(true);
+			widget->editor->setChecked(true);
 		}
 	});
 	connect(uncheckAllButton, &QPushButton::clicked, this, [widgetList] () -> void {
-		for (CustomCheckBox *w : *widgetList)
+		for (CustomCheckBox *widget : *widgetList)
 		{
-			w->editor->setChecked(false);
+			widget->editor->setChecked(false);
 		}
 	});
 	connect(applyButton, &QPushButton::clicked, this, [this] () -> void {
@@ -161,9 +161,9 @@ YellowNamesDialog::YellowNamesDialog(QWidget *parent, Qt::WindowFlags flags) : Q
 			return;
 		}
 
-		for (CustomCheckBox *w : *widgetList)
+		for (CustomCheckBox *widget : *widgetList)
 		{
-			MainWindow::saveData.replace(w->id, MainWindow::originalFile.at(w->id));
+			MainWindow::saveData.replace(widget->id, MainWindow::originalFile.at(widget->id));
 		}
 	});
 

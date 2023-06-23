@@ -2,12 +2,16 @@
 #define INITOOLS_H
 
 #include <QCheckBox>
+#include <QDoubleSpinBox>
 #include <QLabel>
 #include <QLineEdit>
-#include <QDoubleSpinBox>
 #include <QVBoxLayout>
 
 class MainWindow;
+
+struct iniData {
+	static const QHash<QString, int> idMap;
+};
 
 class CustomIniEditor : public QFrame
 {
@@ -25,13 +29,12 @@ public:
 	QLabel *label = nullptr;
 
 	QString id;
-	static const QHash<QString, int> editorIds;
 
 signals:
-	void dataChanged(const bool changed);
+	void dataChanged(bool changed);
 
 public slots:
-	void updateSave(const bool hasChanged);
+	void updateSave(bool hasChanged);
 	virtual void updateData() { qDebug() << "Non-overloaded \"updateData\" was called!"; }
 
 private:
@@ -43,12 +46,12 @@ class IniCheckBox : public CustomIniEditor
 	Q_OBJECT // NOLINT
 
 public:
-	IniCheckBox(const QString &id, const QString &text, QWidget *buddyWidget = nullptr);
+	IniCheckBox(const QString &editorId, const QString &text, QWidget *buddyWidget = nullptr);
 
 	QCheckBox *editor;
 
-public slots:
-	void updateSave(const int data);
+public slots: // NOLINT
+	void updateSave(int data);
 	void updateData() override;
 
 private:
@@ -61,11 +64,11 @@ class IniLineEdit : public CustomIniEditor
 	Q_OBJECT // NOLINT
 
 public:
-	IniLineEdit(const QString &id, QWidget *buddyWidget = nullptr);
+	explicit IniLineEdit(const QString &editorId, QWidget *buddyWidget = nullptr);
 
 	QLineEdit *editor;
 
-public slots:
+public slots: // NOLINT
 	void updateSave(const QString &data);
 	void updateData() override;
 };
@@ -75,12 +78,12 @@ class IniSpinBox : public CustomIniEditor
 	Q_OBJECT // NOLINT
 
 public:
-	IniSpinBox(const QString &id, QWidget *buddyWidget = nullptr);
+	explicit IniSpinBox(const QString &editorId, QWidget *buddyWidget = nullptr);
 
 	QDoubleSpinBox *editor;
 
-public slots:
-	void updateSave(const double data);
+public slots: // NOLINT
+	void updateSave(double data);
 	void updateData() override;
 };
 

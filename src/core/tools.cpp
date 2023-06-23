@@ -4,17 +4,17 @@
 #include "src/core/tools.h"
 #include "src/helpers.h"
 
-QRegularExpression lastCommaRegex("(.+),(.+)$");
+QRegularExpression lastCommaRegex("(.+),(.+)$"); // NOLINT
 
 template<typename T>
-CustomEditor::CustomEditor(const int identifier, T **editorWidget, QWidget *buddyWidget) : editor(new T()), id(identifier), buddy(buddyWidget)
+CustomEditor::CustomEditor(const int identifier, T **editorWidget, QWidget *buddyWidget) : editor(new T{}), id(identifier), buddy(buddyWidget)
 {
 	MainWindow::editors.insert(id, this);
 	*editorWidget = qobject_cast<T *>(editor); // Have to do some evil pointer hack to get this working
 
 	setObjectName(QString::number(id));
 	auto *hLayout = new QHBoxLayout();
-	if (buddy)
+	if (buddy != nullptr)
 	{
 		hLayout->addWidget(buddy);
 	}
@@ -66,27 +66,24 @@ void CustomEditor::updateStyle(const bool hasChanged)
 {
 	const QString style = hasChanged ? QStringLiteral("font-weight: bold;") : QStringLiteral("font-weight: normal;");
 	editor->setStyleSheet(style);
-	if (buddy)
+	if (buddy != nullptr)
 	{
 		buddy->setStyleSheet(style);
 	}
 }
 
-CustomLineEdit::CustomLineEdit(const int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+CustomLineEdit::CustomLineEdit(const int editorId, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-	switch (id)
+	if (editorId == 1)
 	{
-		case 1:
-		{
-			const QString hintText = QStringLiteral("Used in dialog and menus");
-			addHintText(hintText);
-			callback = [this, hintText]() -> void {
-				label->setText((editor->text().size() > 6) ? QStringLiteral("Easy to change, huh?") : hintText);
-			};
-			break;
-		}
+		const QString hintText = QStringLiteral("Used in dialog and menus");
+		addHintText(hintText);
+		callback = [this, hintText]() -> void {
+			label->setText((editor->text().size() > 6) ? QStringLiteral("Easy to change, huh?") : hintText);
+		};
 	}
 
 	connect(editor, &QLineEdit::textEdited, this, &CustomLineEdit::updateSave);
@@ -100,21 +97,26 @@ void CustomLineEdit::updateSave(const QString &data)
 
 void CustomLineEdit::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	editor->setText(MainWindow::saveData.at(id));
 	updateStyle(false);
 	callback();
 }
 
-CustomComboBox::CustomComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+CustomComboBox::CustomComboBox(int editorId, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setEditable(true);
 	editor->lineEdit()->setFrame(false);
 	editor->lineEdit()->setReadOnly(true);
 
-	switch (id)
+	switch (editorId)
 	{
+		default:
+		{
+			break;
+		}
 		case 45:
 		{
 			editor->addItem(QStringLiteral("Fled"));
@@ -210,15 +212,6 @@ CustomComboBox::CustomComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, 
 			break;
 		}
 		case 83:
-		{
-			editor->addItem(QStringLiteral("Spared"));
-			indexes.insert(0, 0);
-			editor->addItem(QStringLiteral("Killed"));
-			indexes.insert(1, 1);
-			editor->addItem(QStringLiteral("Used Stick"));
-			indexes.insert(2, 2);
-			break;
-		}
 		case 84:
 		{
 			editor->addItem(QStringLiteral("Spared"));
@@ -332,19 +325,6 @@ CustomComboBox::CustomComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, 
 			break;
 		}
 		case 106:
-		{
-			editor->addItem(QStringLiteral("Not reached"));
-			indexes.insert(0, 0);
-			editor->addItem(QStringLiteral("Bandage"));
-			indexes.insert(4, 1);
-			editor->addItem(QStringLiteral("Faded Ribbon"));
-			indexes.insert(12, 2);
-			editor->addItem(QStringLiteral("Manly Bandanna"));
-			indexes.insert(15, 3);
-			editor->addItem(QStringLiteral("Old Tutu"));
-			indexes.insert(24, 4);
-			break;
-		}
 		case 108:
 		{
 			editor->addItem(QStringLiteral("Not reached"));
@@ -1017,7 +997,7 @@ void CustomComboBox::updateSave(const int data)
 
 void CustomComboBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const auto &saveData = MainWindow::saveData.at(id);
 	int data = indexes.value(saveData.toInt(), -1);
@@ -1040,13 +1020,18 @@ void CustomComboBox::updateData()
 	callback();
 }
 
-CustomSpinBox::CustomSpinBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+CustomSpinBox::CustomSpinBox(int editorId, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setRange(0, std::numeric_limits<double>::max());
 	editor->setDecimals(0);
 
-	switch (id)
+	switch (editorId)
 	{
+		default:
+		{
+			break;
+		}
 		case 2:
 		{
 			editor->setRange(1, 20);
@@ -1243,18 +1228,19 @@ void CustomSpinBox::updateSave(const double data)
 
 void CustomSpinBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	editor->setValue(MainWindow::saveData.at(id).toInt());
 	updateStyle(false);
 	callback();
 }
 
-CustomCheckBox::CustomCheckBox(int id, const QString &text, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+CustomCheckBox::CustomCheckBox(int editorId, const QString &text, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setText(text);
 
-	switch (id)
+	switch (editorId)
 	{
 		case 35:
 		{
@@ -1288,10 +1274,6 @@ CustomCheckBox::CustomCheckBox(int id, const QString &text, QWidget *buddyWidget
 			break;
 		}
 		case 72:
-		{
-			addHintText(QStringLiteral("%1 tells %2 about this in True Pacifist ending").arg(Str_Toriel, Str_sans));
-			break;
-		}
 		case 73:
 		{
 			addHintText(QStringLiteral("%1 tells %2 about this in True Pacifist ending").arg(Str_Toriel, Str_sans));
@@ -1348,10 +1330,6 @@ CustomCheckBox::CustomCheckBox(int id, const QString &text, QWidget *buddyWidget
 			break;
 		}
 		case 293:
-		{
-			addHintText(QStringLiteral("Reward is 99G"));
-			break;
-		}
 		case 294:
 		{
 			addHintText(QStringLiteral("Reward is 99G"));
@@ -1433,15 +1411,7 @@ CustomCheckBox::CustomCheckBox(int id, const QString &text, QWidget *buddyWidget
 			break;
 		}
 		case 435:
-		{
-			addHintText(QStringLiteral("%1 will comment on this").arg(Str_Alphys));
-			break;
-		}
 		case 445:
-		{
-			addHintText(QStringLiteral("%1 will comment on this").arg(Str_Alphys));
-			break;
-		}
 		case 446:
 		{
 			addHintText(QStringLiteral("%1 will comment on this").arg(Str_Alphys));
@@ -1492,6 +1462,10 @@ CustomCheckBox::CustomCheckBox(int id, const QString &text, QWidget *buddyWidget
 			addHintText(QStringLiteral("Skips the item use text"));
 			break;
 		}
+		default:
+		{
+			break;
+		}
 	}
 
 	connect(editor, &QCheckBox::stateChanged, this, &CustomCheckBox::updateSave);
@@ -1506,7 +1480,7 @@ void CustomCheckBox::updateSave(const int data)
 
 void CustomCheckBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const int data = MainWindow::saveData.at(id).toInt();
 	editor->setCheckState(states.value(data));
@@ -1514,17 +1488,14 @@ void CustomCheckBox::updateData()
 	callback();
 }
 
-CustomRadioButton::CustomRadioButton(int id, const QString &text, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+CustomRadioButton::CustomRadioButton(int editorId, const QString &text, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setText(text);
 
-	switch (id)
+	if (editorId == 44)
 	{
-		case 44:
-		{
-			addHintText(QStringLiteral("Only in %1").arg(Str_Ruins));
-			break;
-		}
+		addHintText(QStringLiteral("Only in %1").arg(Str_Ruins));
 	}
 
 	connect(editor, &QRadioButton::toggled, this, &CustomRadioButton::updateSave);
@@ -1532,22 +1503,23 @@ CustomRadioButton::CustomRadioButton(int id, const QString &text, QWidget *buddy
 
 void CustomRadioButton::updateSave(const bool data)
 {
-	const QString saved = QString::number(data);
+	const QString saved = QString::number(static_cast<int>(data));
 	MainWindow::saveData.replace(id, saved);
 	CustomEditor::updateSave(saved != MainWindow::originalFile.at(id));
 }
 
 void CustomRadioButton::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
-	const bool data = MainWindow::saveData.at(id).toInt();
+	const bool data = MainWindow::saveData.at(id).toInt() > 0;
 	editor->setChecked(data);
 	updateStyle(false);
 	callback();
 }
 
-ItemComboBox::ItemComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+ItemComboBox::ItemComboBox(int editorId, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setEditable(true);
 	editor->lineEdit()->setFrame(false);
@@ -1631,7 +1603,7 @@ void ItemComboBox::updateSave(const int data)
 
 void ItemComboBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const int data = MainWindow::saveData.at(id).toInt();
 	editor->setCurrentIndex(data);
@@ -1639,7 +1611,8 @@ void ItemComboBox::updateData()
 	callback();
 }
 
-PhoneComboBox::PhoneComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+PhoneComboBox::PhoneComboBox(int editorId, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setEditable(true);
 	editor->lineEdit()->setFrame(false);
@@ -1668,7 +1641,7 @@ void PhoneComboBox::updateSave(const int data)
 
 void PhoneComboBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const auto &saveData = MainWindow::saveData.at(id);
 	int data = indexes.value(saveData.toInt(), -1);
@@ -1691,7 +1664,8 @@ void PhoneComboBox::updateData()
 	callback();
 }
 
-WeaponComboBox::WeaponComboBox(int id, QWidget *buddyWidget, CustomSpinBox *weaponAT) : CustomEditor(id, &editor, buddyWidget), wat(weaponAT)
+// NOLINTNEXTLINE
+WeaponComboBox::WeaponComboBox(int editorId, QWidget *buddyWidget, CustomSpinBox *weaponAT) : CustomEditor(editorId, &editor, buddyWidget), wat(weaponAT)
 {
 	editor->setEditable(true);
 	editor->lineEdit()->setFrame(false);
@@ -1712,7 +1686,7 @@ WeaponComboBox::WeaponComboBox(int id, QWidget *buddyWidget, CustomSpinBox *weap
 
 void WeaponComboBox::updateSave(const int data)
 {
-	QSignalBlocker blocker(wat->editor);
+	const QSignalBlocker blocker(wat->editor);
 	const int other = atValues.at(data);
 	wat->editor->setValue(other);
 	wat->updateSave(other);
@@ -1724,7 +1698,7 @@ void WeaponComboBox::updateSave(const int data)
 
 void WeaponComboBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const auto &saveData = MainWindow::saveData.at(id);
 	int data = indexes.value(saveData.toInt(), -1);
@@ -1747,7 +1721,8 @@ void WeaponComboBox::updateData()
 	callback();
 }
 
-ArmorComboBox::ArmorComboBox(int id, QWidget *buddyWidget, CustomSpinBox *armorDF) : CustomEditor(id, &editor, buddyWidget), adf(armorDF)
+// NOLINTNEXTLINE
+ArmorComboBox::ArmorComboBox(int editorId, QWidget *buddyWidget, CustomSpinBox *armorDF) : CustomEditor(editorId, &editor, buddyWidget), adf(armorDF)
 {
 	editor->setEditable(true);
 	editor->lineEdit()->setFrame(false);
@@ -1769,7 +1744,8 @@ ArmorComboBox::ArmorComboBox(int id, QWidget *buddyWidget, CustomSpinBox *armorD
 
 void ArmorComboBox::updateSave(const int data)
 {
-	QSignalBlocker blocker(adf->editor);
+	const QSignalBlocker blocker(adf->editor);
+
 	const int other = dfValues.at(data);
 	adf->editor->setValue(other);
 	adf->updateSave(other);
@@ -1781,7 +1757,7 @@ void ArmorComboBox::updateSave(const int data)
 
 void ArmorComboBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const auto &saveData = MainWindow::saveData.at(id);
 	int data = indexes.value(saveData.toInt(), -1);
@@ -1804,7 +1780,8 @@ void ArmorComboBox::updateData()
 	callback();
 }
 
-RoomComboBox::RoomComboBox(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+RoomComboBox::RoomComboBox(int editorId, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setEditable(true);
 	editor->lineEdit()->setFrame(false);
@@ -2160,7 +2137,7 @@ void RoomComboBox::updateSave(const int data)
 
 void RoomComboBox::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const auto &saveData = MainWindow::saveData.at(id);
 	int data = indexes.value(saveData.toInt(), -1);
@@ -2183,7 +2160,8 @@ void RoomComboBox::updateData()
 	callback();
 }
 
-TimeEdit::TimeEdit(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+TimeEdit::TimeEdit(int editorId, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setRange(0, std::numeric_limits<double>::max());
 	editor->setDecimals(0);
@@ -2191,16 +2169,16 @@ TimeEdit::TimeEdit(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, bud
 	addHintText(QStringLiteral("00:00:00"));
 	callback = [this] () {
 		const double data = editor->value();
-		const auto h = static_cast<quint64>(data * 0.000009259); // 1800 * 60 = 108000 frames
-		const auto m = static_cast<quint8>(static_cast<quint64>(data * 0.000555555) % 60); // 30 * 60 = 1800 frames
-		const auto s = static_cast<quint8>(static_cast<quint64>(data * 0.033333333) % 60); // 30 frames
-		label->setText(QStringLiteral("Your estimated play time is **%1:%2:%3**.<br />This is calculated from in-game frames").arg(h, 2, 10, QChar('0')).arg(m, 2, 10, QChar('0')).arg(s, 2, 10, QChar('0')));
+		const auto hour = static_cast<quint64>(data * 0.000009259); // 1800 * 60 = 108000 frames
+		const auto minute = static_cast<quint8>(static_cast<quint64>(data * 0.000555555) % 60); // 30 * 60 = 1800 frames
+		const auto second = static_cast<quint8>(static_cast<quint64>(data * 0.033333333) % 60); // 30 frames
+		label->setText(QStringLiteral("Your estimated play time is **%1:%2:%3**.<br />This is calculated from in-game frames").arg(hour, 2, 10, QChar('0')).arg(minute, 2, 10, QChar('0')).arg(second, 2, 10, QChar('0')));
 	};
 
 	connect(editor, &QDoubleSpinBox::valueChanged, this, &TimeEdit::updateSave);
 }
 
-void TimeEdit::updateSave(const int)
+void TimeEdit::updateSave()
 {
 	const QString saved = editor->text();
 	MainWindow::saveData.replace(id, saved);
@@ -2209,7 +2187,7 @@ void TimeEdit::updateSave(const int)
 
 void TimeEdit::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const double data = MainWindow::saveData.at(id).toDouble();
 	editor->setValue(data);
@@ -2217,7 +2195,8 @@ void TimeEdit::updateData()
 	callback();
 }
 
-PlotEdit::PlotEdit(int id, QWidget *buddyWidget) : CustomEditor(id, &editor, buddyWidget)
+// NOLINTNEXTLINE
+PlotEdit::PlotEdit(int editorId, QWidget *buddyWidget) : CustomEditor(editorId, &editor, buddyWidget)
 {
 	editor->setEditable(true);
 	editor->lineEdit()->setFrame(false);
@@ -2358,7 +2337,7 @@ void PlotEdit::updateSave(const int data)
 
 void PlotEdit::updateData()
 {
-	QSignalBlocker blocker(editor);
+	const QSignalBlocker blocker(editor);
 
 	const auto &saveData = MainWindow::saveData.at(id);
 	int data = indexes.value(saveData.toInt(), -1);

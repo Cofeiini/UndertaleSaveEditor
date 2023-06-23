@@ -20,11 +20,11 @@
 
 #include <QDebug>
 
-#include "src/core/mainwindow.h"
 #include "src/core/dialogs.h"
+#include "src/core/mainwindow.h"
 #include "src/core/pages.h"
-#include "src/helpers.h"
 #include "src/filedownloader.h"
+#include "src/helpers.h"
 
 // icon (64) + left padding (20) + right padding (20) + scroll bar (16)
 enum {
@@ -83,21 +83,21 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 			const QJsonObject updateJson = json.value(QStringLiteral("update")).toObject();
 			const QJsonObject optionsJson = json.value(QStringLiteral("options")).toObject();
 
-			fetchDelay = updateJson.value(QStringLiteral("delay")).toInt(7);
+			fetchDelay = updateJson.value(QStringLiteral("delay")).toInt(30);
 			fetchTime = updateJson.value(QStringLiteral("time")).toInteger(QDateTime::currentSecsSinceEpoch());
 			fetchVersion = updateJson.value(QStringLiteral("version")).toString(QStringLiteral("0.0.0.0"));
 			fetchMessage = updateJson.value(QStringLiteral("message")).toString(QStringLiteral("No details for this update were found"));
 
-			toggleOptions.data = static_cast<quint32>(optionsJson.value(QStringLiteral("toggles")).toInt(TOGGLE_DARKMODE));
+			toggleOptions.data = static_cast<quint32>(optionsJson.value(QStringLiteral("toggles")).toInt(1));
 		}
 	}
 
 	// Dark Mode shenanigans
-	QColor baseColor(QStringLiteral("#32383D"));
-	QColor complementColor(QStringLiteral("#202529"));
-	QColor disabledColor(QStringLiteral("#4C555C"));
-	QColor highlightColor(QStringLiteral("#009BFF"));
-	QColor linkColor(QStringLiteral("#009BFF"));
+	const QColor baseColor(QStringLiteral("#32383D"));
+	const QColor complementColor(QStringLiteral("#202529"));
+	const QColor disabledColor(QStringLiteral("#4C555C"));
+	const QColor highlightColor(QStringLiteral("#009BFF"));
+	const QColor linkColor(QStringLiteral("#009BFF"));
 
 	lightPalette = QApplication::palette(); // Easier to store the default palette and use that as "light mode"
 	darkPalette = QApplication::palette(); // To avoid conflicts, it's better to copy the current palette as base for dark mode
@@ -350,17 +350,17 @@ void MainWindow::closeEvent(QCloseEvent *event)
 	QFile storage(storeDir + QStringLiteral("/config.json"));
 	if (storage.open(QFile::Text | QFile::ReadWrite))
 	{
-		QJsonObject optionsJson = {
+		const QJsonObject optionsJson = {
 			{ QStringLiteral("toggles"), static_cast<qint32>(toggleOptions.data) }
 		};
-		QJsonObject updateJson = {
+		const QJsonObject updateJson = {
 			{ QStringLiteral("delay"), fetchDelay },
 			{ QStringLiteral("message"), fetchMessage },
 			{ QStringLiteral("time"), fetchTime },
 			{ QStringLiteral("version"), fetchVersion }
 		};
 
-		QJsonObject json = {
+		const QJsonObject json = {
 			{ QStringLiteral("options"), optionsJson },
 			{ QStringLiteral("update"), updateJson }
 		};
@@ -414,11 +414,15 @@ void MainWindow::showEvent(QShowEvent *event)
 
 void MainWindow::fileModified(const bool modified)
 {
-	const QString obj = sender() ? sender()->objectName() : objectName();
-	const int opt = (modified << 1) | static_cast<int>(changedEntries.contains(obj));
+	const QString obj = (sender() != nullptr) ? sender()->objectName() : objectName();
+	const int opt = (static_cast<int>(modified) << 1) | static_cast<int>(changedEntries.contains(obj));
 	switch (opt)
 	{
-		// case 0b00: // Not modified and not found. Usually this is reset
+		default: // case 0b00: // Not modified and not found. Usually this is reset
+		{
+			break;
+		}
+
 		case 0b11: // Modified and found. Should skip repeat entry
 		{
 			return;
@@ -437,18 +441,22 @@ void MainWindow::fileModified(const bool modified)
 		}
 	}
 
-	const quint8 value = !changedEntries.isEmpty();
+	auto value = static_cast<const quint8>(!changedEntries.isEmpty());
 	bitChange<quint8>(isModified, value, SAVED_FILE);
 	tabs->setTabIcon(INDEX_FILE, floppy.at(value));
 }
 
-void MainWindow::iniModified(const bool changed)
+void MainWindow::iniModified(const bool modified)
 {
-	const QString obj = sender() ? sender()->objectName() : objectName();
-	const int opt = (changed << 1) | static_cast<int>(changedEntries.contains(obj));
+	const QString obj = (sender() != nullptr) ? sender()->objectName() : objectName();
+	const int opt = (static_cast<int>(modified) << 1) | static_cast<int>(changedEntries.contains(obj));
 	switch (opt)
 	{
-		// case 0b00: // Not modified and not found. Usually this is reset
+		default: // case 0b00: // Not modified and not found. Usually this is reset
+		{
+			break;
+		}
+
 		case 0b11: // Modified and found. Should skip repeat entry
 		{
 			return;
@@ -467,7 +475,7 @@ void MainWindow::iniModified(const bool changed)
 		}
 	}
 
-	const quint8 value = !changedIniEntries.isEmpty();
+	auto value = static_cast<const quint8>(!changedIniEntries.isEmpty());
 	bitChange<quint8>(isModified, value, SAVED_INI);
 	tabs->setTabIcon(INDEX_INI, floppy.at(value));
 }
@@ -509,13 +517,13 @@ void MainWindow::openFile()
 #ifndef QT_NO_CURSOR
 		QApplication::setOverrideCursor(Qt::WaitCursor);
 #endif
-		QTextStream in(&file);
-		in.seek(0);
+		QTextStream input(&file);
+		input.seek(0);
 		for (int i = 1; i < SAVELEN; ++i)
 		{
-			saveData.replace(i, in.readLine().trimmed());
+			saveData.replace(i, input.readLine().trimmed());
 		}
-		saveData.replace(SAVELEN, QString::number(static_cast<quint64>(in.readLine().trimmed().toDouble())));
+		saveData.replace(SAVELEN, QString::number(static_cast<quint64>(input.readLine().trimmed().toDouble())));
 		originalFile = saveData; // Make a copy for the "data changed" indicators
 		fileErrors.clear();
 #ifndef QT_NO_CURSOR
@@ -569,7 +577,7 @@ void MainWindow::openIni()
 		}
 		workDir = QFileInfo(iniPath).dir().absolutePath();
 
-		QSettings iniRead(iniPath, QSettings::IniFormat);
+		const QSettings iniRead(iniPath, QSettings::IniFormat);
 		for (const QString &item : iniRead.allKeys())
 		{
 			iniData.insert(item, iniRead.value(item));
@@ -627,6 +635,11 @@ void MainWindow::saveFileAs()
 	tabs->setTabText(fileIndex, info.fileName());
 	switch (fileIndex)
 	{
+		default:
+		{
+			qDebug() << "Something terrible happened while saving the file!";
+			return;
+		}
 		case INDEX_FILE:
 		{
 			filePath = path;
@@ -674,7 +687,7 @@ void MainWindow::showVersionPrompt()
 
 	prompt.show(); // Force the prompt to show in order to update its geometry
 
-	const QPoint center(qRound(static_cast<float>(prompt.geometry().width()) * 0.5f), qRound(static_cast<float>(prompt.geometry().height()) * 0.5f));
+	const QPoint center(qRound(static_cast<float>(prompt.geometry().width()) * 0.5F), qRound(static_cast<float>(prompt.geometry().height()) * 0.5F));
 	prompt.move(geometry().center() - center); // Move the prompt to the center of the main window for convenience
 
 	if (prompt.exec() == QMessageBox::Yes)
@@ -683,52 +696,52 @@ void MainWindow::showVersionPrompt()
 	}
 }
 
-void MainWindow::showWriteError(const QString &path, const QString &error)
+void MainWindow::showWriteError(const ErrorInfo &info)
 {
-	const QString text = QStringLiteral("Cannot write file %1").arg(QDir::toNativeSeparators(path));
+	const QString text = QStringLiteral("Cannot write file %1").arg(QDir::toNativeSeparators(info.path));
 	QMessageBox prompt(QMessageBox::Warning, QApplication::applicationName(), text, QMessageBox::Close, this);
-	prompt.setDetailedText(error);
+	prompt.setDetailedText(info.message);
 	prompt.exec();
 }
 
 auto MainWindow::isRemoteNewer(const QString &local, const QString &remote) -> bool
 {
-	QVector<int> lVec;
-	lVec.reserve(4);
-	for (const QString &i : local.split('.'))
+	QVector<int> left;
+	left.reserve(4);
+	for (const QString &iter : local.split('.'))
 	{
-		bool ok = true;
-		int n = i.toInt(&ok);
-		if (!ok)
+		bool isOk = true;
+		int number = iter.toInt(&isOk);
+		if (!isOk)
 		{
-			n = 0;
+			number = 0;
 		}
 
-		lVec.append(n);
+		left.append(number);
 	}
-	lVec.resize(4); // Force the length to right size
+	left.resize(4); // Force the length to right size
 
-	QVector<int> rVec;
-	rVec.reserve(4);
-	for (const QString &i : remote.split('.'))
+	QVector<int> right;
+	right.reserve(4);
+	for (const QString &iter : remote.split('.'))
 	{
-		bool ok = true;
-		int n = i.toInt(&ok);
-		if (!ok)
+		bool isOk = true;
+		int number = iter.toInt(&isOk);
+		if (!isOk)
 		{
-			n = 0;
+			number = 0;
 		}
 
-		rVec.append(n);
+		right.append(number);
 	}
-	rVec.resize(4); // Force the length to right size
+	right.resize(4); // Force the length to right size
 
-	if (std::equal(lVec.begin(), lVec.end(), rVec.begin()))
+	if (std::equal(left.begin(), left.end(), right.begin()))
 	{
 		return false; // This is a special case when the versions are the same
 	}
 
-	return std::lexicographical_compare(lVec.begin(), lVec.end(), rVec.begin(), rVec.end());
+	return std::lexicographical_compare(left.begin(), left.end(), right.begin(), right.end());
 }
 
 auto MainWindow::isSaved(const quint8 modifiedBits) -> bool
@@ -766,7 +779,7 @@ void MainWindow::writeFile()
 	QFile file(filePath);
 	if (!file.open(QFile::WriteOnly | QFile::Text))
 	{
-		showWriteError(filePath, file.errorString());
+		showWriteError({ filePath, file.errorString() });
 		return;
 	}
 
@@ -818,14 +831,14 @@ void MainWindow::writeIni()
 			}
 		}
 
-		showWriteError(tempPath, errorString);
+		showWriteError({ tempPath, errorString });
 		return;
 	}
 
 	QFile file(iniPath);
 	if (!file.open(QFile::WriteOnly | QFile::Text))
 	{
-		showWriteError(filePath, file.errorString());
+		showWriteError({ filePath, file.errorString() });
 		return;
 	}
 
@@ -838,8 +851,8 @@ void MainWindow::writeIni()
 	iniOut.setValue(QStringLiteral("Name"), QStringLiteral("\"%1\"").arg(tempData.value(QStringLiteral("Name")).toString())); // Handle the only exception in the data separately
 	tempData.remove(QStringLiteral("Name")); // Remove the exception to make iterating simpler
 
-	QHash<QString, QVariant>::const_key_value_iterator iter = tempData.constKeyValueBegin();
-	QHash<QString, QVariant>::const_key_value_iterator end = tempData.constKeyValueEnd();
+	auto iter = tempData.constKeyValueBegin();
+	const auto end = tempData.constKeyValueEnd();
 	while (iter != end)
 	{
 		iniOut.setValue(iter->first, QStringLiteral("\"%1\"").arg(QString::number(iter->second.toDouble(), 'f', 6))); // Convert the data into the correct "double" format
@@ -850,7 +863,7 @@ void MainWindow::writeIni()
 	QFile tempFile(tempPath);
 	if(!tempFile.open(QFile::ReadOnly | QFile::Text))
 	{
-		showWriteError(tempPath, tempFile.errorString());
+		showWriteError({ tempPath, tempFile.errorString() });
 		return;
 	}
 

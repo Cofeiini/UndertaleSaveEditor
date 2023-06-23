@@ -3,6 +3,7 @@
 
 #include <QtGlobal>
 
+// NOLINTNEXTLINE
 namespace
 {
 // ##### Credits #####
@@ -101,8 +102,8 @@ namespace
 template<typename T>
 constexpr void bitChange(T &var, const T value, const T bit)
 {
-	const T sz = sizeof(var) * 8;
-	for (T i = 0; i < sz; ++i)
+	const T size = sizeof(var) * 8;
+	for (T i = 0; i < size; ++i)
 	{
 		if ((1 << i) > bit)
 		{
@@ -118,6 +119,6 @@ constexpr auto bitCheck(const auto var, const quint64 bit) -> bool
 	return (var & bit) > 0;
 }
 
-}
+} // namespace
 
 #endif // HELPERS_H
