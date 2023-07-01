@@ -1,6 +1,12 @@
 ## UndertaleSaveEditor
 With Undertale Save Editor you can easily modify your Undertale save files and learn more about what each save entry does.
 
+### Web Edition
+The "Web Edition" of the save editor can be found here [https://cofeiini.github.io/UndertaleSaveEditor](https://cofeiini.github.io/UndertaleSaveEditor).  
+Currently the web edition has the same features as the executable, but any future features will be applied only to the web edition.  
+
+The source code for the web edition can be found here [https://github.com/Cofeiini/UndertaleSaveEditor/tree/web](https://github.com/Cofeiini/UndertaleSaveEditor/tree/web).
+
 ### Download
 The executables can be found in the [**releases**](https://github.com/Cofeiini/UndertaleSaveEditor/releases/) page.  
 There are files for Linux, Windows, and macOS.
