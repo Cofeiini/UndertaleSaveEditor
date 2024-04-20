@@ -179,7 +179,7 @@ const openFile = (input) => {
 		const text = data.split(/[\r\n]+/);
 
 		for (let i = 1; i < SAVE_LEN; ++i) {
-			SaveData[i] = text[i - 1];
+			SaveData[i] = text[i - 1].trim();
 		}
 		SaveData[SAVE_LEN] = String(parseFloat(text[SAVE_LEN - 1]).toExponential());
 
