@@ -745,6 +745,8 @@ export class ComboEditor extends EditorBase {
 				this.indexes[4] = 4;
 				this.addItem(`"I heard..."`);
 				this.indexes[5] = 5;
+				this.addItem("Finished battle with Muffet");
+				this.indexes[6] = 6;
 				break;
 			}
 			case 429: {
