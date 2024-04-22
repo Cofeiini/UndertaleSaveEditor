@@ -615,6 +615,8 @@ CustomComboBox::CustomComboBox(int editorId, QWidget *buddyWidget) : CustomEdito
 			indexes.insert(4, 4);
 			editor->addItem(QStringLiteral("\"I heard...\""));
 			indexes.insert(5, 5);
+			editor->addItem(QStringLiteral("Finished battle with Muffet"));
+			indexes.insert(6, 6);
 			break;
 		}
 		case 429:

@@ -7,7 +7,7 @@
 namespace
 {
 // ##### Credits #####
-#define Project_Credits				QStringLiteral("chaoskagami,Araraura,hax4dazy,EpicSpieler")
+#define Project_Credits				QStringLiteral("chaoskagami,Araraura,hax4dazy,EpicSpieler,donlon")
 #define Project_Author				QStringLiteral("Cofeiini")
 
 // ##### Project link #####
