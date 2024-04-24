@@ -1,0 +1,29 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="common-font">fonts/Vegur-Regular.otf</file>
+        <file alias="menu-alphys">images/ico_alphys.png</file>
+        <file alias="menu-asgore">images/ico_asgore.png</file>
+        <file alias="menu-asriel">images/ico_asriel.png</file>
+        <file alias="menu-debug">images/ico_debug.png</file>
+        <file alias="menu-shrine">images/ico_dogshrine.png</file>
+        <file alias="menu-fight">images/ico_fight.png</file>
+        <file alias="saved">images/ico_floppy.png</file>
+        <file alias="unsaved">images/ico_floppy_red.png</file>
+        <file alias="menu-flowey">images/ico_flowey.png</file>
+        <file alias="menu-froggit">images/ico_froggit.png</file>
+        <file alias="menu-mettaton">images/ico_mettaton.png</file>
+        <file alias="menu-muffet">images/ico_muffet.png</file>
+        <file alias="menu-napstablook">images/ico_napstablook.png</file>
+        <file alias="menu-papyrus">images/ico_papyrus.png</file>
+        <file alias="menu-player">images/ico_player.png</file>
+        <file alias="menu-ribbon">images/ico_ribbon.png</file>
+        <file alias="menu-riverperson">images/ico_riverperson.png</file>
+        <file alias="menu-sans">images/ico_sans.png</file>
+        <file alias="menu-locations">images/ico_savepoint.png</file>
+        <file alias="menu-spaghetti">images/ico_spaghetti.png</file>
+        <file alias="menu-temmie">images/ico_temmie.png</file>
+        <file alias="menu-toriel">images/ico_toriel.png</file>
+        <file alias="menu-undyne">images/ico_undyne.png</file>
+        <file alias="icon">images/icon.png</file>
+    </qresource>
+</RCC>
