@@ -7,24 +7,24 @@
 
 class AboutDialog : public QDialog
 {
-	Q_OBJECT // NOLINT
+    Q_OBJECT // NOLINT: Framework code, so can't fix this
 
 public:
-	explicit AboutDialog(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
+    explicit AboutDialog(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
 private:
-	static auto GetCredits() -> QString;
+    static auto GetCredits() -> QString;
 };
 
 class YellowNamesDialog : public QDialog
 {
-	Q_OBJECT // NOLINT
+    Q_OBJECT // NOLINT: Framework code, so can't fix this
 
 public:
-	explicit YellowNamesDialog(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
+    explicit YellowNamesDialog(QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
 private:
-	bool isQuit = true;
+    bool isQuit = true;
 };
 
 #endif // DIALOGS_H

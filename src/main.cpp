@@ -1,29 +1,30 @@
+#include "src/core/mainwindow.h"
+#include "src/helpers.h"
+
 #include <QApplication>
 #include <QFontDatabase>
 #include <QStyleFactory>
 
-#include "src/core/mainwindow.h"
-#include "src/helpers.h"
-
 auto main(int argc, char *argv[]) -> int
 {
-	const QApplication application(argc, argv);
-	QApplication::setOrganizationName(Project_Author);
-	QApplication::setApplicationName(QStringLiteral("Undertale Save Editor"));
-	QApplication::setApplicationVersion(APP_VERSION);
-	QApplication::setWindowIcon(QIcon(QStringLiteral(":/icon")));
-	QApplication::setStyle(QStyleFactory::create("Fusion")); // Force "Fusion" theme to apply the dark palette properly
+    const QApplication application(argc, argv);
 
-	const int fontId = QFontDatabase::addApplicationFont(QStringLiteral(":/common-font"));
-	if(fontId > -1)
-	{
-		QFont font = QFont(QFontDatabase::applicationFontFamilies(fontId).at(0));
-		font.setPixelSize(12);
-		QApplication::setFont(font);
-	}
+    QApplication::setOrganizationName(Project_Author);
+    QApplication::setApplicationName(QStringLiteral("Undertale Save Editor"));
+    QApplication::setApplicationVersion(APP_VERSION);
+    QApplication::setWindowIcon(QIcon(QStringLiteral(":/icon")));
+    QApplication::setStyle(QStyleFactory::create("Fusion")); // Force "Fusion" theme to apply the dark palette properly
 
-	MainWindow window;
-	window.show();
+    const int fontId = QFontDatabase::addApplicationFont(QStringLiteral(":/common-font"));
+    if (fontId > -1)
+    {
+        QFont font = QFont(QFontDatabase::applicationFontFamilies(fontId).at(0));
+        font.setPixelSize(12);
+        QApplication::setFont(font);
+    }
 
-	return application.exec(); // NOLINT
+    MainWindow window;
+    window.show();
+
+    return application.exec(); // NOLINT: False positive
 }
