@@ -68,7 +68,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 public slots: // NOLINT: False positive
-    void updateSave(int data);
+    void updateSave(double data);
     void updateData() override;
 
 private:

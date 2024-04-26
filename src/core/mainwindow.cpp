@@ -495,7 +495,7 @@ void MainWindow::fileModified(const bool modified)
 void MainWindow::iniModified(const bool modified)
 {
     const QString obj = (sender() != nullptr) ? sender()->objectName() : objectName();
-    const int opt = (static_cast<int>(modified) << 1) | static_cast<int>(changedEntries.contains(obj));
+    const int opt = (static_cast<int>(modified) << 1) | static_cast<int>(changedIniEntries.contains(obj));
     switch (opt)
     {
         default: // case 0b00: // Not modified and not found. Usually this is a "reset"

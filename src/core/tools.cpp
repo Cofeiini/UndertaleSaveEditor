@@ -11,6 +11,7 @@ template<typename T>
 CustomEditor::CustomEditor(const int identifier, T *editorWidget, QWidget *buddyWidget) :
     editor(editorWidget), id(identifier), buddy(buddyWidget)
 {
+    setObjectName(QString::number(id));
     MainWindow::editors.insert(id, this);
 
     editor->setFocusPolicy(Qt::StrongFocus);

@@ -2,8 +2,6 @@
 
 #include "src/core/mainwindow.h"
 
-#include <utility>
-
 // NOLINTNEXTLINE: Have a single static map instead of several copies in widgets
 const QHash<QString, int> iniData::idMap = {
     { "BC", 0 },
@@ -76,6 +74,8 @@ template<typename T>
 CustomIniEditor::CustomIniEditor(QString identifier, T *editorWidget, QWidget *buddyWidget) :
     editor(editorWidget), id(std::move(identifier)), buddy(buddyWidget)
 {
+    setObjectName(id);
+
     editor->setFocusPolicy(Qt::StrongFocus);
     editor->installEventFilter(this);
 
@@ -286,7 +286,7 @@ void IniCheckBox::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void IniCheckBox::updateSave(const int data)
+void IniCheckBox::updateSave(const double data)
 {
     MainWindow::iniData.insert(id, data);
     CustomIniEditor::updateSave(data != MainWindow::originalIni.value(id).toDouble());
