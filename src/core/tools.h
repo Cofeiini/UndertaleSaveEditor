@@ -21,9 +21,9 @@ public:
     explicit CustomEditor(int identifier, T *editorWidget, QWidget *buddyWidget = nullptr);
 
     CustomEditor(const CustomEditor &) = delete;
-    auto operator=(const CustomEditor &) -> CustomEditor & = delete;
+    CustomEditor operator=(const CustomEditor &) & = delete;
     CustomEditor(CustomEditor &&) = delete;
-    auto operator=(CustomEditor &&) -> CustomEditor & = delete;
+    CustomEditor operator=(CustomEditor &&) & = delete;
 
     ~CustomEditor() override;
 

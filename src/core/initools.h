@@ -21,6 +21,11 @@ public:
     template<typename T>
     explicit CustomIniEditor(QString identifier, T *editorWidget, QWidget *buddyWidget = nullptr);
 
+    CustomIniEditor(const CustomIniEditor &) = delete;
+    CustomIniEditor operator=(const CustomIniEditor &) & = delete;
+    CustomIniEditor(CustomIniEditor &&) = delete;
+    CustomIniEditor operator=(CustomIniEditor &&) & = delete;
+
     bool eventFilter(QObject *watched, QEvent *event) override;
 
     void addHintText(const QString &text);
