@@ -487,7 +487,7 @@ void MainWindow::fileModified(const bool modified)
         }
     }
 
-    auto value = static_cast<const quint8>(!changedEntries.isEmpty());
+    const auto value = static_cast<quint8>(!changedEntries.isEmpty());
     bitChange<quint8>(isModified, value, SAVED_FILE);
     tabs->setTabIcon(INDEX_FILE, floppy.at(value));
 }
@@ -521,7 +521,7 @@ void MainWindow::iniModified(const bool modified)
         }
     }
 
-    auto value = static_cast<const quint8>(!changedIniEntries.isEmpty());
+    const auto value = static_cast<quint8>(!changedIniEntries.isEmpty());
     bitChange<quint8>(isModified, value, SAVED_INI);
     tabs->setTabIcon(INDEX_INI, floppy.at(value));
 }
@@ -533,7 +533,7 @@ void MainWindow::openFile()
         return;
     }
 
-    CursorOverride cursorOverride;
+    const CursorOverride cursorOverride;
 
 #ifdef QT_DEBUG
     if (filePath.isEmpty())
@@ -610,7 +610,7 @@ void MainWindow::openIni()
         return;
     }
 
-    CursorOverride cursorOverride;
+    const CursorOverride cursorOverride;
 
 #ifdef QT_DEBUG
     if (iniPath.isEmpty())
@@ -693,7 +693,7 @@ void MainWindow::saveFileAs()
 
 void MainWindow::readDownloadedData(const QByteArray &data)
 {
-    CursorOverride cursorOverride;
+    const CursorOverride cursorOverride;
 
     const QJsonObject json = QJsonDocument::fromJson(data).object();
     fetchVersion = json["version"].toString();
@@ -802,7 +802,7 @@ auto MainWindow::isSaved(const quint8 modifiedBits) -> bool
 
 void MainWindow::writeFile()
 {
-    CursorOverride cursorOverride;
+    const CursorOverride cursorOverride;
 
     QFile file(filePath);
     if (!file.open(QFile::WriteOnly | QFile::Text))
@@ -828,7 +828,7 @@ void MainWindow::writeFile()
 
 void MainWindow::writeIni()
 {
-    CursorOverride cursorOverride;
+    const CursorOverride cursorOverride;
 
     const QString tempPath = QStringLiteral("%1.temp").arg(iniPath);
     QSettings iniOut(tempPath, QSettings::IniFormat);
