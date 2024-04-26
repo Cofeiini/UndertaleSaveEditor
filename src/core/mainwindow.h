@@ -3,6 +3,7 @@
 
 #include "src/core/tools.h"
 
+#include <QApplication>
 #include <QListWidget>
 #include <QMainWindow>
 #include <QStackedWidget>
@@ -25,6 +26,20 @@ union Options {
 struct ErrorInfo {
     QString path;
     QString message;
+};
+
+class CursorOverride
+{
+public:
+    CursorOverride()
+    {
+        QApplication::setOverrideCursor(Qt::WaitCursor);
+    }
+
+    ~CursorOverride()
+    {
+        QApplication::restoreOverrideCursor();
+    }
 };
 
 class MainWindow : public QMainWindow

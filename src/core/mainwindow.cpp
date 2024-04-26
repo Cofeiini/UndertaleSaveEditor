@@ -6,7 +6,6 @@
 #include "src/helpers.h"
 
 #include <QAction>
-#include <QApplication>
 #include <QBoxLayout>
 #include <QCloseEvent>
 #include <QDateTime>
@@ -534,7 +533,7 @@ void MainWindow::openFile()
         return;
     }
 
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    CursorOverride cursorOverride;
 
 #ifdef QT_DEBUG
     if (filePath.isEmpty())
@@ -588,8 +587,6 @@ void MainWindow::openFile()
     emit enableControls(true);
     emit enableTools(true);
 
-    QApplication::restoreOverrideCursor();
-
     if (!fileErrors.empty())
     {
         const auto position = fileErrors.at(0).indexOf(' ') + 1;
@@ -613,7 +610,7 @@ void MainWindow::openIni()
         return;
     }
 
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    CursorOverride cursorOverride;
 
 #ifdef QT_DEBUG
     if (iniPath.isEmpty())
@@ -647,8 +644,6 @@ void MainWindow::openIni()
 
     emit updateIniWidgets();
     emit enableControls(true);
-
-    QApplication::restoreOverrideCursor();
 }
 
 void MainWindow::saveFile()
@@ -698,7 +693,7 @@ void MainWindow::saveFileAs()
 
 void MainWindow::readDownloadedData(const QByteArray &data)
 {
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    CursorOverride cursorOverride;
 
     const QJsonObject json = QJsonDocument::fromJson(data).object();
     fetchVersion = json["version"].toString();
@@ -710,8 +705,6 @@ void MainWindow::readDownloadedData(const QByteArray &data)
         qDebug() << "Found an update";
         QMetaObject::invokeMethod(this, &MainWindow::showVersionPrompt, Qt::QueuedConnection);
     }
-
-    QApplication::restoreOverrideCursor();
 }
 
 void MainWindow::showVersionPrompt()
@@ -809,7 +802,7 @@ auto MainWindow::isSaved(const quint8 modifiedBits) -> bool
 
 void MainWindow::writeFile()
 {
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    CursorOverride cursorOverride;
 
     QFile file(filePath);
     if (!file.open(QFile::WriteOnly | QFile::Text))
@@ -831,13 +824,11 @@ void MainWindow::writeFile()
 
     emit updateWidgets();
     fileModified(false);
-
-    QApplication::restoreOverrideCursor();
 }
 
 void MainWindow::writeIni()
 {
-    QApplication::setOverrideCursor(Qt::WaitCursor);
+    CursorOverride cursorOverride;
 
     const QString tempPath = QStringLiteral("%1.temp").arg(iniPath);
     QSettings iniOut(tempPath, QSettings::IniFormat);
@@ -898,6 +889,4 @@ void MainWindow::writeIni()
     originalIni = iniData;
     changedIniEntries.clear();
     iniModified(false);
-
-    QApplication::restoreOverrideCursor();
 }
