@@ -76,7 +76,9 @@ template<typename T>
 CustomIniEditor::CustomIniEditor(QString identifier, T *editorWidget, QWidget *buddyWidget) :
     editor(editorWidget), id(std::move(identifier)), buddy(buddyWidget)
 {
-    setObjectName(id);
+    editor->setFocusPolicy(Qt::StrongFocus);
+    editor->installEventFilter(this);
+
     auto *hLayout = new QHBoxLayout();
     if (buddy)
     {
@@ -96,6 +98,17 @@ CustomIniEditor::CustomIniEditor(QString identifier, T *editorWidget, QWidget *b
     connect(this, &CustomIniEditor::dataChanged, MainWindow::instance, &MainWindow::iniModified);
 }
 
+bool CustomIniEditor::eventFilter(QObject *watched, QEvent *event)
+{
+    if (event->type() == QEvent::Wheel && !editor->hasFocus())
+    {
+        event->ignore();
+        return true;
+    }
+
+    return QFrame::eventFilter(watched, event);
+}
+
 void CustomIniEditor::addHintText(const QString &text)
 {
     label = new QLabel(text);
@@ -104,6 +117,14 @@ void CustomIniEditor::addHintText(const QString &text)
     label->setTextFormat(Qt::MarkdownText);
 
     vLayout->addWidget(label);
+}
+
+void CustomIniEditor::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+        editor->setFocus();
+    }
 }
 
 void CustomIniEditor::updateSave(const bool hasChanged)
@@ -255,6 +276,14 @@ IniCheckBox::IniCheckBox(const QString &editorId, const QString &text, QWidget *
     }
 
     connect(editor, &QCheckBox::stateChanged, this, &IniCheckBox::updateSave);
+}
+
+void IniCheckBox::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton)
+    {
+        editor->click();
+    }
 }
 
 void IniCheckBox::updateSave(const int data)

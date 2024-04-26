@@ -21,6 +21,8 @@ public:
     template<typename T>
     explicit CustomIniEditor(QString identifier, T *editorWidget, QWidget *buddyWidget = nullptr);
 
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
     void addHintText(const QString &text);
     std::function<void()> callback = []() { /* Keep this empty. Otherwise we crash */ };
 
@@ -29,6 +31,9 @@ public:
     QLabel *label = nullptr;
 
     QString id;
+
+protected:
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 signals:
     void dataChanged(bool changed);
@@ -53,6 +58,9 @@ public:
     IniCheckBox(const QString &editorId, const QString &text, QWidget *buddyWidget = nullptr);
 
     QCheckBox *editor;
+
+protected:
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 public slots: // NOLINT: False positive
     void updateSave(int data);
