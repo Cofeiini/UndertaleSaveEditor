@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21.1)
+cmake_minimum_required(VERSION 3.29.2)
 project(UndertaleSaveEditor VERSION 2.1.0.0 LANGUAGES CXX)
 
 include(CheckIPOSupported)
@@ -10,7 +10,7 @@ endif()
 
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core)
 
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Gui Network Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Gui Network Widgets)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -54,7 +54,7 @@ qt_add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     APP_VERSION="${PROJECT_VERSION}"
-    QT_DISABLE_DEPRECATED_BEFORE=0x060500
+    QT_DISABLE_DEPRECATED_BEFORE=0x060700
     RC_ICONS="images/icon.ico"
 )
 

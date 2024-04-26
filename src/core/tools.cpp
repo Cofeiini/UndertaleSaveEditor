@@ -1543,7 +1543,7 @@ CustomCheckBox::CustomCheckBox(int editorId, const QString &text, QWidget *buddy
         }
     }
 
-    connect(editor, &QCheckBox::stateChanged, this, &CustomCheckBox::updateSave);
+    connect(editor, &QCheckBox::checkStateChanged, this, &CustomCheckBox::updateSave);
 }
 
 void CustomCheckBox::mouseReleaseEvent(QMouseEvent *event)

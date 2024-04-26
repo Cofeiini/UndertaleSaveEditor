@@ -275,7 +275,7 @@ IniCheckBox::IniCheckBox(const QString &editorId, const QString &text, QWidget *
         }
     }
 
-    connect(editor, &QCheckBox::stateChanged, this, &IniCheckBox::updateSave);
+    connect(editor, &QCheckBox::checkStateChanged, this, &IniCheckBox::updateSave);
 }
 
 void IniCheckBox::mouseReleaseEvent(QMouseEvent *event)
