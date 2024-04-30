@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29.2)
+cmake_minimum_required(VERSION 3.22.1)
 project(UndertaleSaveEditor VERSION 2.1.0.0 LANGUAGES CXX)
 
 include(CheckIPOSupported)

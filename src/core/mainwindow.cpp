@@ -597,7 +597,7 @@ void MainWindow::openFile()
         QMessageBox prompt(this);
         prompt.setWindowTitle(QApplication::applicationName());
         prompt.setText(QStringLiteral("There were some errors detected in %1 while parsing.\nCheck the details from more information.").arg(QDir::toNativeSeparators(filePath)));
-        prompt.setDetailedText(QStringLiteral("%1").arg(fileErrors.join('\n')));
+        prompt.setDetailedText(fileErrors.join('\n'));
         prompt.setIcon(QMessageBox::Warning);
         prompt.exec();
     }

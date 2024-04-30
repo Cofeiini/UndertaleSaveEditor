@@ -286,10 +286,11 @@ void IniCheckBox::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void IniCheckBox::updateSave(const double data)
+void IniCheckBox::updateSave(int data)
 {
-    MainWindow::iniData.insert(id, data);
-    CustomIniEditor::updateSave(data != MainWindow::originalIni.value(id).toDouble());
+    const auto saved = static_cast<double>(values.at(data));
+    MainWindow::iniData.insert(id, saved);
+    CustomIniEditor::updateSave(saved != MainWindow::originalIni.value(id).toDouble());
 }
 
 void IniCheckBox::updateData()

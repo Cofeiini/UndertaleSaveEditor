@@ -68,12 +68,12 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 public slots: // NOLINT: False positive
-    void updateSave(double data);
+    void updateSave(int data);
     void updateData() override;
 
 private:
-    std::vector<int> values = { 0, 1, 1 };
-    QHash<int, Qt::CheckState> states = { { 0, Qt::Unchecked }, { 1, Qt::Checked } };
+    const QList<int> values = { 0, 1, 1 };
+    const QHash<int, Qt::CheckState> states = { { 0, Qt::Unchecked }, { 1, Qt::Checked } };
 };
 
 class IniLineEdit : public CustomIniEditor
