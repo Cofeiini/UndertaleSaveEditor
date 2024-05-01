@@ -5,29 +5,12 @@ on:
 
 env:
   APP_NAME: "UndertaleSaveEditor"
-  QT_VERSION: 6.7
+  QT_VERSION: '6.7'
+  QT_INSTALL: '6.7.1'
+  OPENSSL_VERSION: '3.0'
 
 jobs:
-  create_release:
-    name: "🗃️ Prepare a draft release"
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
-    outputs:
-      upload_url: ${{ steps.create_release.outputs.upload_url }}
-      release_id: ${{ steps.create_release.outputs.id }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: "🗃️ Create draft release"
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          draft: true
-          prerelease: false
   build_linux:
-    # needs: create_release
     runs-on: ubuntu-latest
     name: "🐧 Build Linux AppImage"
     steps:
@@ -37,17 +20,15 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y build-essential cmake ninja-build fuse3 libfuse2 libssl-dev libfontconfig1-dev libfreetype6-dev libgl1-mesa-dev libgstreamer-gl1.0-0 libinput-dev libx11-dev libx11-xcb-dev libxcb-cursor-dev libxcb-glx0-dev libxcb-icccm4-dev libxcb-image0-dev libxcb-keysyms1-dev libxcb-randr0-dev libxcb-render-util0-dev libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-util-dev libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb1-dev libxext-dev libxfixes-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libxrender-dev
-      - name: "⚙️ Build Qt ${{ env.QT_VERSION }}"
-        working-directory: ${{ runner.temp }}
+      - name: "⚙️ Install Qt ${{ env.QT_INSTALL }}"
+        uses: jurplel/install-qt-action@v3
+        with:
+          version: ${{ env.QT_INSTALL }}
+          archives: "qtbase icu"
+          cache: true
+      - name: "🛠️ Compile application"
         run: |
-          git clone --depth=1 --branch=${{ env.QT_VERSION }} https://github.com/qt/qtbase.git
-          cd qtbase
-          ./configure -release -openssl -no-pch -ltcg -qt-pcre -qt-zlib -qt-freetype -qt-harfbuzz -qt-libpng -qt-libjpeg -xcb -c++std c++2b -nomake examples -nomake tests -prefix ${{ runner.temp }}/qt-shared -disable-deprecated-up-to 0x060700
-          cmake --build . --parallel
-          cmake --install .
-      - name: "⚙️ Compile application"
-        run: |
-          ${{ runner.temp }}/qt-shared/bin/qt-cmake -G Ninja -S . -B build -DCMAKE_BUILD_TYPE=Release
+          qt-cmake -G Ninja -S . -B build -DCMAKE_BUILD_TYPE=Release
           cmake --build build --parallel
       - name: "🧰 Install linuxdeploy"
         run: |
@@ -55,94 +36,97 @@ jobs:
           wget https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
           chmod +x linuxdeploy-*.AppImage
       - name: "📦 Create AppImage"
-        run: NO_STRIP=true QMAKE="${{ runner.temp }}/qt-shared/bin/qmake" ./linuxdeploy-x86_64.AppImage --appdir AppDir --executable build/${{ env.APP_NAME }} --icon-file images/${{ env.APP_NAME }}.png --desktop-file ${{ env.APP_NAME }}.desktop --plugin qt --output appimage
+        run: NO_STRIP=true ./linuxdeploy-x86_64.AppImage --appdir AppDir --executable "build/${{ env.APP_NAME }}" --icon-file "images/${{ env.APP_NAME }}.png" --desktop-file "${{ env.APP_NAME }}.desktop" --plugin qt --output appimage
       - name: "📤 Upload artifact: Linux"
         uses: actions/upload-artifact@v4
         with:
           name: "${{ env.APP_NAME }}-x86_64.AppImage"
           path: "${{ env.APP_NAME }}-x86_64.AppImage"
-      # - name: "📤 Release AppImage"
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ needs.create_release.outputs.upload_url }}
-      #     asset_path: "${{ env.APP_NAME }}-x86_64.AppImage"
-      #     asset_name: "${{ env.APP_NAME }}-x86_64.AppImage"
-      #     asset_content_type: application/vnd.appimage
   build_windows:
-    # needs: create_release
     runs-on: windows-latest
     name: "🪟 Build Windows Executable"
     steps:
       - name: "📥 Checkout"
         uses: actions/checkout@v4
-      - name: "🧰 Install dependencies"
+      - name: "🧰 Install dependencies: VS Shell"
         uses: egor-tensin/vs-shell@v2
-      - name: "⚙️ Build OpenSSL 3"
+      - name: "🧰 Install dependencies: NASM"
+        uses: ilammy/setup-nasm@v1
+      - name: "🧰 Cache OpenSSL ${{ env.OPENSSL_VERSION }}"
+        id: cache-openssl
+        uses: actions/cache@v4
+        with:
+          key: "${{ runner.os }}-opensslcache-${{ env.OPENSSL_VERSION }}"
+          path: "${{ runner.temp }}/openssl-${{ env.OPENSSL_VERSION }}"
+      - name: "🧰 Cache Qt"
+        id: cache-qt
+        uses: actions/cache@v4
+        with:
+          key: "${{ runner.os }}-qtcache-${{ env.QT_VERSION }}"
+          path: "${{ runner.temp }}/qt-static"
+      - if: ${{ steps.cache-openssl.outputs.cache-hit != 'true' }}
+        name: "⚙️ Build OpenSSL ${{ env.OPENSSL_VERSION }}"
         working-directory: ${{ runner.temp }}
         run: |
-          git clone --depth=1 --branch=openssl-3.0 https://github.com/openssl/openssl.git
+          git clone --depth=1 --branch=openssl-${{ env.OPENSSL_VERSION }} https://github.com/openssl/openssl.git
           cd openssl
-          perl Configure VC-WIN64A -no-shared -static --prefix="${{ runner.temp }}/openssl-3"
+          perl Configure VC-WIN64A -no-shared -static --prefix="${{ runner.temp }}/openssl-${{ env.OPENSSL_VERSION }}"
           nmake
-          nmake install
-      - name: "⚙️ Build static Qt"
+          nmake install_sw
+      - if: ${{ steps.cache-qt.outputs.cache-hit != 'true' }}
+        name: "⚙️ Build static Qt ${{ env.QT_VERSION }}"
         working-directory: ${{ runner.temp }}
         run: |
           git clone --depth=1 --branch=${{ env.QT_VERSION }} https://github.com/qt/qtbase.git
           cd qtbase
-          ./configure -release -static -static-runtime -openssl-linked -no-shared -platform win32-msvc -no-pch -qt-pcre -ltcg -qt-zlib -qt-freetype -qt-harfbuzz -qt-libpng -qt-libjpeg -c++std c++2b -nomake examples -nomake tests -prefix ${{ runner.temp }}/qt-static -disable-deprecated-up-to 0x060700 -- -DOPENSSL_USE_STATIC_LIBS=ON -DOPENSSL_ROOT_DIR="${{ runner.temp }}/openssl-3"
+          ./configure -release -static -static-runtime -openssl-linked -no-shared -platform win32-msvc -no-pch -qt-pcre -ltcg -qt-zlib -qt-freetype -qt-harfbuzz -qt-libpng -qt-libjpeg -c++std c++2b -nomake examples -nomake tests -prefix ${{ runner.temp }}/qt-static -disable-deprecated-up-to 0x060700 -- -DOPENSSL_USE_STATIC_LIBS=ON -DOPENSSL_ROOT_DIR="${{ runner.temp }}/openssl-${{ env.OPENSSL_VERSION }}"
           cmake --build . --parallel
           cmake --install .
-      - name: "⚙️ Compile application"
+      - name: "🛠️ Compile application"
         run: |
-          ${{ runner.temp }}/qt-static/bin/qt-cmake -G Ninja -S . -B build -DCMAKE_BUILD_TYPE=Release -DOPENSSL_USE_STATIC_LIBS=ON -DOPENSSL_ROOT_DIR="${{ runner.temp }}/openssl-3"
+          ${{ runner.temp }}/qt-static/bin/qt-cmake -G Ninja -S . -B build -DCMAKE_BUILD_TYPE=Release -DOPENSSL_USE_STATIC_LIBS=ON -DOPENSSL_ROOT_DIR="${{ runner.temp }}/openssl-${{ env.OPENSSL_VERSION }}"
           cmake --build build --parallel
       - name: "📤 Upload artifact: Windows"
         uses: actions/upload-artifact@v4
         with:
           name: "${{ env.APP_NAME }}.exe"
-          path: build/"${{ env.APP_NAME }}.exe"
-      # - name: "📤 Release Executable"
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ needs.create_release.outputs.upload_url }}
-      #     asset_path: "build/${{ env.APP_NAME }}.exe"
-      #     asset_name: "${{ env.APP_NAME }}.exe"
-      #     asset_content_type: application/vnd.microsoft.portable-executable
-  build-macos:
-    # needs: create_release
+          path: "build/${{ env.APP_NAME }}.exe"
+  build_macos:
     runs-on: macos-latest
     name: "🍎 Build macOS DMG"
     steps:
       - name: "📥 Checkout"
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
-      - name: "⚙️ Install Qt"
+      - name: "⚙️ Install Qt ${{ env.QT_INSTALL }}"
         uses: jurplel/install-qt-action@v3
         with:
-          version: ${{ env.QT_VERSION }}
+          version: ${{ env.QT_INSTALL }}
           archives: "qtbase"
-      - name: "⚙️ Compile application"
+          cache: true
+      - name: "🛠️ Compile application"
         run: |
-          qt-cmake -G Ninja -S . -B build -DCMAKE_BUILD_TYPE=Release
+          qt-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
           cmake --build build --parallel
           macdeployqt "build/${{ env.APP_NAME }}.app" -dmg
       - name: "📤 Upload artifact: macOS"
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.APP_NAME }}.dmg
-          path: build/${{ env.APP_NAME }}.dmg
-      # - name: "📤 Release DMG"
-      #   uses: actions/upload-release-asset@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     upload_url: ${{ needs.create_release.outputs.upload_url }}
-      #     asset_path: build/${{ env.APP_NAME }}.dmg
-      #     asset_name: ${{ env.APP_NAME }}.dmg
-      #     asset_content_type: application/x-apple-diskimage
+          name: "${{ env.APP_NAME }}.dmg"
+          path: "build/${{ env.APP_NAME }}.dmg"
+  create_release:
+    runs-on: ubuntu-latest
+    needs: [build_linux, build_windows, build_macos]
+    name: "🗃️ Prepare a draft release"
+    permissions:
+      contents: write
+    steps:
+      - name: "📥 Download artifacts"
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: "🗃️ Create draft release"
+        uses: softprops/action-gh-release@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
+          files: artifacts/*/*
