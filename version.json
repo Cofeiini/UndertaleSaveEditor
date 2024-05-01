@@ -1,4 +1,4 @@
 {
-	"version": "2.0.0.0",
-	"message": "* Fixed file saving  \n* User interface changes\n  * New layout\n  * Better controls\n  * Dark Mode toggle\n  * Expanded explanations for entries\n* Improved update checking  \n* Optimized performance"
+	"version": "2.1.0.0",
+	"message": "* Fixed values related to talking with Muffet\n  * Fixed Light Mode  \n* Made editors respond to clicks while highlighted  \n* Fixed floppy icon not updating correctly  \n* Fixed some ini editors using wrong values  \n* Made scrolling the pages easier"
 }
