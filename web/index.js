@@ -4,8 +4,6 @@ import * as Pages from "./core/pages.js";
 let openedMenu = null;
 
 const hideMenus = () => {
-    "use strict";
-
     const menus = document.querySelectorAll(".menu");
     for (const menu of menus) {
         menu.classList.add("hidden");
@@ -30,10 +28,8 @@ const menuBarElements = [
                     ],
                     accept: "",
                     function: (event) => {
-                        "use strict";
-
                         const file = event.target.files[0];
-                        openFile({ name: file.name, path: URL.createObjectURL(file), });
+                        openFile({ name: file.name, path: URL.createObjectURL(file) });
                         hideMenus();
                     },
                 },
@@ -50,10 +46,8 @@ const menuBarElements = [
                     ],
                     accept: ".ini",
                     function: (event) => {
-                        "use strict";
-
                         const file = event.target.files[0];
-                        openIni({ name:file.name, path: URL.createObjectURL(file) });
+                        openIni({ name: file.name, path: URL.createObjectURL(file) });
                         hideMenus();
                     },
                 },
@@ -63,8 +57,6 @@ const menuBarElements = [
                 text: "Save",
                 name: "save",
                 function: (event) => {
-                    "use strict";
-
                     let output = "";
                     const tab = document.querySelector(".tabs > button.active");
                     switch (tab.id) {
@@ -97,14 +89,19 @@ const menuBarElements = [
                     link.click();
 
                     const userAgent = navigator.userAgent;
+                    // noinspection SpellCheckingInspection
                     let saveLocation = "~/.config/UNDERTALE";
                     if (/Windows/.test(userAgent)) {
+                        // noinspection SpellCheckingInspection
                         saveLocation = "%LOCALAPPDATA%/UNDERTALE";
                     } else if (/Mac/.test(userAgent)) {
                         // noinspection SpellCheckingInspection
                         saveLocation = "~/Library/Application Support/com.tobyfox.undertale";
                     }
-                    updateStatus({ message: `New "${link.download}" downloaded. Replace the old file in <div style='color: white;'>${saveLocation}</div> with it to use it.`, color: "green" });
+                    updateStatus({
+                        message: `New "${link.download}" downloaded. Replace the old file in <div style='color: white;'>${saveLocation}</div> with it to use it.`,
+                        color: "green",
+                    });
 
                     setTimeout(() => {
                         URL.revokeObjectURL(link.href);
@@ -126,13 +123,12 @@ const menuBarElements = [
                 buddy: {
                     tag: "label",
                     text: "Show Debug",
-                    function: (event) => { "use strict"; event.stopPropagation(); },
+                    function: (event) => {
+                        event.stopPropagation();
+                    },
                 },
                 function: (event) => {
-                    "use strict";
-
-                    const element = document.querySelector("#mainListDebug");
-                    element.classList.toggle("hidden");
+                    document.querySelector("#mainListDebug").classList.toggle("hidden");
                     event.stopPropagation();
                 },
             },
@@ -143,13 +139,12 @@ const menuBarElements = [
                 buddy: {
                     tag: "label",
                     text: "Show Dog Shrine",
-                    function: (event) => { "use strict"; event.stopPropagation(); },
+                    function: (event) => {
+                        event.stopPropagation();
+                    },
                 },
                 function: (event) => {
-                    "use strict";
-
-                    const element = document.querySelector("#mainListDogShrine");
-                    element.classList.toggle("hidden");
+                    document.querySelector("#mainListDogShrine").classList.toggle("hidden");
                     event.stopPropagation();
                 },
             },
@@ -160,11 +155,11 @@ const menuBarElements = [
                 buddy: {
                     tag: "label",
                     text: "Use Dark Theme",
-                    function: (event) => { "use strict"; event.stopPropagation(); },
+                    function: (event) => {
+                        event.stopPropagation();
+                    },
                 },
                 function: (event) => {
-                    "use strict";
-
                     document.querySelector("body").classList.toggle("dark");
                     document.querySelector(":root").classList.toggle("dark");
                     event.stopPropagation();
@@ -181,8 +176,6 @@ const menuBarElements = [
                 text: "Set monster names yellow",
                 name: "yellowName",
                 function: () => {
-                    "use strict";
-
                     for (const yellowWidget of YellowWidgets) {
                         yellowWidget.updateData();
                         yellowWidget.updateStyle();
@@ -204,8 +197,6 @@ const menuBarElements = [
                 text: "About",
                 name: "about",
                 function: () => {
-                    "use strict";
-
                     document.querySelector("#aboutDialog").classList.remove("hidden");
                     hideMenus();
                 },
@@ -232,10 +223,8 @@ for (const element of menuBarElements) {
         if (option.function) {
             item.onclick = option.function;
         }
-        layout.appendChild(item);
+        layout.append(item);
         layout.onclick = (event) => {
-            "use strict";
-
             item.click();
             event.stopPropagation();
         };
@@ -260,8 +249,6 @@ for (const element of menuBarElements) {
                 buddy.onchange = option.buddy.function;
 
                 item.onclick = (event) => {
-                    "use strict";
-
                     buddy.click();
                     event.stopPropagation();
                 };
@@ -269,18 +256,16 @@ for (const element of menuBarElements) {
                 buddy.onclick = option.buddy.function;
             }
 
-            layout.appendChild(buddy);
+            layout.append(buddy);
         }
 
-        menu.appendChild(layout);
+        menu.append(layout);
     }
 
     const button = document.createElement("button");
     button.id = element.name;
     button.innerText = element.text;
     button.onclick = () => {
-        "use strict";
-
         const isHidden = menu.classList.contains("hidden");
 
         const menus = document.querySelectorAll(".menu");
@@ -295,8 +280,6 @@ for (const element of menuBarElements) {
         }
     };
     button.onmouseenter = () => {
-        "use strict";
-
         if (!openedMenu) {
             return;
         }
@@ -309,11 +292,12 @@ for (const element of menuBarElements) {
         openedMenu = button.id;
         menu.classList.remove("hidden");
     };
-    button.appendChild(menu);
+    button.append(menu);
 
-    menuBar.appendChild(button);
+    menuBar.append(button);
 }
 
+// noinspection SpellCheckingInspection
 const menuTabsElements = [
     {
         text: "file0",
@@ -324,7 +308,7 @@ const menuTabsElements = [
         text: "undertale.ini",
         name: "iniButton",
         target: document.querySelector("#iniEditor"),
-    }
+    },
 ];
 const menuTabs = document.querySelector("#menuTabs");
 for (const element of menuTabsElements) {
@@ -339,18 +323,16 @@ for (const element of menuTabsElements) {
     const button = document.createElement("button");
     button.id = element.name;
     button.onclick = (event) => {
-        "use strict";
-
         document.querySelectorAll(".mainEditor").forEach(editor => editor.classList.add("hidden"));
         document.querySelectorAll("#menuTabs > button").forEach(tab => tab.classList.remove("active"));
 
         event.currentTarget.classList.add("active");
         element.target.classList.remove("hidden");
     };
-    button.appendChild(image);
-    button.appendChild(text);
+    button.append(image);
+    button.append(text);
 
-    menuTabs.appendChild(button);
+    menuTabs.append(button);
 }
 
 // noinspection SpellCheckingInspection
@@ -390,13 +372,13 @@ const mainListElements = [
         icon: "images/ico_dogshrine.png",
         hidden: true,
         target: Pages.DogShrinePage(),
-    }
+    },
 ];
 
 const mainList = document.querySelector("#mainList");
 const fileContents = document.querySelector("#fileContents");
 for (const element of mainListElements) {
-    fileContents.appendChild(element.target);
+    fileContents.append(element.target);
 
     const image = document.createElement("img");
     image.src = element.icon;
@@ -407,53 +389,47 @@ for (const element of mainListElements) {
 
     const button = document.createElement("button");
     button.onclick = (event) => {
-        "use strict";
-
         document.querySelectorAll(".filePage").forEach(page => page.classList.add("hidden"));
-        document.querySelectorAll("#mainList > li > button").forEach(button => button.classList.remove("active"));
+        document.querySelectorAll("#mainList > li > button").forEach(item => item.classList.remove("active"));
 
-        // if (ClickedTabs[element.text]) {
-        //     ClickedTabs[element.text].click();
-        // }
         event.currentTarget.classList.add("active");
         element.target.classList.remove("hidden");
     };
-    button.appendChild(image);
-    button.appendChild(text);
+    button.append(image);
+    button.append(text);
 
     const item = document.createElement("li");
     item.id = `mainList${element.text.replaceAll(/\s/g, "")}`;
     item.title = element.text;
-    item.appendChild(button);
+    item.append(button);
 
     if (element.hidden) {
         item.classList.add("hidden");
     }
 
-    mainList.appendChild(item);
+    mainList.append(item);
 }
 
-document.querySelector("#iniContents").appendChild(Pages.IniPage());
+document.querySelector("#iniContents").append(Pages.IniPage());
 document.querySelector("#yellowNameTool").replaceWith(Pages.YellowNameTool());
 document.querySelector("#aboutDialog").replaceWith(Pages.AboutDialog());
 
 document.onclick = (event) => {
-    "use strict";
-
     if (openedMenu && (event.target.id !== openedMenu)) {
         document.getElementById(openedMenu).querySelector(".menu").classList.add("hidden");
         openedMenu = null;
     }
 };
 
-menuTabs.children[0].click();
-mainList.children[0].querySelector("button").click();
-document.querySelector("#useDarkTheme").click();
+document.addEventListener("DOMContentLoaded", () => {
+    menuTabs.children[0].click();
+    mainList.children[0].querySelector("button").click();
+    document.querySelector("#useDarkTheme").click();
 
-toggleControls({ selector: "#fileEditor *", disabled: true, });
-toggleControls({ selector: "#iniEditor *", disabled: true, });
-toggleControls({ selector: "#menuTabs button", disabled: true, });
-toggleControls({ selector: "#save, #yellowName", disabled: true });
+    toggleControls({ selector: "#fileEditor *", disabled: true });
+    toggleControls({ selector: "#iniEditor *", disabled: true });
+    toggleControls({ selector: "#menuTabs button", disabled: true });
+    toggleControls({ selector: "#save, #yellowName", disabled: true });
 
-updateStatus({ message: "Waiting for a file.", color: "inherit" });
-
+    updateStatus({ message: "Waiting for a file.", color: "inherit" });
+});

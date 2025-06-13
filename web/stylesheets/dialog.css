@@ -1,47 +1,47 @@
 .dialog {
+    background-color: var(--complement-color);
+    border: 1px solid white;
     display: flex;
     flex-direction: column;
     position: fixed;
-    background-color: var(--complement-color);
-    border: 1px solid white;
     width: 420px;
     z-index: 1;
 }
 
 .dialogHeader {
-    display: flex;
     background-color: var(--base-color);
-    width: 100%;
+    display: flex;
     height: 32px;
+    width: 100%;
 }
 
 .dialogHeader > img {
     display: flex;
-    width: 16px;
     height: 16px;
     padding: 8px;
+    width: 16px;
 }
 
 .dialogHeader > div {
-    display: flex;
-    width: 100%;
-    height: 32px;
     align-items: center;
+    display: flex;
+    height: 32px;
     justify-content: center;
+    width: 100%;
 }
 
 .dialogHeader > button {
-    display: flex;
-    cursor: pointer;
+    align-items: center;
     background-color: red;
-    color: black;
     border: 1px solid black;
+    color: black;
+    cursor: pointer;
+    display: flex;
     font-size: larger;
     font-weight: bold;
-    width: 32px;
     height: 32px;
-    align-items: center;
     justify-content: center;
+    width: 32px;
 }
 
 .dialogHeader > button:hover {
@@ -49,11 +49,11 @@
 }
 
 .dialogContainer {
+    color: inherit;
     display: flex;
     flex-direction: column;
-    color: inherit;
-    padding: 10px;
     height: 100%;
+    padding: 10px;
 }
 
 .dialogContainer > #toolButtons {
@@ -62,8 +62,8 @@
 
 .dialogContainer > #aboutName {
     display: flex;
-    justify-content: center;
     font-weight: bold;
+    justify-content: center;
 }
 
 .dialogContainer > #aboutDetails {
@@ -77,42 +77,42 @@
 }
 
 .dialogContainer > #aboutCredits {
-    display: flex;
     border: 1px solid black;
-    justify-content: center;
-    text-align: center;
+    display: flex;
     font-weight: bold;
     height: 5em;
+    justify-content: center;
     margin: 5px 0;
     overflow: scroll;
     overflow-x: hidden;
+    text-align: center;
 }
 
 .dialogScrollView {
+    border: 1px solid black;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
     height: 20em;
-    padding: 1px;
     overflow: scroll;
     overflow-x: hidden;
+    padding: 1px;
 }
 
 .dialogButton {
-    display: flex;
-    cursor: pointer;
+    align-items: center;
     background-image: linear-gradient(to bottom, var(--complement-color), var(--base-color));
-    color: inherit;
     border: 1px solid black;
     border-radius: 5px;
-    align-items: center;
+    color: inherit;
+    cursor: pointer;
+    display: flex;
     justify-content: center;
     padding: 10px;
 }
 
 .dialogButton:hover {
-    filter: brightness(110%);
     border-color: blue;
+    filter: brightness(110%);
 }
 
 .dialogSpacer {
@@ -121,8 +121,8 @@
 }
 
 .dialogFooter {
-    display: flex;
     align-items: center;
+    display: flex;
 }
 
 .dialogFooter > div {
@@ -132,8 +132,8 @@
 
 @media screen and (min-width: 768px) {
     .dialog {
-        top: 50%;
         left: 50%;
+        top: 50%;
         transform: translate(-50%, -50%);
     }
 }

@@ -1,0 +1,11 @@
+{
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "@stylistic/eslint-plugin": "^4.4.1",
+    "eslint": "^9.28.0",
+    "globals": "^16.2.0",
+    "stylelint": "^16.20.0",
+    "stylelint-config-recommended": "^16.0.0",
+    "stylelint-order": "^7.0.0"
+  }
+}

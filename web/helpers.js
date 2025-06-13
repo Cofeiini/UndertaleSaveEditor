@@ -1,7 +1,13 @@
 // noinspection SpellCheckingInspection
 
 // ##### Credits #####
-const Project_Credits = "chaoskagami,Araraura,hax4dazy,EpicSpieler,donlon";
+const Project_Credits = [
+    "chaoskagami",
+    "Araraura",
+    "hax4dazy",
+    "EpicSpieler",
+    "donlon",
+];
 const Project_Author = "Cofeiini";
 
 // ##### Project link #####

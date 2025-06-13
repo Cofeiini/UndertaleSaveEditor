@@ -55,6 +55,20 @@ compile_commands.json
 # WebStorm files
 /.idea
 
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Dependency directories
+/node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/.pnp
+.pnp.js
+
 # VS Code files
 /.vscode
 

@@ -1,39 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="description" content="Simple Save Editor for Undertale" />
-    <link rel="icon" type="image/x-icon" href="images/icon.ico" />
-    <link rel="stylesheet" type="text/css" href="web/stylesheets/index.css" />
-    <link rel="stylesheet" type="text/css" href="web/stylesheets/dialog.css" />
+    <meta charset="utf-8"/>
+    <meta name="description" content="Simple Save Editor for Undertale"/>
+
     <title>Undertale Save Editor (Web Edition)</title>
-</head>
-<body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
 
-    <div id="root">
-        <div id="menuBar"></div>
-
-        <div id="editorContainer">
-            <div id="menuTabs" class="tabs"></div>
-
-            <div id="fileEditor" class="mainEditor">
-                <ul id="mainList"></ul>
-                <div id="fileContents"></div>
-            </div>
-
-            <div id="iniEditor" class="mainEditor hidden">
-                <div id="iniContents"></div>
-            </div>
-        </div>
-
-        <div id="aboutDialog" class="hidden"></div>
-        <div id="yellowNameTool" class="hidden"></div>
-    </div>
-    <ul id="statusLog"></ul>
+    <link rel="icon" type="image/x-icon" href="images/icon.ico"/>
+    <link rel="stylesheet" type="text/css" href="web/stylesheets/index.css"/>
+    <link rel="stylesheet" type="text/css" href="web/stylesheets/dialog.css"/>
 
     <script type="text/javascript" src="web/helpers.js"></script>
-    <script type="text/javascript" src="web/core/common.js"></script>
-    <script type="module" src="web/index.js"></script>
+    <script type="text/javascript" src="web/common.js"></script>
+    <script defer type="module" src="web/index.js"></script>
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+
+<div id="root">
+    <div id="menuBar"></div>
+
+    <div id="editorContainer">
+        <div id="menuTabs" class="tabs"></div>
+
+        <div id="fileEditor" class="mainEditor">
+            <ul id="mainList"></ul>
+            <div id="fileContents"></div>
+        </div>
+
+        <div id="iniEditor" class="mainEditor hidden">
+            <div id="iniContents"></div>
+        </div>
+    </div>
+
+    <div id="aboutDialog" class="hidden"></div>
+    <div id="yellowNameTool" class="hidden"></div>
+</div>
+<ul id="statusLog"></ul>
 </body>
 </html>

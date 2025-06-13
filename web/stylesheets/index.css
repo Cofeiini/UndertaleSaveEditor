@@ -22,8 +22,8 @@
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
     height: 8px;
+    width: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -38,8 +38,8 @@
 
 body {
     color: var(--text-color);
-    margin: 0;
     font-family: "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    margin: 0;
 }
 
 body.dark {
@@ -71,34 +71,34 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 .disabled {
-    filter: brightness(80%) !important;
     cursor: not-allowed !important;
+    filter: brightness(80%) !important;
     pointer-events: none;
 }
 
 .log {
     display: flex;
-    text-shadow: 0 0 1px black;
     padding: 2px 0;
+    text-shadow: 0 0 1px black;
 }
 
 .log:before {
+    align-items: center;
+    color: var(--highlight-color);
+    content: attr(data-time);
     display: flex;
     font-family: monospace;
-    color: var(--highlight-color);
-    text-shadow: 0 0 1px black;
-    content: attr(data-time);
     padding: 0 5px;
-    align-items: center;
+    text-shadow: 0 0 1px black;
 }
 
 #root {
+    background-color: var(--base-color);
     display: flex;
     flex-direction: column;
-    background-color: var(--base-color);
-    position: relative;
     min-width: var(--window-width);
     padding: 5px;
+    position: relative;
 }
 
 #editorContainer {
@@ -108,38 +108,38 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 #statusLog {
-    display: flex;
-    flex-direction: column;
     background-color: var(--complement-color);
     border: 5px solid var(--base-color);
     border-top: none;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 12em;
+    list-style: none;
     margin: 0;
     min-width: var(--window-width);
-    height: 12em;
     overflow: hidden;
     overflow-y: scroll;
+    padding: 0;
     position: relative;
-    list-style: none;
 }
 
 #menuBar {
-    display: flex;
     background-color: var(--base-color);
-    width: 100%;
+    display: flex;
     height: 32px;
-    padding: 0;
     margin: 0;
+    padding: 0;
+    width: 100%;
 }
 
 #menuBar > button {
     background-color: inherit;
-    color: inherit;
     border: none;
-    outline: none;
+    color: inherit;
     cursor: pointer;
-    padding: 5px;
     margin: 1px;
+    outline: none;
+    padding: 5px;
 }
 
 #menuBar > button:hover {
@@ -147,20 +147,20 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 .menu {
-    display: flex;
-    flex-direction: column;
     background-color: white;
     border: 1px solid white;
-    position: absolute;
-    margin-left: -5px;
+    display: flex;
+    flex-direction: column;
     gap: 1px;
+    margin-left: -5px;
+    position: absolute;
     z-index: 2;
 }
 
 .menu > div {
-    display: flex;
-    background-color: var(--complement-color);
     align-items: center;
+    background-color: var(--complement-color);
+    display: flex;
 }
 
 .menu > div:hover {
@@ -168,52 +168,52 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 .menu > div > button, .menu > div > label {
+    background-color: inherit;
+    border: none;
+    color: inherit;
+    cursor: pointer;
     display: flex;
     flex: 1;
-    background-color: inherit;
-    color: inherit;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
     margin: 1px;
+    padding: 5px;
 }
 
 .tabs {
     display: flex;
     margin: 0;
-    padding: 0;
     overflow: hidden;
     overflow-x: scroll;
+    padding: 0;
 }
 
 .tabs > button {
-    display: flex;
-    flex: 1;
     align-items: start;
     background-color: var(--complement-color);
-    filter: brightness(80%);
-    color: inherit;
     border: none;
-    outline: 1px solid var(--base-color);
-    border-radius: 8px 8px 0 0;
     border-bottom: 0;
+    border-radius: 8px 8px 0 0;
+    color: inherit;
     cursor: pointer;
-    padding: 3px 0 7px 0;
+    display: flex;
+    filter: brightness(80%);
+    flex: 1;
     margin: 4px 0 0 0;
+    outline: 1px solid var(--base-color);
+    padding: 3px 0 7px 0;
 }
 
 .tabs > button:hover {
-    filter: brightness(120%);
     align-items: center;
-    padding: 7px 0;
+    filter: brightness(120%);
     margin: 0;
+    padding: 7px 0;
 }
 
 .tabs > button.active {
-    filter: brightness(100%);
     align-items: center !important;
-    padding: 5px 0 7px 0 !important;
+    filter: brightness(100%);
     margin: 2px 0 0 0 !important;
+    padding: 5px 0 7px 0 !important;
 }
 
 .tabs > button:disabled {
@@ -222,17 +222,17 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 .tabs > button > img {
-    width: 16px;
     height: 16px;
     padding: 0 5px 0 10px;
+    width: 16px;
 }
 
 .tabs > button > div {
     display: flex;
-    justify-content: center;
-    white-space: nowrap;
     flex: 1;
+    justify-content: center;
     padding: 0 10px 0 5px;
+    white-space: nowrap;
 }
 
 .mainEditor {
@@ -243,33 +243,33 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 
 #mainList {
     background-color: var(--complement-color);
-    margin: 0;
-    padding: 0;
     list-style: none;
+    margin: 0;
     overflow: hidden;
     overflow-y: scroll;
+    padding: 0;
 }
 
 #mainList li {
-    outline: 1px solid var(--base-color);
-    border-radius: 4px;
-    width: 100px;
     aspect-ratio: 1/1;
+    border-radius: 4px;
     margin: 5px;
+    outline: 1px solid var(--base-color);
+    width: 100px;
 }
 
 #mainList button {
-    display: flex;
-    flex-direction: column;
-    background-color: inherit;
-    filter: brightness(80%);
-    color: inherit;
-    border: none;
-    justify-content: center;
     align-items: center;
+    background-color: inherit;
+    border: none;
+    color: inherit;
+    display: flex;
+    filter: brightness(80%);
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
     margin: 0;
     width: 100%;
-    height: 100%;
 }
 
 #mainList button:hover {
@@ -281,19 +281,19 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 #mainList button.active {
     background-color: var(--highlight-color);
     border-radius: 4px;
-    text-shadow: 0 0 3px black;
     filter: brightness(100%);
+    text-shadow: 0 0 3px black;
 }
 
 #mainList button > p {
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
 #fileContents, #iniContents {
     display: flex;
-    flex-direction: column;
     flex: 1;
+    flex-direction: column;
     padding: 5px 5px 0;
     width: 0; /* Important for making the tabs ribbon overflow properly */
 }
@@ -301,25 +301,25 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 .filePage, .iniPage {
     display: flex;
     flex-direction: column;
-    padding: 0;
-    margin: 0;
     height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .pageContent, .iniContent {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
     border: 1px solid black;
-    padding: 5px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
     overflow: hidden;
     overflow-y: scroll;
-    gap: 10px;
+    padding: 5px;
 }
 
 .groupBox {
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 
 .groupBox > fieldset {
@@ -328,9 +328,9 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 .editor {
+    cursor: pointer;
     display: flex;
     flex-direction: column;
-    cursor: pointer;
     padding: 5px;
 }
 
@@ -347,21 +347,21 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 .editor input, .editor select {
-    display: flex;
-    flex: 1;
     background-color: var(--complement-color);
-    color: inherit;
     border: 1px solid black;
     border-radius: 4px;
+    color: inherit;
+    display: flex;
+    flex: 1;
+    font-weight: inherit;
     padding: 5px;
     width: 100%;
-    font-weight: inherit;
 }
 
 .editor input[type="checkbox"], .editor input[type="radio"] {
+    flex: unset;
     margin: 0 5px 0 0;
     width: unset;
-    flex: unset;
 }
 
 .editorLayout {
@@ -370,15 +370,15 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 .hintLabel {
-    display: block;
     color: gray;
+    display: block;
     font-size: x-small;
 }
 
 @media screen and (min-height: 800px) {
     :root {
-        margin-top: 5%;
         margin-bottom: 5%;
+        margin-top: 5%;
     }
 }
 
