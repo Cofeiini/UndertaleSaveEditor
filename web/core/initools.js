@@ -280,6 +280,14 @@ export class IniSpinEditor extends IniEditorBase {
                 this.addHintText("Counts how many dates you have completed with Alphys. Changes title menu");
                 break;
             }
+            case "Alphys/R": {
+                this.addHintText(`Tracks if you told Undyne that anime is "Real" or "Not Real". Changes the Mew Mew border title. 1 = "Real". 2 = "Not Real"`);
+                break;
+            }
+            case "Alphys/M": {
+                this.addHintText(`Tracks interactions with Mad Mew Mew and unlocks "Real"/"Not Real" border. 2 = Spared. 3 = Destroyed`);
+                break;
+            }
             case "MTT/EssayNo": {
                 this.addHintText("Counts how many essays you have written about Mettaton");
                 break;
@@ -330,23 +338,27 @@ export class IniCheckEditor extends IniEditorBase {
 
         switch (args.id) {
             case "General/BH": {
-                this.addHintText("Border Hard Mode. Console exclusive stuff");
+                this.addHintText(`The "Beauty" border. Unlocked after beating Hard Mode`);
+                break;
+            }
+            case "General/DB": {
+                this.addHintText(`The "Super Dog, Hoi" border. Unlocked after beating Hard Mode`);
                 break;
             }
             case "General/BP": {
-                this.addHintText("Border Pacifist. Console exclusive stuff");
+                this.addHintText(`The "True Lab" border. Unlocked after beating True Pacifist`);
                 break;
             }
             case "General/BW": {
-                this.addHintText("Border Won. Console exclusive stuff");
+                this.addHintText(`Borders from "Ruins" to "Castle". Unlocked after beating the game`);
                 break;
             }
             case "General/CH": {
-                this.addHintText("Complete Hard Mode");
+                this.addHintText(`Complete Hard Mode. Unlocks the "Beaty" border`);
                 break;
             }
             case "General/CP": {
-                this.addHintText("Complete Pacifist");
+                this.addHintText(`Complete Pacifist. Unlocks the "True Lab" border`);
                 break;
             }
             case "General/Tale": {
@@ -355,6 +367,10 @@ export class IniCheckEditor extends IniEditorBase {
             }
             case "General/Truth": {
                 this.addHintText(`(Never set) Activates "Activity Level A" and "Activity Level B"`);
+                break;
+            }
+            case "Dogshrine/Donated" : {
+                this.addHintText(`Donated to the Dog Shrine. Unlocks the "Casino" border`);
                 break;
             }
             case "Flowey/AF": {

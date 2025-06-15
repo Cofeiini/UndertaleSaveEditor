@@ -165,6 +165,43 @@ const menuBarElements = [
                     event.stopPropagation();
                 },
             },
+            {
+                tag: "input",
+                type: "checkbox",
+                name: "useConsoleContent",
+                buddy: {
+                    tag: "label",
+                    text: "Use Console Content",
+                    function: (event) => {
+                        event.stopPropagation();
+                    },
+                },
+                function: (event) => {
+                    let offset = -1;
+                    if (event.target.checked) {
+                        offset = 1;
+                    }
+
+                    const editor = Widgets.at(548).at(0);
+
+                    const newIndexes = {};
+                    const indexes = editor.indexes;
+                    for (const [key, index] of Object.entries(indexes)) {
+                        newIndexes[parseInt(key) + offset] = index;
+                    }
+                    editor.indexes = newIndexes;
+
+                    let selection = editor.editor.selectedIndex + offset;
+                    if (newIndexes[selection] !== editor.originalValue) {
+                        selection = newIndexes[editor.originalValue];
+                    }
+
+                    editor.editor.selectedIndex = selection;
+                    editor.updateSave(selection);
+
+                    event.stopPropagation();
+                },
+            },
         ],
     },
     {

@@ -82,6 +82,9 @@ const Str_Endogeny = "Endogeny";
 const Str_Undyne_the_Undying = "Undyne The Undying";
 const Str_Glad_Dummy = "Glad Dummy";
 
+// Console Exclusive
+const Str_Mad_Mew_Mew = "Mad Mew Mew";
+
 // ##### Items #####
 const Str_Undyne_Letter = "Undyne's Letter";
 const Str_Undyne_Letter_EX = "Undyne's Letter EX";

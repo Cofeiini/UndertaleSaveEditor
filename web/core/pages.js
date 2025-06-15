@@ -363,6 +363,8 @@ export const MonstersPage = () => {
     interactions.content.append(new Tools.ComboEditor({ id: 122, label: Str_Monster_Kid }).container);
     interactions.content.append(new Tools.ComboEditor({ id: 312, label: Str_So_Sorry }).container);
     interactions.content.append(new Tools.ComboEditor({ id: 284, label: `${Str_Snowman} (Genocide)` }).container);
+    interactions.content.append(new Tools.ComboEditor({ id: 188, label: Str_Mad_Mew_Mew }).container);
+    interactions.content.append(new Tools.ComboEditor({ id: 189, label: `${Str_Mad_Mew_Mew} outfit` }).container);
     page.target.append(interactions.container);
 
     const neutral = new GroupBox("Neutral");
@@ -676,6 +678,7 @@ export const IniPage = () => {
     general.content.append(new IniTools.IniCheckEditor({ id: "General/BH", label: "BH" }).container);
     general.content.append(new IniTools.IniCheckEditor({ id: "General/BP", label: "BP" }).container);
     general.content.append(new IniTools.IniCheckEditor({ id: "General/BW", label: "BW" }).container);
+    general.content.append(new IniTools.IniCheckEditor({ id: "General/DB", label: "DB" }).container);
     general.content.append(new IniTools.IniCheckEditor({ id: "General/CH", label: "CH" }).container);
     general.content.append(new IniTools.IniCheckEditor({ id: "General/CP", label: "CP" }).container);
     general.content.append(new IniTools.IniSpinEditor({ id: "General/Gameover", label: "Gameover" }).container);
@@ -739,6 +742,8 @@ export const IniPage = () => {
     contents.append(undyne.container);
     const alphys = new GroupBox("Alphys");
     alphys.content.append(new IniTools.IniSpinEditor({ id: "Alphys/AD", label: "AD" }).container);
+    alphys.content.append(new IniTools.IniSpinEditor({ id: "Alphys/R", label: "R" }).container);
+    alphys.content.append(new IniTools.IniSpinEditor({ id: "Alphys/M", label: "M" }).container);
     contents.append(alphys.container);
 
     const mtt = new GroupBox("MTT");
@@ -772,6 +777,10 @@ export const IniPage = () => {
     reset.content.append(new IniTools.IniCheckEditor({ id: "reset/reset", label: "reset" }).container);
     reset.content.append(new IniTools.IniCheckEditor({ id: "reset/s_key", label: "s_key" }).container);
     contents.append(reset.container);
+
+    const dogShrine = new GroupBox("Dogshrine");
+    dogShrine.content.append(new IniTools.IniCheckEditor({ id: "Dogshrine/Donated", label: "Donated" }).container);
+    contents.append(dogShrine.container);
 
     return contents;
 };
@@ -807,6 +816,7 @@ export const YellowNameTool = () => {
         new Tools.YellowCheckEditor({ id: 185, label: Str_Madjick }),
         new Tools.YellowCheckEditor({ id: 186, label: Str_Knight_Knight }),
         new Tools.YellowCheckEditor({ id: 187, label: Str_Amalgamates }),
+        new Tools.YellowCheckEditor({ id: 188, label: Str_Mad_Mew_Mew }),
     ];
 
     const closeFunction = () => {
