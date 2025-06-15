@@ -687,7 +687,7 @@ export const IniPage = () => {
     general.content.append(new IniTools.IniSpinEditor({ id: "General/Time", label: "Time" }).container);
     general.content.append(new IniTools.IniCheckEditor({ id: "General/Truth", label: "Truth" }).container);
     general.content.append(new IniTools.IniSpinEditor({ id: "General/Won", label: "Won" }).container);
-    general.content.append(new IniTools.IniSpinEditor({ id: "General/Fun", label: "fun" }).container);
+    general.content.append(new IniTools.IniSpinEditor({ id: "General/fun", label: "fun" }).container);
     contents.append(general.container);
 
     const flowey = new GroupBox("Flowey");

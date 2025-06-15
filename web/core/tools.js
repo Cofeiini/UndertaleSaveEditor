@@ -177,7 +177,7 @@ class EditorBase extends CommonEditor {
         this.originalValue = SaveData[args.id];
         this.editor.value = this.originalValue;
 
-        if (!Widgets[args.id]) {
+        if (Widgets[args.id] === undefined) {
             Widgets[args.id] = [];
         }
         Widgets[args.id].push(this);
@@ -242,7 +242,7 @@ class EditorBase extends CommonEditor {
      * @param {string} [data]
      */
     updateSave(data) {
-        if (!data) {
+        if (data === undefined) {
             data = this.editor.value;
         }
 
@@ -259,7 +259,7 @@ class EditorBase extends CommonEditor {
      * @param {string} [data]
      */
     updateData(data) {
-        if (!data) {
+        if (data === undefined) {
             data = SaveData[this.saveID];
         }
         super.updateData(data);
@@ -269,7 +269,7 @@ class EditorBase extends CommonEditor {
      * @param {string} [data]
      */
     updateStyle(data) {
-        if (!data) {
+        if (data === undefined) {
             data = SaveData[this.saveID];
         }
         super.updateStyle(data);
@@ -1133,7 +1133,7 @@ export class ComboEditor extends EditorBase {
      * @param {string} [data]
      */
     updateSave(data) {
-        if (!data) {
+        if (data === undefined) {
             data = Object.keys(this.indexes).find(key => this.indexes[key] === this.editor.selectedIndex);
         }
         super.updateSave(data);
@@ -1143,7 +1143,7 @@ export class ComboEditor extends EditorBase {
      * @param {string} [data]
      */
     updateData(data) {
-        if (!data) {
+        if (data === undefined) {
             data = this.indexes[SaveData[this.saveID]];
         }
         super.updateData(data);
@@ -1153,7 +1153,7 @@ export class ComboEditor extends EditorBase {
      * @param {string} [data]
      */
     updateStyle(data) {
-        if (!data) {
+        if (data === undefined) {
             data = SaveData[this.saveID];
         }
         super.updateStyle(data);
@@ -1383,7 +1383,7 @@ export class CheckEditor extends EditorBase {
      * @param {string} [data]
      */
     updateSave(data) {
-        if (!data) {
+        if (data === undefined) {
             data = this.editor.checked ? this.editor.max : this.editor.min;
         }
         super.updateSave(data);
@@ -1396,7 +1396,8 @@ export class YellowCheckEditor extends CheckEditor {
 
         switch (args.id) {
             case 67:
-            case 112: {
+            case 112:
+            case 188: {
                 this.editor.max = "2";
                 break;
             }
@@ -1637,7 +1638,7 @@ export class RadioEditor extends EditorBase {
      * @param {string} [data]
      */
     updateSave(data) {
-        if (!data) {
+        if (data === undefined) {
             data = this.editor.checked ? "1" : "0";
         }
         super.updateSave(data);
@@ -2769,7 +2770,7 @@ export class TimeEditor extends EditorBase {
      * @param {string} [data]
      */
     updateSave(data) {
-        if (!data) {
+        if (data === undefined) {
             data = String(parseFloat(this.editor.value).toExponential());
         }
         super.updateSave(data);
@@ -2779,7 +2780,7 @@ export class TimeEditor extends EditorBase {
      * @param {string} [data]
      */
     updateData(data) {
-        if (!data) {
+        if (data === undefined) {
             data = parseFloat(SaveData[this.saveID]).toFixed(0);
         }
         super.updateData(data);
