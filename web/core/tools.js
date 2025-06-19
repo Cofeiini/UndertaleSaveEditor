@@ -18,7 +18,7 @@ export class CommonEditor {
         this.container = document.createElement("div");
         this.container.className = "editor";
         this.container.onclick = (event) => {
-            this.editor.focus();
+            this.editor.click();
             event.stopPropagation();
         };
         this.container.append(this.editorLayout);
@@ -625,9 +625,9 @@ export class ComboEditor extends EditorBase {
                 break;
             }
             case 188: {
-                this.addItem("No Interaction");
+                this.addItem("Sealed behind the door");
                 this.indexes[0] = 0;
-                this.addItem("Found in the Dog Shrine");
+                this.addItem("Waiting behind the unsealed door");
                 this.indexes[1] = 1;
                 this.addItem("Spared");
                 this.indexes[2] = 2;
@@ -2123,7 +2123,7 @@ export class RoomEditor extends ComboEditor {
         this.addItem("True Laboratory");
         this.addItem("True Lab - Bedroom");
 
-        this.indexes = {
+        this.originalIndexes = {
             6: 0,
             12: 1,
             18: 2,
@@ -2157,18 +2157,35 @@ export class RoomEditor extends ComboEditor {
             246: 30,
             251: 31,
         };
+
+        this.consoleIndexes = {};
+        for (const [key, index] of Object.entries(this.originalIndexes)) {
+            this.consoleIndexes[parseInt(key) + 1] = index;
+        }
+
+        this.indexes = this.originalIndexes;
     }
 
     validateSave() {
         const index = this.indexes[SaveData[this.saveID]];
-        super.validateSave();
         if (index === undefined) {
+            const value = Object.keys(this.indexes).at(0);
+
+            this.logError({ expected: Object.keys(this.indexes), value: value });
+            SaveData[this.saveID] = value;
+            this.editor.selectedIndex = this.indexes[value];
+
             const message = "You can try enabling Console Content in the Options to remedy this.";
             console.warn(message);
             updateStatus({ message: message, color: "yellow" });
         }
+
+        this.updateStyle();
     }
 
+    /**
+     * @param {string} [data]
+     */
     updateSave(data) {
         const selection = Object.keys(this.indexes).find(key => this.indexes[key] === this.editor.selectedIndex);
         if (data === undefined || data !== selection) {

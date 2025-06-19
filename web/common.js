@@ -1,5 +1,7 @@
-const SAVE_LEN = 549;
+const SAVE_LEN = 551;
+const SAVE_TIME = 549;
 const SAVE_ICONS = ["images/ico_floppy.png", "images/ico_floppy_red.png"];
+let SAVE_CONSOLE_CONTENT = false;
 
 /** @type {EditorBase[][]} */
 let Widgets = [[null]];
@@ -17,19 +19,24 @@ const OpenedFiles = {
 };
 
 /** @type {string[]} */
-const SaveData = Array(SAVE_LEN + 1).fill("0");
-SaveData[0] = "null"; // Placeholder for unused data. Mostly for debugging
-SaveData[1] = "Chara"; // Player name
-SaveData[2] = "1"; // Player level
-SaveData[3] = "20"; // Max HP
-SaveData[4] = "20"; // EXP
-SaveData[5] = "10"; // AT stat
-SaveData[7] = "10"; // DF stat
-SaveData[9] = "4"; // SP stat
-SaveData[29] = "3"; // Weapon (Set to "Stick")
-SaveData[30] = "4"; // Armor (Set to "Bandage")
-SaveData[36] = "100"; // "fun" value
-SaveData[331] = "14"; // Box slot 1 (Set to "Tough Glove")
+const SaveData = Array(SAVE_LEN + 1);
+
+const resetSaveData = () => {
+    SaveData.fill("0");
+    SaveData[0] = "null"; // Placeholder for unused data. Mostly for debugging
+    SaveData[1] = "Chara"; // Player name
+    SaveData[2] = "1"; // Player level
+    SaveData[3] = "20"; // Max HP
+    SaveData[4] = "20"; // EXP
+    SaveData[5] = "10"; // AT stat
+    SaveData[7] = "10"; // DF stat
+    SaveData[9] = "4"; // SP stat
+    SaveData[29] = "3"; // Weapon (Set to "Stick")
+    SaveData[30] = "4"; // Armor (Set to "Bandage")
+    SaveData[36] = "100"; // "fun" value
+    SaveData[331] = "14"; // Box slot 1 (Set to "Tough Glove")
+};
+resetSaveData();
 
 /** @type {Object.<string, Object.<string, string> | string>} */
 let IniData = {};
@@ -83,7 +90,7 @@ const openIni = (input) => {
         }
         return response.text();
     }).then(data => {
-        const text = data.split(/[\r\n]+/);
+        const text = data.split(/[\r?\n]+/);
         const regex = {
             section: /^\s*\[\s*([^\]]*)\s*]\s*$/,
             param: /^\s*([^=]+?)\s*=\s*(.*?)\s*$/,
@@ -167,12 +174,25 @@ const openFile = (input) => {
 
         return response.text();
     }).then(data => {
-        const text = data.split(/[\r\n]+/);
+        resetSaveData();
 
-        for (let i = 1; i < SAVE_LEN; ++i) {
-            SaveData[i] = text[i - 1].trim();
+        const text = data.split(/[\r?\n]+/).filter(line => line.trim());
+        SAVE_CONSOLE_CONTENT = (text.length > 549);
+
+        for (let i = 1; i <= text.length; ++i) {
+            SaveData[i] = text.at(i - 1).trim();
         }
-        SaveData[SAVE_LEN] = String(parseFloat(text[SAVE_LEN - 1]).toExponential());
+        SaveData[SAVE_TIME] = String(parseFloat(text[SAVE_TIME - 1]).toExponential());
+
+        // Room value is offset in the console version, so we need to do an early update for it to seamlessly load the data
+        const roomEditor = Widgets.at(548).at(0);
+        roomEditor.originalValue = SaveData[548];
+
+        // To make the experience smoother, we can detect when the console content should be activated by clicking the checkbox
+        const consoleCheckbox = document.querySelector("#useConsoleContent");
+        if ((!consoleCheckbox.checked && SAVE_CONSOLE_CONTENT) || (consoleCheckbox.checked && !SAVE_CONSOLE_CONTENT)) {
+            consoleCheckbox.click();
+        }
 
         for (const widget of Widgets) {
             if (!widget) {

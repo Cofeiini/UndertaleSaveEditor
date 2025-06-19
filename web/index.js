@@ -61,20 +61,24 @@ const menuBarElements = [
                     const tab = document.querySelector(".tabs > button.active");
                     switch (tab.id) {
                         case "fileButton": {
-                            for (let i = 1; i < SAVE_LEN; i++) {
-                                output += `${SaveData[i]}\n`;
+                            let saveLastEntry = SAVE_LEN;
+                            if (!SAVE_CONSOLE_CONTENT) {
+                                saveLastEntry = SAVE_TIME;
                             }
-                            output += SaveData[SAVE_LEN];
+                            for (let i = 1; i < saveLastEntry; i++) {
+                                output += `${SaveData[i]}\r\n`;
+                            }
+                            output += SaveData[saveLastEntry]; // Do the last line separately to avoid writing a newline
                             break;
                         }
                         case "iniButton": {
                             const keys = Object.keys(IniData);
                             for (const key of keys) {
-                                let section = `[${key}]\n`;
+                                let section = `[${key}]\r\n`;
 
                                 const subKeys = Object.keys(IniData[key]);
                                 for (const subKey of subKeys) {
-                                    section += `${subKey}="${IniData[key][subKey]}"\n`;
+                                    section += `${subKey}="${IniData[key][subKey]}"\r\n`;
                                 }
 
                                 output += section;
@@ -177,23 +181,21 @@ const menuBarElements = [
                     },
                 },
                 function: (event) => {
+                    SAVE_CONSOLE_CONTENT = event.target.checked;
+
+                    /** @type {RoomEditor} */
+                    const editor = Widgets.at(548).at(0);
+
+                    editor.indexes = editor.originalIndexes;
                     let offset = -1;
-                    if (event.target.checked) {
+                    if (SAVE_CONSOLE_CONTENT) {
+                        editor.indexes = editor.consoleIndexes;
                         offset = 1;
                     }
 
-                    const editor = Widgets.at(548).at(0);
-
-                    const newIndexes = {};
-                    const indexes = editor.indexes;
-                    for (const [key, index] of Object.entries(indexes)) {
-                        newIndexes[parseInt(key) + offset] = index;
-                    }
-                    editor.indexes = newIndexes;
-
-                    let selection = editor.editor.selectedIndex + offset;
-                    if (newIndexes[selection] !== editor.originalValue) {
-                        selection = newIndexes[editor.originalValue];
+                    let selection = editor.editor.selectedIndex;
+                    if (Object.keys(editor.indexes).at(selection) !== String(parseInt(editor.originalValue) + offset)) {
+                        selection = editor.indexes[editor.originalValue];
                     }
 
                     editor.editor.selectedIndex = selection;
@@ -399,16 +401,16 @@ const mainListElements = [
         target: Pages.LocationsPage(),
     },
     {
-        text: "Debug",
-        icon: "images/ico_debug.png",
-        hidden: true,
-        target: Pages.DebugPage(),
-    },
-    {
         text: "Dog Shrine",
         icon: "images/ico_dogshrine.png",
         hidden: true,
         target: Pages.DogShrinePage(),
+    },
+    {
+        text: "Debug",
+        icon: "images/ico_debug.png",
+        hidden: true,
+        target: Pages.DebugPage(),
     },
 ];
 
