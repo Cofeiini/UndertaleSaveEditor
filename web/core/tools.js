@@ -1182,9 +1182,10 @@ export class ComboEditor extends EditorBase {
     validateSave() {
         const index = this.indexes[SaveData[this.saveID]];
         if (index === undefined) {
-            const value = Object.keys(this.indexes)[0];
+            const keys = Object.keys(this.indexes);
+            const value = keys[0];
 
-            this.logError({ expected: Object.keys(this.indexes), value: value });
+            this.logError({ expected: keys, value: value });
             SaveData[this.saveID] = value;
             this.editor.selectedIndex = this.indexes[value];
         }
@@ -2208,34 +2209,6 @@ export class RoomEditor extends ComboEditor {
         }
 
         this.indexes = this.originalIndexes;
-    }
-
-    validateSave() {
-        const index = this.indexes[SaveData[this.saveID]];
-        if (index === undefined) {
-            const value = Object.keys(this.indexes).at(0);
-
-            this.logError({ expected: Object.keys(this.indexes), value: value });
-            SaveData[this.saveID] = value;
-            this.editor.selectedIndex = this.indexes[value];
-
-            const message = "You can try enabling Console Content in the Options to remedy this.";
-            console.warn(message);
-            updateStatus({ message: message, color: "yellow" });
-        }
-
-        this.updateStyle();
-    }
-
-    /**
-     * @param {string} [data]
-     */
-    updateSave(data) {
-        const selection = Object.keys(this.indexes).find(key => this.indexes[key] === this.editor.selectedIndex);
-        if (data === undefined || data !== selection) {
-            data = selection;
-        }
-        super.updateSave(data);
     }
 }
 

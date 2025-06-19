@@ -185,12 +185,12 @@ const openFile = (input) => {
         SaveData[SAVE_TIME] = String(parseFloat(text[SAVE_TIME - 1]).toExponential());
 
         // Room value is offset in the console version, so we need to do an early update for it to seamlessly load the data
-        const roomEditor = Widgets.at(548).at(0);
+        const roomEditor = Widgets[548][0];
         roomEditor.originalValue = SaveData[548];
 
         // To make the experience smoother, we can detect when the console content should be activated by clicking the checkbox
         const consoleCheckbox = document.querySelector("#useConsoleContent");
-        if ((!consoleCheckbox.checked && SAVE_CONSOLE_CONTENT) || (consoleCheckbox.checked && !SAVE_CONSOLE_CONTENT)) {
+        if ((Number(consoleCheckbox.checked) - Number(SAVE_CONSOLE_CONTENT)) !== 0) {
             consoleCheckbox.click();
         }
 

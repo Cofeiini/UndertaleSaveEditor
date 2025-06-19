@@ -181,25 +181,23 @@ const menuBarElements = [
                     },
                 },
                 function: (event) => {
+                    const wasConsoleContent = SAVE_CONSOLE_CONTENT;
                     SAVE_CONSOLE_CONTENT = event.target.checked;
 
                     /** @type {RoomEditor} */
-                    const editor = Widgets.at(548).at(0);
+                    const widget = Widgets[548][0];
 
-                    editor.indexes = editor.originalIndexes;
-                    let offset = -1;
+                    widget.indexes = widget.originalIndexes;
                     if (SAVE_CONSOLE_CONTENT) {
-                        editor.indexes = editor.consoleIndexes;
-                        offset = 1;
+                        widget.indexes = widget.consoleIndexes;
                     }
 
-                    let selection = editor.editor.selectedIndex;
-                    if (Object.keys(editor.indexes).at(selection) !== String(parseInt(editor.originalValue) + offset)) {
-                        selection = editor.indexes[editor.originalValue];
-                    }
+                    const offset = Number(SAVE_CONSOLE_CONTENT) - Number(wasConsoleContent);
+                    widget.editor.selectedIndex = widget.indexes[parseInt(SaveData[widget.saveID]) + offset];
 
-                    editor.editor.selectedIndex = selection;
-                    editor.updateSave(selection);
+                    if (offset !== 0) {
+                        widget.updateSave();
+                    }
 
                     event.stopPropagation();
                 },

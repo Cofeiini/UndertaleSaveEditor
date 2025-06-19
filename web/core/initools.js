@@ -342,7 +342,7 @@ export class IniCheckEditor extends IniEditorBase {
                 break;
             }
             case "General/DB": {
-                this.addHintText(`The "Super Dog, Hoi" border. Unlocked after beating Hard Mode`);
+                this.addHintText(`The "Super Dog, Hoi" border. Unlocked after deploying the Annoying Dog in the Artifact Room`);
                 break;
             }
             case "General/BP": {
