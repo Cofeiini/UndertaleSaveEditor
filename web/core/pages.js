@@ -363,8 +363,6 @@ export const MonstersPage = () => {
     interactions.content.append(new Tools.ComboEditor({ id: 122, label: Str_Monster_Kid }).container);
     interactions.content.append(new Tools.ComboEditor({ id: 312, label: Str_So_Sorry }).container);
     interactions.content.append(new Tools.ComboEditor({ id: 284, label: `${Str_Snowman} (Genocide)` }).container);
-    interactions.content.append(new Tools.ComboEditor({ id: 188, label: Str_Mad_Mew_Mew }).container);
-    interactions.content.append(new Tools.ComboEditor({ id: 189, label: `${Str_Mad_Mew_Mew} outfit` }).container);
     page.target.append(interactions.container);
 
     const neutral = new GroupBox("Neutral");
@@ -660,11 +658,28 @@ export const DogShrinePage = () => {
     const contents = document.createElement("div");
     contents.className = "filePage pageContent hidden";
 
-    contents.append(new Tools.CheckEditor({ id: 327, label: "Tried to use the donation box" }).container);
-    contents.append(new Tools.SpinEditor({ id: 323, label: "Gold donated" }).container);
-    contents.append(new Tools.SpinEditor({ id: 324, label: "Donation goal" }).container);
-    contents.append(new Tools.SpinEditor({ id: 325, label: "Reached donation goal" }).container);
-    contents.append(new Tools.SpinEditor({ id: 326, label: "Dog Shrine upgrades" }).container);
+    const interactionsPS = new GroupBox("Interactions (PlayStation)");
+    interactionsPS.content.append(new Tools.CheckEditor({ id: 327, label: "Tried to use the donation box" }).container);
+    interactionsPS.content.append(new Tools.SpinEditor({ id: 190, label: "Current donated gold" }).container);
+    interactionsPS.content.append(new Tools.SpinEditor({ id: 191, label: "Current donation goal" }).container);
+    interactionsPS.content.append(new Tools.SpinEditor({ id: 192, label: "Shrine level" }).container);
+    interactionsPS.content.append(new Tools.ComboEditor({ id: 193, label: "Shrine interaction" }).container);
+    contents.append(interactionsPS.container);
+
+    const interactionsSwitch = new GroupBox("Interactions (Switch)");
+    interactionsSwitch.content.append(new Tools.ComboEditor({ id: 188, label: Str_Mad_Mew_Mew }).container);
+    interactionsSwitch.content.append(new Tools.ComboEditor({ id: 189, label: `${Str_Mad_Mew_Mew} outfit` }).container);
+    contents.append(interactionsSwitch.container);
+
+    const interactionsXbox = new GroupBox("Interactions (Xbox)");
+    interactionsXbox.content.append(new Tools.SpinEditor({ id: 329, label: "Current coins" }).container);
+    interactionsXbox.content.append(new Tools.SpinEditor({ id: 330, label: "Donated coins" }).container);
+    interactionsXbox.content.append(new Tools.ComboEditor({ id: 328, label: "Poker dealer interaction" }).container);
+    interactionsXbox.content.append(new Tools.CheckEditor({ id: 323, label: "Got 3 Fruits on the Slot Machine" }).container);
+    interactionsXbox.content.append(new Tools.CheckEditor({ id: 324, label: "Got 3 Ghosts on the Slot Machine" }).container);
+    interactionsXbox.content.append(new Tools.CheckEditor({ id: 325, label: "Got 3 Bones on the Slot Machine" }).container);
+    interactionsXbox.content.append(new Tools.CheckEditor({ id: 326, label: `Got "DOG" on the Slot Machine` }).container);
+    contents.append(interactionsXbox.container);
 
     return contents;
 };

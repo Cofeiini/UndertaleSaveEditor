@@ -646,6 +646,23 @@ export class ComboEditor extends EditorBase {
                 this.addHintText("The outfit is chosen at random when the Dog Shrine is opened");
                 break;
             }
+            case 193: {
+                this.addItem("No interaction");
+                this.indexes[0] = 0;
+                this.addItem("Tried to donate");
+                this.indexes[1] = 1;
+                this.addItem("Visited the shrine again");
+                this.indexes[2] = 2;
+                this.addItem("(Looks like the money was used to buy some fairy lights.)");
+                this.indexes[3] = 3;
+                this.addItem("(Looks like the money was used to increase the size of the shrine.)");
+                this.indexes[4] = 4;
+                this.addItem("(The donation box slot is even bigger now.)");
+                this.indexes[5] = 5;
+                this.addItem("(The donation box is sealed.)");
+                this.indexes[6] = 6;
+                break;
+            }
             case 284: {
                 this.addItem(`"Hello. I am a snowman. I cannot move."`);
                 this.indexes[0] = 0;
@@ -691,6 +708,29 @@ export class ComboEditor extends EditorBase {
                 this.indexes[1] = 1;
                 this.addItem("Spared");
                 this.indexes[2] = 2;
+                break;
+            }
+            case 328: {
+                this.addItem("No interaction");
+                this.indexes[0] = 0;
+                this.addItem("Visited the Dog Shrine");
+                this.indexes[1] = 1;
+                this.addItem(`Talked to ${Str_sans} at the poker table`);
+                this.indexes[2] = 2;
+                this.addItem(`Can talk about the prizes with ${Str_sans}`);
+                this.indexes[3] = 3;
+                this.addItem(`${Str_sans} talked about presents (during a "fuzz" blizzard)`);
+                this.indexes[3.1] = 4;
+                this.addItem(`Talked to ${Str_Mad_Mew_Mew} at the poker table`);
+                this.indexes[4] = 5;
+                this.addItem(`Can talk about the prizes with ${Str_Mad_Mew_Mew}`);
+                this.indexes[5] = 6;
+                this.addItem(`${Str_Mad_Mew_Mew} talked about singing (during a "fuzz" blizzard)`);
+                this.indexes[6] = 7;
+                this.addItem(`Got a "reward" from ${Str_Mad_Mew_Mew} (after a "fuzz" blizzard)`);
+                this.indexes[6.1] = 8;
+
+                this.addHintText(`The "fuzz" blizzard requires at least 1 000 particles, but there's also new dialog at 150 and 500 particles.`);
                 break;
             }
             case 381: {
@@ -1585,6 +1625,10 @@ export class SpinEditor extends EditorBase {
             }
             case 318: {
                 this.addHintText("Gives you a new message when you move to another room");
+                break;
+            }
+            case 330: {
+                this.addHintText("Dontations after 500 are converted to money");
                 break;
             }
             case 384: {
