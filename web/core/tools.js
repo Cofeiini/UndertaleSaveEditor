@@ -11,6 +11,7 @@ export class CommonEditor {
         this.saveID = args.id;
 
         this.originalValue = "0";
+        this.previousValue = "0";
 
         this.editorLayout = document.createElement("div");
         this.editorLayout.className = "editorLayout";
@@ -250,7 +251,8 @@ class EditorBase extends CommonEditor {
             return;
         }
 
-        console.log(`Value of ${this.editor.title} changed from ${SaveData[this.saveID]} to ${data}`);
+        console.log(`Value of "${this.editor.title}" changed from ${SaveData[this.saveID]} to ${data}`);
+        this.previousValue = SaveData[this.saveID];
         SaveData[this.saveID] = data;
         this.updateStyle(data);
     }
@@ -1467,13 +1469,10 @@ export class YellowCheckEditor extends CheckEditor {
         }
 
         // Update the dialog labels, so we don't target the regular editors
-        this.editor.id = `yellow_name_editor_${this.saveID}`;
-        this.editor.name = `yellow_name_editor_${this.saveID}`;
+        this.editor.id = `yellow_name_editor_${this.saveID}_${this.saveKey}`;
+        this.editor.name = `yellow_name_editor_${this.saveID}_${this.saveKey}`;
         if (this.label) {
             this.label.htmlFor = this.editor.id;
-            this.label.onclick = (event) => {
-                event.stopPropagation();
-            };
         }
     }
 }

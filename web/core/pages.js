@@ -1,4 +1,4 @@
-// noinspection SpellCheckingInspection
+// noinspection SpellCheckingInspection, DuplicatedCode
 
 import * as Tools from "./tools.js";
 import * as IniTools from "./initools.js";
@@ -862,7 +862,7 @@ export const YellowNameTool = () => {
     const checkFunction = (isChecked) => {
         for (const yellowCheckEditor of YellowWidgets) {
             if (yellowCheckEditor.editor.checked !== isChecked) {
-                yellowCheckEditor.editor.dispatchEvent(new MouseEvent("click"));
+                yellowCheckEditor.editor.click();
             }
         }
     };
@@ -933,6 +933,128 @@ export const YellowNameTool = () => {
     container.append(footer);
 
     contents.append(buildDialogHeader({ title: "Yellow monster names for the credits", closeFunction: closeFunction }));
+    contents.append(container);
+
+    return contents;
+};
+
+export const BorderTool = () => {
+    const mewMewEditor = new IniTools.BorderCheckEditor({ id: "Alphys/M", label: "Real or Not Real" });
+    const realEditor = new IniTools.BorderCheckEditor({ id: "Alphys/R", label: "Is anime real?" });
+    realEditor.callback = () => {
+        const value = Number(realEditor.editor.checked);
+        mewMewEditor.label.innerText = value > 0 ? "Real" : "Not Real";
+    };
+
+    BorderWidgets = [
+        new IniTools.BorderCheckEditor({ id: "General/BW", label: "Main Locations (Ruins to Castle)" }),
+        new IniTools.BorderCheckEditor({ id: "General/DB", label: "Super Dog, Hoi" }),
+        new IniTools.BorderCheckEditor({ id: "General/BP", label: "True Lab" }),
+        new IniTools.BorderCheckEditor({ id: "General/BH", label: "Beauty" }),
+        mewMewEditor,
+        new IniTools.BorderCheckEditor({ id: "Dogshrine/Donated", label: "Casino" }),
+    ];
+
+    const closeFunction = () => {
+        const tool = document.querySelector("#borderTool");
+
+        const isQuit = parseInt(tool.getAttribute("isQuit")) > 0;
+        for (const borderEditor of BorderWidgets) {
+            if (isQuit) {
+                SaveData[borderEditor.saveID] = borderEditor.originalValue;
+                continue;
+            }
+
+            const widgets = IniWidgets[borderEditor.saveID][borderEditor.saveKey];
+            for (const widget of widgets) {
+                if (widget.editor !== borderEditor.editor) {
+                    widget.updateData();
+                    widget.updateStyle();
+                }
+            }
+        }
+
+        tool.classList.add("hidden");
+    };
+
+    /**
+     * @param {boolean} isChecked
+     */
+    const checkFunction = (isChecked) => {
+        for (const borderEditor of BorderWidgets) {
+            if (borderEditor.editor.checked !== isChecked) {
+                borderEditor.editor.click();
+            }
+        }
+    };
+
+    const contents = document.createElement("div");
+    contents.setAttribute("isQuit", "1");
+    contents.id = "borderTool";
+    contents.title = "Border Cosmetics Tool";
+    contents.className = "dialog hidden";
+
+    const container = document.createElement("div");
+    container.className = "dialogContainer";
+
+    const toolButtons = document.createElement("div");
+    toolButtons.id = "toolButtons";
+
+    const checkAllButton = document.createElement("button");
+    checkAllButton.className = "dialogButton";
+    checkAllButton.innerText = "Check All";
+    checkAllButton.onclick = () => {
+        checkFunction(true);
+    };
+
+    const uncheckAllButton = document.createElement("button");
+    uncheckAllButton.className = "dialogButton";
+    uncheckAllButton.innerText = "Uncheck All";
+    uncheckAllButton.onclick = () => {
+        checkFunction(false);
+    };
+
+    toolButtons.append(checkAllButton);
+    toolButtons.append(uncheckAllButton);
+
+    const scrollView = document.createElement("div");
+    scrollView.id = "borderScrollView";
+    scrollView.className = "dialogScrollView";
+
+    for (const borderEditor of BorderWidgets) {
+        scrollView.append(borderEditor.container);
+    }
+
+    const footer = document.createElement("div");
+    footer.className = "dialogFooter";
+
+    const spacer = document.createElement("div");
+    spacer.className = "dialogSpacer";
+
+    const applyButton = document.createElement("button");
+    applyButton.className = "dialogButton";
+    applyButton.innerText = "Apply";
+    applyButton.onclick = () => {
+        const tool = document.querySelector("#borderTool");
+        tool.setAttribute("isQuit", "0");
+        closeFunction();
+    };
+
+    const closeButton = document.createElement("button");
+    closeButton.className = "dialogButton";
+    closeButton.innerText = "Close";
+    closeButton.onclick = closeFunction;
+
+    footer.append(spacer);
+    footer.append(applyButton);
+    footer.append(closeButton);
+
+    container.append(toolButtons);
+    container.append(scrollView);
+    container.append(realEditor.container);
+    container.append(footer);
+
+    contents.append(buildDialogHeader({ title: "Cosmetic borders in settings", closeFunction: closeFunction }));
     contents.append(container);
 
     return contents;

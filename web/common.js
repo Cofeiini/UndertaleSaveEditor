@@ -9,8 +9,11 @@ let Widgets = [[null]];
 /** @type {YellowCheckEditor[]} */
 let YellowWidgets = [];
 
-/** @type {Object.<string, IniEditorBase>[]} */
+/** @type {Object.<string, IniEditorBase[]>[]} */
 let IniWidgets = [];
+
+/** @type {IniEditorBase[]} */
+let BorderWidgets = [];
 
 /** @type {Object.<string, string | null>} */
 const OpenedFiles = {
@@ -73,6 +76,7 @@ const toggleControls = (input) => {
         if (!input.disabled) {
             item.classList.remove("disabled");
         }
+        item.dispatchEvent(new Event("customtoggle"));
     });
 };
 
@@ -130,8 +134,10 @@ const openIni = (input) => {
         }
 
         Object.keys(IniWidgets).forEach((category) => {
-            Object.keys(IniWidgets[category]).forEach((widget) => {
-                IniWidgets[category][widget].updateOriginal();
+            Object.keys(IniWidgets[category]).forEach((key) => {
+                for (const widget of IniWidgets[category][key]) {
+                    widget.updateOriginal();
+                }
             });
         });
 
@@ -139,7 +145,7 @@ const openIni = (input) => {
 
         toggleControls({ selector: "#iniEditor *", disabled: false });
         toggleControls({ selector: "#iniButton", disabled: false });
-        toggleControls({ selector: "#save", disabled: false });
+        toggleControls({ selector: "#save, #borders", disabled: false });
 
         document.querySelector("#iniButton").click();
         document.querySelector("#iniButtonText").innerText = input.name;
@@ -150,6 +156,7 @@ const openIni = (input) => {
 
         toggleControls({ selector: "#iniEditor *", disabled: true });
         toggleControls({ selector: "#iniButton", disabled: true });
+        toggleControls({ selector: "#borders", disabled: true });
 
         if (!OpenedFiles.file) {
             toggleControls({ selector: "#save", disabled: true });
@@ -242,7 +249,7 @@ const openFile = (input) => {
  * @return {string}
  */
 const corruptedError = (input) => {
-    return `Corrupted data found at ${input.title} (ID ${input.id}). Got ${input.data}, but expected ${input.expected}. Using ${input.value} as fallback.`;
+    return `Corrupted data found at "${input.title}" (ID ${input.id}). Got ${input.data}, but expected ${input.expected}. Using ${input.value} as fallback.`;
 };
 
 /**

@@ -23,10 +23,15 @@ class IniEditorBase extends CommonEditor {
             this.label.htmlFor = this.editor.id;
         }
 
+        this.extraValues = [];
+
         if (!IniWidgets[this.saveID]) {
             IniWidgets[this.saveID] = {};
         }
-        IniWidgets[this.saveID][this.saveKey] = this;
+        if (!IniWidgets[this.saveID][this.saveKey]) {
+            IniWidgets[this.saveID][this.saveKey] = [];
+        }
+        IniWidgets[this.saveID][this.saveKey].push(this);
     }
 
     /**
@@ -50,6 +55,10 @@ class IniEditorBase extends CommonEditor {
         const data = parseFloat(IniData[this.saveID][this.saveKey]);
         switch (this.editor.type) {
             case "number": {
+                if (this.extraValues.find(item => item === data) !== undefined) {
+                    break;
+                }
+
                 const max = parseInt(this.editor.max);
                 const min = parseInt(this.editor.min);
 
@@ -63,8 +72,13 @@ class IniEditorBase extends CommonEditor {
                 break;
             }
             case "checkbox": {
+                if (this.extraValues.find(item => item === data) !== undefined) {
+                    break;
+                }
+
                 const max = parseInt(this.editor.max);
                 const min = parseInt(this.editor.min);
+
                 if ((data !== min) && (data !== max)) {
                     const value = Math.min(max, Math.max(min, data));
                     this.logError({ data: `${this.editor.min} or ${this.editor.max}`, value: value });
@@ -87,6 +101,7 @@ class IniEditorBase extends CommonEditor {
         }
 
         this.originalValue = IniData[this.saveID][this.saveKey];
+        this.previousValue = this.originalValue;
         this.validateSave();
         this.updateData();
     }
@@ -95,7 +110,7 @@ class IniEditorBase extends CommonEditor {
      * @param {string} [data]
      */
     updateSave(data) {
-        if (!data) {
+        if (data === undefined) {
             data = `${this.editor.value}.000000`; // The .ini file uses a special notation with its numbers, so we need to add some zeroes
         }
 
@@ -103,7 +118,8 @@ class IniEditorBase extends CommonEditor {
             return;
         }
 
-        console.log(`Value of ${this.editor.title} changed from ${IniData[this.saveID][this.saveKey]} to ${data}`);
+        console.log(`Value of "${this.editor.title}" changed from ${IniData[this.saveID][this.saveKey]} to ${data}`);
+        this.previousValue = IniData[this.saveID][this.saveKey];
         IniData[this.saveID][this.saveKey] = data;
         this.updateStyle();
     }
@@ -112,7 +128,7 @@ class IniEditorBase extends CommonEditor {
      * @param {string} [data]
      */
     updateData(data) {
-        if (!data) {
+        if (data === undefined) {
             data = IniData[this.saveID][this.saveKey];
         }
         super.updateData(data);
@@ -122,7 +138,7 @@ class IniEditorBase extends CommonEditor {
      * @param {string} [data]
      */
     updateStyle(data) {
-        if (!data) {
+        if (data === undefined) {
             data = IniData[this.saveID][this.saveKey];
         }
         super.updateStyle(data);
@@ -285,7 +301,7 @@ export class IniSpinEditor extends IniEditorBase {
                 break;
             }
             case "Alphys/M": {
-                this.addHintText(`Tracks interactions with Mad Mew Mew and unlocks "Real"/"Not Real" border. 2 = Spared. 3 = Destroyed`);
+                this.addHintText(`Tracks interactions with Mad Mew Mew and unlocks "Real" or "Not Real" border. 2 = Spared. 3 = Destroyed`);
                 break;
             }
             case "MTT/EssayNo": {
@@ -354,7 +370,7 @@ export class IniCheckEditor extends IniEditorBase {
                 break;
             }
             case "General/CH": {
-                this.addHintText(`Complete Hard Mode. Unlocks the "Beaty" border`);
+                this.addHintText(`Complete Hard Mode. Unlocks the "Beauty" border`);
                 break;
             }
             case "General/CP": {
@@ -452,9 +468,58 @@ export class IniCheckEditor extends IniEditorBase {
      * @param {string} [data]
      */
     updateSave(data) {
-        if (!data) {
-            data = `${this.editor.checked ? this.editor.max : this.editor.min}.000000`;
+        if (data === undefined) {
+            let maximum = this.editor.max;
+            if (parseInt(this.previousValue) > parseInt(this.editor.min)) {
+                maximum = String(parseInt(this.previousValue));
+            }
+
+            data = `${this.editor.checked ? maximum : this.editor.min}.000000`;
         }
         super.updateSave(data);
+    }
+}
+
+// noinspection SpellCheckingInspection
+export class BorderCheckEditor extends IniCheckEditor {
+    constructor(args) {
+        super({ ...args });
+
+        if (this.hint) {
+            this.hint.remove();
+        }
+
+        switch (args.id) {
+            case "Alphys/M": {
+                this.editor.max = "2";
+                this.extraValues.push(2, 3);
+                break;
+            }
+            case "Alphys/R": {
+                // The data is "inverted" in the save, so the easiest solution is to flip min and max
+                this.editor.min = "2";
+                this.editor.max = "1";
+                this.extraValues.push(0);
+
+                // It's also easier to just override functions on this specific widget
+                this.updateData = (data) => {
+                    if (data === undefined) {
+                        data = IniData[this.saveID][this.saveKey];
+                    }
+
+                    this.editor.checked = parseInt(data) === parseInt(this.editor.max);
+                    this.validateInput();
+                    this.callback();
+                };
+                break;
+            }
+        }
+
+        // Update the dialog labels, so we don't target the regular editors
+        this.editor.id = `border_editor_${this.saveID}_${this.saveKey}`;
+        this.editor.name = `border_editor_${this.saveID}_${this.saveKey}`;
+        if (this.label) {
+            this.label.htmlFor = this.editor.id;
+        }
     }
 }

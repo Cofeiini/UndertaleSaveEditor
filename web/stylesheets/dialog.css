@@ -52,6 +52,7 @@
     color: inherit;
     display: flex;
     flex-direction: column;
+    gap: 1px;
     height: 100%;
     padding: 10px;
 }

@@ -19,6 +19,10 @@ const menuBarElements = [
             {
                 tag: "button",
                 text: "Open file",
+                hint: {
+                    enabled: "Edit the main save data",
+                    disabled: "Edit the main save data",
+                },
                 name: "openFile",
                 buddy: {
                     tag: "input",
@@ -37,6 +41,10 @@ const menuBarElements = [
             {
                 tag: "button",
                 text: "Open ini",
+                hint: {
+                    enabled: "Edit the persistent save data",
+                    disabled: "Edit the persistent save data",
+                },
                 name: "openIni",
                 buddy: {
                     tag: "input",
@@ -55,6 +63,10 @@ const menuBarElements = [
             {
                 tag: "button",
                 text: "Save",
+                hint: {
+                    enabled: "Save the currently selected file",
+                    disabled: "Can't save without an open file",
+                },
                 name: "save",
                 function: (event) => {
                     let output = "";
@@ -122,6 +134,10 @@ const menuBarElements = [
         options: [
             {
                 tag: "input",
+                hint: {
+                    enabled: "Enables some debugging related features",
+                    disabled: "Enables some debugging related features",
+                },
                 type: "checkbox",
                 name: "showDebug",
                 buddy: {
@@ -138,6 +154,10 @@ const menuBarElements = [
             },
             {
                 tag: "input",
+                hint: {
+                    enabled: "Enables the console exclusive Dog Shrine",
+                    disabled: "Enables the console exclusive Dog Shrine",
+                },
                 type: "checkbox",
                 name: "showDogShrine",
                 buddy: {
@@ -154,6 +174,10 @@ const menuBarElements = [
             },
             {
                 tag: "input",
+                hint: {
+                    enabled: "Toggles this editor between light and dark themes",
+                    disabled: "Toggles this editor between light and dark themes",
+                },
                 type: "checkbox",
                 name: "useDarkTheme",
                 buddy: {
@@ -171,6 +195,10 @@ const menuBarElements = [
             },
             {
                 tag: "input",
+                hint: {
+                    enabled: "Enables compatibility with console exclusive content",
+                    disabled: "Enables compatibility with console exclusive content",
+                },
                 type: "checkbox",
                 name: "useConsoleContent",
                 buddy: {
@@ -211,6 +239,10 @@ const menuBarElements = [
             {
                 tag: "button",
                 text: "Set monster names yellow",
+                hint: {
+                    enabled: "Unified controls to toggle the conditions of monster sparing for the credits",
+                    disabled: "Requires a main file to be open",
+                },
                 name: "yellowName",
                 function: () => {
                     for (const yellowWidget of YellowWidgets) {
@@ -218,6 +250,25 @@ const menuBarElements = [
                         yellowWidget.updateStyle();
                     }
                     const tool = document.querySelector("#yellowNameTool");
+                    tool.setAttribute("isQuit", "1");
+                    tool.classList.remove("hidden");
+                    hideMenus();
+                },
+            },
+            {
+                tag: "button",
+                text: "Manage borders",
+                hint: {
+                    enabled: "Unified controls to toggle various cosmetic borders",
+                    disabled: "Requires an ini file to be open",
+                },
+                name: "borders",
+                function: () => {
+                    for (const borderWidget of BorderWidgets) {
+                        borderWidget.updateData();
+                        borderWidget.updateStyle();
+                    }
+                    const tool = document.querySelector("#borderTool");
                     tool.setAttribute("isQuit", "1");
                     tool.classList.remove("hidden");
                     hideMenus();
@@ -232,6 +283,10 @@ const menuBarElements = [
             {
                 tag: "button",
                 text: "About",
+                hint: {
+                    enabled: "Shows more information about this editor",
+                    disabled: "Shows more information about this editor",
+                },
                 name: "about",
                 function: () => {
                     document.querySelector("#aboutDialog").classList.remove("hidden");
@@ -248,6 +303,7 @@ for (const element of menuBarElements) {
 
     for (const option of element.options) {
         const layout = document.createElement("div");
+        layout.title = option.hint.disabled;
 
         const item = document.createElement(option.tag);
         item.id = option.name;
@@ -260,6 +316,9 @@ for (const element of menuBarElements) {
         if (option.function) {
             item.onclick = option.function;
         }
+        item.addEventListener("customtoggle", () => {
+            layout.title = item.disabled ? option.hint.disabled : option.hint.enabled;
+        });
         layout.append(item);
         layout.onclick = (event) => {
             item.click();
@@ -449,6 +508,7 @@ for (const element of mainListElements) {
 
 document.querySelector("#iniContents").append(Pages.IniPage());
 document.querySelector("#yellowNameTool").replaceWith(Pages.YellowNameTool());
+document.querySelector("#borderTool").replaceWith(Pages.BorderTool());
 document.querySelector("#aboutDialog").replaceWith(Pages.AboutDialog());
 
 document.onclick = (event) => {
@@ -466,7 +526,7 @@ document.addEventListener("DOMContentLoaded", () => {
     toggleControls({ selector: "#fileEditor *", disabled: true });
     toggleControls({ selector: "#iniEditor *", disabled: true });
     toggleControls({ selector: "#menuTabs button", disabled: true });
-    toggleControls({ selector: "#save, #yellowName", disabled: true });
+    toggleControls({ selector: "#save, #yellowName, #borders", disabled: true });
 
     updateStatus({ message: "Waiting for a file.", color: "inherit" });
 });

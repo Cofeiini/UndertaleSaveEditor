@@ -318,6 +318,8 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 }
 
 .groupBox {
+    display: flex;
+    gap: 2px;
     margin: 0;
     padding: 0;
 }
@@ -325,6 +327,7 @@ button.disabled, select.disabled, input.disabled, label.disabled {
 .groupBox > fieldset {
     border: 1px solid gray;
     border-radius: 4px;
+    width: 100%;
 }
 
 .editor {
