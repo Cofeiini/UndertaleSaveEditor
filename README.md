@@ -9,7 +9,8 @@ The source code for the web edition can be found here [https://github.com/Cofeii
 
 ## Download
 
-> The executable is now **deprecated** and is no longer receiving updates, but it remains compatible with original PC release of the game.  
+> ⚠️ The executable is now **deprecated** and is no longer receiving updates, but it remains compatible with original PC release of the game.
+
 > At this time, only the "Web Edition" has the latest features. It's possible the executable receives the same updates in the future when there's enough time and inspiration.
 
 The executables can be found in the [**releases**](https://github.com/Cofeiini/UndertaleSaveEditor/releases/) page.  
@@ -41,7 +42,7 @@ To compile, you need the following:
 
 Opening the "CMakeLists.txt" file, configuring/selecting _Release_ mode, and clicking _Build_ should be enough.
 
-> The project uses Qt features that deprecate any older Qt libraries, so 6.7.0 is the minimum required version.
+> ℹ️ The project uses Qt features that deprecate any older Qt libraries, so 6.7.0 is the minimum required version.
 
 ### Compilation - Terminal
 
@@ -52,7 +53,7 @@ This will generate the executable in the "build" directory inside the source dir
 3. `qt-cmake -G Ninja -S . -B build`
 4. `cmake --build build --parallel`
 
-> You might have to find `qt-cmake` in your system, especially if you compiled Qt from source.
+> ℹ️ You might have to find `qt-cmake` in your system, especially if you compiled Qt from source.
 
 ## Tools used
 
