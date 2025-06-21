@@ -23,6 +23,7 @@ class IniEditorBase extends CommonEditor {
             this.label.htmlFor = this.editor.id;
         }
 
+        this.defaultValue = "0";
         this.extraValues = [];
 
         if (!IniWidgets[this.saveID]) {
@@ -97,7 +98,7 @@ class IniEditorBase extends CommonEditor {
             IniData[this.saveID] = {};
         }
         if (!IniData[this.saveID][this.saveKey]) {
-            IniData[this.saveID][this.saveKey] = "0.000000"; // The .ini file uses a special notation with its numbers, so we need to add some zeroes
+            IniData[this.saveID][this.saveKey] = `${this.defaultValue}.000000`; // The .ini file uses a special notation with its numbers, so we need to add some zeroes
         }
 
         this.originalValue = IniData[this.saveID][this.saveKey];
@@ -200,8 +201,8 @@ export class IniSpinEditor extends IniEditorBase {
                 this.addHintText("Counts how many times you reached an ending");
                 break;
             }
-            case "General/Fun": {
-                this.addHintText(`Randomly generated number at the start of the game that determines random events. This value is used in tandem with the "fun" in the save file`);
+            case "General/fun": {
+                this.addHintText(`Randomly generated number at the start of the game that determines special events. This value is used in tandem with the "fun" in the save file`);
                 break;
             }
             case "Flowey/CHANGE": {
@@ -297,6 +298,10 @@ export class IniSpinEditor extends IniEditorBase {
                 break;
             }
             case "Alphys/R": {
+                this.defaultValue = "1";
+                this.editor.min = "1";
+                this.editor.max = "2";
+
                 this.addHintText(`Tracks if you told Undyne that anime is "Real" or "Not Real". Changes the Mew Mew border title. 1 = "Real". 2 = "Not Real"`);
                 break;
             }
@@ -499,7 +504,6 @@ export class BorderCheckEditor extends IniCheckEditor {
                 // The data is "inverted" in the save, so the easiest solution is to flip min and max
                 this.editor.min = "2";
                 this.editor.max = "1";
-                this.extraValues.push(0);
 
                 // It's also easier to just override functions on this specific widget
                 this.updateData = (data) => {
