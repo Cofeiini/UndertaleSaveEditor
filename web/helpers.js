@@ -7,6 +7,7 @@ const Project_Credits = [
     "hax4dazy",
     "EpicSpieler",
     "donlon",
+    "Dekoder-py",
 ];
 const Project_Author = "Cofeiini";
 

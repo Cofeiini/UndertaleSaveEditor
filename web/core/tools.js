@@ -2149,6 +2149,7 @@ export class RoomEditor extends ComboEditor {
         this.addItem("Waterfall - Trash Zone");
         this.addItem("Waterfall - Quiet Area");
         this.addItem("Waterfall - Temmie Village");
+        this.addItem("Waterfall - Bridge");
         this.addItem("Waterfall - Undyne Arena");
         this.addItem("Hotland - Laboratory Entrance");
         this.addItem("Hotland - Magma Chamber");
@@ -2183,23 +2184,24 @@ export class RoomEditor extends ComboEditor {
             114: 12,
             116: 13,
             128: 14,
-            134: 15,
-            139: 16,
-            145: 17,
-            155: 18,
-            164: 19,
-            176: 20,
-            183: 21,
-            196: 22,
-            210: 23,
-            216: 24,
-            219: 25,
-            231: 26,
-            232: 27,
-            235: 28,
-            236: 29,
-            246: 30,
-            251: 31,
+            131: 15,
+            134: 16,
+            139: 17,
+            145: 18,
+            155: 19,
+            164: 20,
+            176: 21,
+            183: 22,
+            196: 23,
+            210: 24,
+            216: 25,
+            219: 26,
+            231: 27,
+            232: 28,
+            235: 29,
+            236: 30,
+            246: 31,
+            251: 32,
         };
 
         this.consoleIndexes = {};
@@ -2208,6 +2210,14 @@ export class RoomEditor extends ComboEditor {
         }
 
         this.indexes = this.originalIndexes;
+
+        this.addHintText("");
+        this.callback = () => {
+            this.hint.innerHTML = "";
+            if (this.editor.value === "15") {
+                this.hint.innerHTML = "Only on the Genocide Route";
+            }
+        };
     }
 }
 
